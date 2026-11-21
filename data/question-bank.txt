@@ -1,0 +1,1569 @@
+# DSA Proctor — interview question bank for Striver's A2Z sheet
+#
+# Format (edit freely; the server reloads this file on start):
+#   @slug [slug2 ...] T I        T = toughness 1-5, I = interview importance 1-5
+#   Q <question shown to the student>
+#   A <answer key: key points separated by ";" — never shown to the student before grading>
+#
+# Grading rubric (server/rubric.js): each question is worth 10 points, split equally between its key points.
+# Each key point is marked covered (full share), partly covered (half) or missed (0) by the AI grader.
+# Write 2-5 key points per answer, each one a separate idea the student should mention.
+# Good questions ask why something works, a walk-through on a concrete example, or what breaks in a careless
+# version — not bare "what is the time complexity" trivia.
+# Lines starting with # are comments. Several space-separated slugs on one @ line share the same questions.
+# Slugs are the takeuforward item slugs (see data/striver-sheet.json). Custom LeetCode problems
+# can be added too, keyed by their LeetCode slug.
+
+# ===================== STEP 1: Beginner =====================
+@breaking-the-myth 1 1
+Q Why is DSA considered language-independent, and what actually changes when you switch languages?
+A Algorithms/data structures are ideas about computation and complexity; only syntax, library names and constant factors change; complexity analysis stays the same.
+Q Name one thing about a language that CAN affect how you write a DSA solution in an interview.
+A e.g. integer overflow limits, recursion depth limits, built-in containers (hash map / heap availability), string immutability; must explain the impact.
+
+@programming-and-what-are-computers 1 1
+Q In simple terms, what happens between writing source code and the CPU executing it?
+A Source is compiled or interpreted into machine instructions; the CPU fetches/decodes/executes them using memory (RAM) and registers; mention compiler/interpreter.
+Q Why does memory (RAM) size matter for the algorithms you choose?
+A Data structures occupy memory; space complexity determines whether input fits; arrays need contiguous memory; recursion uses stack memory.
+
+@how-to-think-like-a-programmer 1 2
+Q Describe the steps you follow before writing code for a new problem.
+A Understand the problem and its constraints; work through small examples by hand; identify edge cases; start with a brute force, then optimise; use the constraints to estimate the complexity you need before coding and testing
+Q How do input constraints (e.g. n ≤ 1e5) guide which approach you choose?
+A ~1e8 simple operations per second; n=1e5 rules out O(n^2), suggests O(n log n) or O(n); small n (≤20) allows exponential/backtracking.
+
+@flowcharts-and-pseudocode flowchart-problem-solving 1 1
+Q Why write pseudocode or a flowchart before coding?
+A Separates the logic from the language syntax; exposes missing cases, loops or conditions early; is easier to dry-run and to explain to someone else
+Q Write the pseudocode logic (in words) to find the maximum of three numbers a, b, c.
+A max=a; if b>max then max=b; if c>max then max=c; output max — or nested comparisons covering all orders.
+
+@dry-runs-edge-cases-and-debugging 2 3
+Q What is a dry run and how does it help you find bugs?
+A Manually tracing code line by line with a concrete input, tracking variable values; reveals off-by-one errors, wrong conditions, uninitialised values.
+Q List common edge cases you check for an array problem.
+A Empty array and single element; all elements equal; already sorted or reverse sorted; negatives, zeros and duplicates; maximum size or values (overflow)
+
+@programming-languages-and-choosing-a-path 1 1
+Q What factors would you consider when choosing a language for DSA interviews?
+A Comfort/fluency, standard library support (STL/Collections), verbosity, speed, what the target companies accept; consistency matters more than the choice.
+
+@learn-cpp learn-java learn-python 1 2
+Q What is the difference between passing a variable by value and by reference, and why does it matter in recursive DSA code?
+A By value copies (changes not visible to caller, copying costs time/memory); by reference shares the same object; matters for backtracking state and for avoiding expensive copies of arrays/strings.
+Q Which integer type would you use for a sum of 1e5 numbers each up to 1e9, and why?
+A 64-bit (long long / long / Python int unbounded); sum can reach 1e14 which overflows 32-bit int (~2.1e9).
+
+@easy-and-medium hard pattern-1 pattern-2 pattern-3 pattern-4 pattern-5 pattern-6 pattern-7 pattern-8 pattern-9 pattern-10 pattern-11 pattern-12 pattern-13 pattern-14 pattern-15 pattern-16 pattern-17 pattern-18 pattern-19 pattern-20 pattern-21 pattern-22 1 1
+Q In a star/number pattern problem, how do you decide what the outer loop and the inner loops represent?
+A Outer loop = rows; inner loop(s) = what is printed in each row (spaces, stars/numbers); find a formula for each inner loop's count in terms of row index i.
+Q For a centred pyramid of n rows, how many leading spaces and how many stars are on row i (0-indexed)?
+A Spaces = n-i-1; stars = 2*i+1; explain derivation by observing rows.
+Q If you had to print the same pyramid upside down, what exactly would you change in your loops?
+A The outer loop runs the rows in reverse (or uses n-1-i in the formulas); leading spaces become i; stars become 2*(n-i)-1; the inner loop structure itself stays the same
+
+@theory-with-examples 2 4
+Q Why do we drop constants and lower-order terms in Big-O, and what does O(n log n) mean in practice?
+A Big-O describes growth rate for large n; constants/lower terms don't change growth class; n log n ≈ sorting cost, e.g. 1e5 → ~1.7e6 ops.
+Q In `for i in 1..n: for (j = i; j <= n; j *= 2)`, why does the inner loop run only a logarithmic number of times?
+A j doubles every iteration instead of increasing by 1; it passes n after about log2(n/i) steps; so the total work is a sum of logarithms, at most n log n
+Q Difference between best, average and worst case — give an example algorithm where they differ.
+A e.g. quicksort O(n log n) avg vs O(n^2) worst; linear search O(1) best vs O(n) worst; interviews usually quote worst case.
+
+@stl java-collections python-libraries-part-1 python-libraries-part-2 2 4
+Q Compare an ordered map (TreeMap / std::map) with a hash map (HashMap / unordered_map / dict): complexity and when to use each.
+A An ordered map is a balanced BST with O(log n) operations; it keeps keys sorted, so it supports in-order iteration and floor/ceil/range queries; a hash map gives O(1) average (O(n) worst case) with no order; use the ordered map only when order or range queries are needed
+Q Which built-in structure gives you a min-heap / priority queue in your language, and what are its operation costs?
+A C++ priority_queue (max by default, greater<> for min), Java PriorityQueue (min by default), Python heapq (min); push/pop O(log n), top O(1).
+Q Why is inserting at the front of a vector/ArrayList slow, and what would you use if you need many front inserts?
+A Every existing element must shift one position to the right; the cost grows with the number of elements (O(n) per insert); a deque (or linked list) inserts at the front in O(1)
+
+@basic-maths 1 3
+Q Using only % and /, how would you get the digits of 4027 one by one, and how do you know when to stop?
+A n % 10 gives the last digit; n / 10 removes the last digit; repeat until n becomes 0; 4027 gives 7, 2, 0, 4 (right to left)
+Q Why do we only check divisors up to √n?
+A Divisors come in pairs (d, n/d); one of each pair is ≤ √n; reduces O(n) to O(√n).
+
+@basic-arrays-hashing-and-strings basic-hashing basic-string 2 4
+Q What is hashing and why does it make frequency counting O(n)?
+A Map key → bucket via hash function for O(1) average insert/lookup; one pass to count frequencies instead of nested loops O(n^2).
+Q When would you use a fixed-size array as a hash instead of a hash map?
+A When keys are small bounded integers/characters (e.g. 26 letters, values ≤ 1e6); faster, no hashing overhead/collisions.
+Q What is a hash collision and how do hash maps handle it?
+A Two keys map to same bucket; chaining (linked list/tree per bucket) or open addressing (probing); worst case degrades to O(n).
+
+@count-all-digits-of-a-number count-number-of-odd-digits-in-a-number return-the-largest-digit-in-a-number 1 1
+Q Walk through how your loop processes 7051, digit by digit (for counting digits, odd digits, or the largest digit).
+A Takes the digits 1, 5, 0, 7 using n % 10 and n /= 10; updates the counter or the max at each step; stops when n becomes 0; final answer is correct for the task (4 digits / 3 odd digits / largest 7)
+Q What edge case do you need to handle when the input is 0?
+A Loop `while n>0` never runs for 0 — should report 1 digit / digit 0; handle explicitly or use do-while; also negative numbers (take abs).
+
+@reverse-a-number 1 2
+Q How do you reverse the digits of a number, and what overflow issue can occur?
+A rev = rev*10 + n%10, n/=10; reversing a large 32-bit number may overflow — check before multiplying (rev > (INT_MAX - d)/10) or use 64-bit.
+Q What does your reverse return for 1200 and for -123, and why?
+A 1200 gives 21 because the trailing zeros become leading zeros and disappear; for -123, reverse the absolute value and put the sign back to get -321 (or handle the sign as the problem asks)
+
+@palindrome-number 1 2
+Q How do you check if a number is a palindrome without converting it to a string?
+A Reverse the number (or reverse only half) and compare with original; negatives are not palindromes; O(log n).
+Q Why is reversing only half the digits a useful optimisation?
+A Avoids overflow; stop when reversed half ≥ remaining; compare x == rev or x == rev/10 for odd length; numbers ending in 0 (except 0) are not palindromes.
+
+@factorial-of-a-given-number-i factorial-of-a-given-number-ii 1 2
+Q Compare iterative and recursive factorial: time, space, and risks.
+A Both O(n) time; iterative O(1) space; recursive O(n) stack space and stack-overflow risk; base case 0! = 1.
+Q From what n does factorial overflow a 64-bit integer, and how would you handle larger n?
+A 21! exceeds 2^63; use modular arithmetic or big integers.
+
+@check-if-the-number-if-armstrong check-for-perfect-number 1 1
+Q Is 153 an Armstrong number, and is 28 a perfect number? Show how your logic checks each one.
+A 153 has 3 digits and 1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153, so yes; the power is the number of digits, not always 3; the proper divisors of 28 are 1, 2, 4, 7, 14; they sum to 28, so it is perfect
+Q What is the off-by-one/double-counting pitfall when summing divisor pairs?
+A When i*i == n add i only once; exclude n itself; 1 has no proper divisors other than itself so it is not perfect.
+
+@check-for-prime-number check-if-a-number-is-prime-or-not 2 3
+Q Explain the O(√n) primality test and why it is correct.
+A Check divisibility by 2..√n (i*i ≤ n); if n had a factor > √n it would pair with one < √n; n<2 not prime.
+Q Why use i*i <= n instead of i <= sqrt(n)?
+A Avoids floating-point precision errors from sqrt; but watch overflow of i*i (use long).
+
+@count-of-prime-numbers-till-n print-all-primes-till-n 2 4
+Q Explain in your own words how the Sieve of Eratosthenes finds all primes up to n, and why it beats checking each number separately.
+A Start with every number marked as prime; for each prime p, mark its multiples as composite; numbers still unmarked at the end are prime; composites are crossed out by their prime factors instead of trial-dividing every number one by one
+Q Why can marking start from p*p rather than 2p?
+A Any smaller multiple k*p has k < p; k has a prime factor smaller than p, so k*p was already marked when that smaller prime was processed; so starting at p*p skips repeated work without missing anything
+
+@gcd-of-two-numbers lcm-of-two-numbers 2 3
+Q Why does gcd(a, b) = gcd(b, a % b) hold? Trace it for gcd(48, 18).
+A Any common divisor of a and b also divides a % b (= a - k*b), and vice versa, so the common divisors do not change; 48,18 → 18,12 → 12,6 → 6,0; the answer is 6; it stops when the second number becomes 0
+Q Why is lcm(a, b) = a * b / gcd(a, b), and how do you avoid overflow when computing it?
+A a * b counts the shared factors (the gcd) twice; dividing by the gcd removes the duplicate; compute a / gcd * b (divide first) so the intermediate value does not overflow
+
+@divisors-of-a-number 2 3
+Q How do you list all divisors in O(√n), and how do you output them sorted?
+A Loop i to √n; if n%i==0 add i and n/i (once if equal); collect small ones in order and large ones in reverse, or sort.
+
+@sum-of-array-elements count-of-odd-numbers-in-array sum-of-array-elements-ii 1 1
+Q Your array sum works on small tests but prints a negative number on a large test with values up to 1e9. What happened, and how do you fix it?
+A Integer overflow: the sum went past the 32-bit int limit (about 2.1e9) and wrapped around; store the sum in a 64-bit type (long long / long); Python integers do not overflow
+Q Write the recurrence for a recursive array sum.
+A sum(i) = arr[i] + sum(i + 1); the base case returns 0 when the index passes the end, sum(n) = 0 (or the mirror version working from the end)
+
+@check-if-the-array-is-sorted-i check-if-the-array-is-sorted-ii 1 2
+Q Should [1, 2, 2, 3] count as sorted? How does that decision change the comparison in your check?
+A Usually yes, because sorted means non-decreasing; a violation is arr[i] > arr[i+1] (not >=); if strictly increasing were required, arr[i] >= arr[i+1] would be the violation
+Q Variation: how would you check if the array is sorted AND rotated?
+A Count positions where arr[i] > arr[(i+1)%n]; sorted-and-rotated if count ≤ 1.
+
+@reverse-an-array reverse-an-array-ii reverse-a-string-i reverse-a-string-ii 1 2
+Q In two-pointer reversal, why do you stop when the pointers meet, and what goes wrong if you keep swapping until the end?
+A Each swap fixes two positions, one at each end; after the middle every pair has already been swapped; continuing swaps the pairs back and restores the original array; for odd length the middle element stays in place
+Q How would you reverse only the words of a sentence, not the characters inside words?
+A Reverse whole string then reverse each word, or split into words and join reversed; handle multiple spaces.
+
+@check-if-string-is-palindrome-or-not- palindrome-check 1 3
+Q Why is comparing characters from both ends towards the middle enough to prove a string is a palindrome?
+A A palindrome needs s[i] == s[n-1-i] for every i; going from the outside in checks each such pair exactly once; you can stop at the first mismatch; the middle character of an odd-length string needs no check
+Q How would you handle "A man, a plan, a canal: Panama"?
+A Skip characters that are not letters or digits; compare letters case-insensitively (convert to lowercase); with two pointers, move each pointer past skipped characters before comparing
+
+@highest-occurring-element-in-an-array second-highest-occurring-element sum-of-highest-and-lowest-frequency 2 3
+Q Why is a hash map better than nested loops for finding the most frequent element? Walk through [2, 3, 2, 5, 3, 2].
+A Nested loops recount every element again and again (quadratic work); one pass with a map stores the counts 2→3, 3→2, 5→1; one scan over the map finds the highest count; the answer is 2
+Q How do you break ties (e.g. two elements with the same highest frequency)?
+A Follow the problem rule (usually smallest element); compare value when frequencies are equal; for second-highest, must be strictly less than highest frequency.
+
+@largest-odd-number-in-a-string 2 2
+Q What is the key observation that makes this O(n)?
+A A number is odd iff its last digit is odd; scan from the right for the first odd digit and return the prefix up to it (strip leading zeros if required).
+
+@longest-common-prefix 2 4
+Q Walk through your approach on ["flower", "flow", "flight"]. Where does it stop, and why?
+A Compares characters position by position across all strings; f and l match in every string; at index 2 o and i differ, so it stops; the answer is "fl"; it must also stop at the end of the shortest string
+Q Why is comparing only the first and last string after sorting enough?
+A After lexicographic sort, the first and last strings are the most different; any common prefix of them is common to all in between.
+
+@isomorphic-string 2 3
+Q How do you check if two strings are isomorphic?
+A Maintain two maps (s→t and t→s) or last-seen-index arrays; every mapping must be consistent both ways; O(n).
+Q Why is a single one-directional map not enough?
+A Two different chars in s could map to the same char in t (e.g. "ab" → "cc"); need the reverse map to enforce one-to-one.
+
+@rotate-string 2 3
+Q What is the trick to check if goal is a rotation of s?
+A Lengths equal and goal is a substring of s+s; O(n) with KMP or O(n^2) naive.
+
+@valid-anagram 1 4
+Q Explain the counting idea for checking an anagram, and why sorting both strings also works.
+A Count each character of s and subtract the counts for t; all counts zero means the same characters with the same frequencies; sorting puts the same multiset of characters into the same order, so the sorted strings are equal; check the lengths first
+Q How would the solution change for Unicode characters?
+A A fixed array of 26 only covers a-z; use a hash map from character to count instead; the counting logic stays the same
+
+@sort-characters-by-frequency 2 3
+Q After counting frequencies, how do you build the output string, and why is bucket sort a natural fit?
+A Order the characters by frequency, highest first, and repeat each one freq times; frequencies are between 1 and n, so buckets can be indexed by frequency; walking the buckets from high to low builds the answer without a comparison sort
+
+@recursion-theory recursion-concepts-with-parameters 2 4
+Q What are the base case and the recursive case, and what happens without a base case?
+A Base case stops recursion; recursive case reduces problem size; without base case → infinite recursion → stack overflow.
+Q Explain parameterised vs functional recursion with an example.
+A Parameterised: carry the answer in a parameter (sum(i, acc)); functional: return value built from sub-results (return n + sum(n-1)).
+Q How much space does a recursive function use?
+A Every active call keeps a stack frame; space grows with the maximum recursion depth, not the total number of calls; very deep recursion can cause a stack overflow
+
+@sum-of-first-n-numbers sum-of-digits-in-a-given-number 1 1
+Q For a recursive sum of 1..n, what is the base case, and what happens if you forget it?
+A Base case f(0) = 0 (or f(1) = 1); recursive case f(n) = n + f(n-1); without a base case the calls never stop and the program crashes with a stack overflow
+
+@fibonacci-number 2 4
+Q Why is naive recursive Fibonacci exponential, and how do you fix it?
+A Recomputes subproblems: T(n)=T(n-1)+T(n-2) ≈ O(φ^n); memoization or iteration gives O(n); iterative with two variables O(1) space.
+Q How does memoisation change the number of calls in recursive Fibonacci? Explain using fib(5).
+A Without memoisation, fib(3), fib(2) and so on are recomputed many times; with memoisation each fib(k) is computed once and later calls return the stored value; the number of calls drops from exponential to about n
+
+# ===================== STEP 2: Sorting =====================
+@selection-sort 2 3
+Q Walk through the first pass of selection sort on [64, 25, 12, 22], and explain why selection sort is not stable.
+A Find the minimum 12 and swap it with the first element, giving [12, 25, 64, 22]; the next pass places 22 at index 1; it is not stable because a long-distance swap can jump an element over an equal one and change their relative order
+Q How many swaps does selection sort make, and when is that useful?
+A Selection sort does at most n - 1 swaps, one per pass; that is useful when writing to memory is much more expensive than comparing
+
+@bubble-sort recursive-bubble-sort 2 3
+Q Explain bubble sort and the optimisation that makes its best case O(n).
+A Adjacent swaps push the largest to the end each pass; if a pass makes no swaps the array is sorted → stop early; best O(n), worst/avg O(n^2); stable.
+Q How do you write bubble sort recursively?
+A One pass bubbles max to index n-1, then recurse on n-1; base case n==1.
+
+@insertion-sorting recursive-insertion-sort 2 3
+Q Explain insertion sort and when it beats O(n log n) sorts.
+A Insert each element into the sorted prefix by shifting larger elements right; O(n^2) worst, O(n) on nearly sorted data; stable, in-place; good for small or nearly sorted arrays.
+
+@merge-sorting 3 5
+Q What is the key idea of merge sort's merge step, and why is merging two sorted halves easy?
+A Keep a pointer at the front of each sorted half; repeatedly take the smaller front element; when one half runs out, copy the rest of the other; it works because the smallest remaining element is always at one of the two fronts
+Q Why is merge sort preferred for linked lists and external sorting?
+A Merge needs only sequential access, no random access; linked-list merge needs no extra array; works on chunks that don't fit in memory.
+
+@quick-sorting 3 5
+Q What does the partition step guarantee about the pivot, and why does that make the recursion work?
+A After partitioning, the pivot is at its final sorted position; everything on its left is ≤ pivot and everything on its right is ≥ pivot; so the two sides can be sorted independently and never need to be merged
+Q How do you avoid the O(n^2) worst case?
+A Random pivot or median-of-three; three-way partition for many duplicates.
+
+# ===================== STEP 3: Arrays =====================
+@linear-search 1 1
+Q When would you choose linear search over binary search, even though binary search is faster?
+A When the data is unsorted, since sorting first costs more than one scan; for a single lookup or a very small array; when the data has no random access, such as a linked list
+
+@largest-element second-largest-element 1 3
+Q How do you find the second largest element in one pass?
+A Track largest and second; if x > largest: second=largest, largest=x; else if x < largest and x > second: second=x; O(n), O(1).
+Q What edge cases matter?
+A All elements equal or n<2 → no second largest (return -1); duplicates of max must not count as second; negative numbers (init to -inf).
+
+@maximum-consecutive-ones 1 3
+Q How does your loop handle [1, 1, 0, 1, 1, 1]? Say what each variable holds as you go.
+A A running count of consecutive 1s and a best-so-far maximum; the count goes 1, 2, resets to 0 at the 0, then 1, 2, 3; the maximum is updated to 3; the answer is 3
+
+@left-rotate-array-by-one left-rotate-array 2 4
+Q How do you rotate an array left by k in O(n) time and O(1) space?
+A k %= n; reverse first k, reverse remaining n-k, reverse whole array (reversal algorithm).
+Q Why do you take k mod n?
+A Rotating by n gives the same array; k can be larger than n.
+
+@move-zeros-to-end 2 4
+Q Why does the two-pointer method keep the relative order of the non-zero elements?
+A Non-zero elements are written (or swapped) forward in the order they are scanned; the write pointer only advances over slots already holding non-zeros; zeros are only ever moved backwards; so the order of the non-zeros never changes
+
+@remove-duplicates-from-sorted-array 2 4
+Q Explain your in-place approach.
+A Since sorted, duplicates are adjacent; write pointer i; for each j if arr[j] != arr[i] then arr[++i] = arr[j]; return i+1; O(n), O(1).
+
+@find-missing-number 2 4
+Q Explain how the formula n(n+1)/2 finds the missing number, using [3, 0, 1] as the example.
+A The numbers 0..n should add up to n(n+1)/2; for n = 3 that is 6; the array adds up to 4; the difference, 2, is the missing number
+Q Why might XOR be preferred over the sum formula?
+A The sum n(n+1)/2 can overflow for large n; XOR never grows beyond the bit width, so it cannot overflow; it works because x ^ x = 0 cancels every number that is present
+
+@union-of-two-sorted-arrays intersection-of-two-sorted-arrays 2 3
+Q Walk through the union of [1, 2, 2, 3] and [2, 3, 4] using two pointers.
+A Compare the front elements and take the smaller, advancing that pointer; when they are equal take the value once and advance both; skip a value equal to the last one added; the result is [1, 2, 3, 4]
+Q How would you handle duplicates within the same array for the union?
+A Before appending, compare with the last element already in the result; append only if it is different; this handles duplicates both inside one array and across the two arrays
+
+@majority-element-i 2 5
+Q Explain Moore's Voting algorithm and why it works.
+A Keep candidate and count; same → count++, different → count--, count 0 → new candidate; the majority (> n/2) cannot be cancelled out entirely; O(n), O(1).
+Q Do you need a second pass?
+A If a majority element is guaranteed, no; otherwise yes, because the candidate is only a guess; count its occurrences and check that it appears more than n/2 times
+
+@majority-element-ii 3 4
+Q How many elements can appear more than n/3 times, and how does extended Moore's voting work?
+A At most 2; keep two candidates and counts, decrement both on a third value; verify both counts in a second pass; O(n), O(1).
+
+@leaders-in-an-array 2 3
+Q Explain the O(n) approach.
+A Traverse from the right keeping max so far; element is a leader if it is greater than max-to-its-right; reverse collected list if order matters.
+
+@rearrange-array-elements-by-sign 2 3
+Q Walk through rearranging [3, 1, -2, -5, 2, -4] so that signs alternate, starting with a positive and keeping the original order of each sign.
+A Positives 3, 1, 2 go to even indices 0, 2, 4; negatives -2, -5, -4 go to odd indices 1, 3, 5; result [3, -2, 1, -5, 2, -4]; uses a separate result array with two write indices stepping by 2
+
+@print-the-matrix-in-spiral-manner 2 4
+Q Explain how you maintain boundaries during spiral traversal.
+A top, bottom, left, right; go right on top row, down right column, left on bottom row (if top≤bottom), up left column (if left≤right), shrink each; O(n*m).
+Q What edge case breaks naive implementations?
+A A single row or a single column; after the top and right passes, the bottom and left passes would revisit the same cells; check top <= bottom and left <= right before those passes
+
+@pascals-triangle-i pascals-triangle-ii pascals-triangle-iii 2 3
+Q How do you compute a single element (row r, col c) efficiently?
+A It is C(r-1, c-1); compute iteratively res = res*(n-i)/(i+1) in O(c) without factorial overflow.
+Q How do you generate a whole row in O(n)?
+A Each next element = prev * (row - col) / col; or build from the previous row by adding adjacent elements (O(n^2) for the full triangle).
+
+@rotate-matrix-by-90-degrees 2 4
+Q How do you rotate an n×n matrix 90° clockwise in place?
+A Transpose (swap a[i][j] with a[j][i] for j>i), then reverse each row; O(n^2), O(1).
+Q How would you rotate anticlockwise?
+A Transpose the matrix; then reverse each column (or reverse each row first, then transpose)
+
+@set-matrix-zeroes 3 4
+Q How do you achieve O(1) extra space?
+A Use first row and first column as markers, with a separate flag for the first column/row (col0); process inner cells then the first row/col last.
+Q Why must the first row/column be processed last?
+A They hold the markers; zeroing them early would corrupt information for other cells.
+
+@two-sum 1 5
+Q With a single pass and a hash map, how do you still find the pair when the matching partner appears later in the array?
+A For each x you check whether target - x has already been seen; if the partner comes later, x is already in the map by the time you reach the partner; so every pair is found at its second element; insert x after checking, so an element is not paired with itself
+Q When would you use two pointers instead?
+A If the array is sorted (or only a yes/no answer is needed after sorting): O(n log n) with O(1) extra; indices lost after sorting.
+
+@3-sum 3 5
+Q Explain the sort + two pointers approach and how duplicates are avoided.
+A Sort; fix i, two pointers j=i+1, k=n-1 move by sum; skip equal arr[i] values, and after a hit skip equal arr[j]/arr[k]; O(n^2), O(1) extra.
+Q Why is a hash-set approach worse here?
+A It is still O(n^2) time but uses extra memory; avoiding duplicate triplets needs extra work (a set of sorted triplets); sort + two pointers avoids duplicates simply by skipping equal values
+
+@4-sum 4 4
+Q How does 4-sum reuse the 3-sum idea, and which bug appears with large numbers?
+A Sort, then fix two indices with nested loops while skipping duplicates; use two pointers to find the remaining pair; four values up to 1e9 can overflow a 32-bit sum, so use 64-bit
+
+@sort-an-array-of-0's-1's-and-2's 2 5
+Q Explain the Dutch National Flag algorithm and its invariants.
+A low, mid, high: [0..low-1]=0, [low..mid-1]=1, [high+1..n-1]=2; arr[mid]==0 swap with low, low++, mid++; ==1 mid++; ==2 swap with high, high-- (don't advance mid); O(n), one pass.
+Q Why don't you increment mid after swapping with high?
+A The element swapped in from the high end has not been examined yet; it could be 0, 1 or 2; so mid stays where it is to check it next
+
+@kadane's-algorithm 3 5
+Q Explain Kadane's algorithm and why it is correct.
+A Running sum; add each element, update max; if sum < 0 reset to 0 (a negative prefix never helps); O(n), O(1).
+Q How do you handle an all-negative array and print the subarray itself?
+A Update max before resetting (or init max = arr[0]) so the largest negative is returned; track start index when sum resets and end when max updates.
+
+@next-permutation 3 4
+Q Walk through finding the next permutation of [1, 3, 5, 4, 2].
+A From the right, find the first i with a[i] < a[i+1]: the 3 at index 1; swap it with the smallest larger element to its right (4), giving [1, 4, 5, 3, 2]; reverse everything after index 1 to get [1, 4, 2, 3, 5]
+Q Why reverse the suffix instead of sorting it?
+A The suffix is in non-increasing order; reversing makes it the smallest arrangement in O(n).
+
+@find-the-repeating-and-missing-number 3 4
+Q Using the sum and the sum of squares, how do you find both the repeating number x and the missing number y?
+A Actual sum minus expected sum gives x - y; actual sum of squares minus expected gives x^2 - y^2 = (x - y)(x + y); dividing gives x + y; solve the two equations for x and y (use 64-bit numbers)
+
+@count-inversions 4 4
+Q How does merge sort count inversions?
+A During merge, when right[j] < left[i], all remaining elements in left (mid - i + 1) form inversions with right[j]; add them; O(n log n).
+Q Why doesn't the count need anything beyond the merge step?
+A Each inversion is either inside the left half, inside the right half, or across the halves; the first two kinds are counted by the recursive calls; pairs across the halves are counted during the merge, because both halves are sorted
+
+@reverse-pairs 4 3
+Q How is reverse pairs (a[i] > 2*a[j]) counted efficiently, and how does it differ from inversion counting?
+A Merge sort; before merging, for each left element advance a pointer over the right half while left[i] > 2*right[j] (monotonic because halves are sorted); count separately, then merge normally; O(n log n); use 64-bit for 2*a[j].
+
+@maximum-product-subarray-in-an-array 3 4
+Q Why doesn't Kadane's directly work for maximum product, and what does?
+A Negatives flip sign: track both max and min product ending at i (swap on negative), or compute prefix and suffix products resetting at 0 and take max; O(n).
+Q How are zeros handled?
+A A zero makes any product through it 0, so the running product restarts after it; 0 itself is still a possible answer (for example when the other products are negative)
+
+@merge-two-sorted-arrays-without-extra-space 4 3
+Q Explain one O(1)-extra-space approach.
+A Compare largest of arr1 with smallest of arr2 from the ends, swap while arr1[i] > arr2[j], then sort both; or the gap (shell sort) method with gap = ceil((n+m)/2) shrinking; O((n+m) log(n+m)).
+
+# ===================== STEP 4: Hashing =====================
+@longest-consecutive-sequence-in-an-array 3 5
+Q Explain the O(n) hash-set approach and why it is O(n) despite the inner while loop.
+A Put all in a set; only start counting from x where x-1 is not in the set; extend x+1, x+2…; each element is visited by an inner loop at most once ⇒ O(n) total.
+Q If you sort the array first, how do you find the longest consecutive run, and how do you handle duplicates?
+A After sorting, extend the run when a[i] == a[i-1] + 1; reset the run when the gap is bigger than 1; skip a[i] == a[i-1] (duplicates) without resetting the run
+
+@longest-subarray-with-sum-k 3 5
+Q Explain the prefix-sum + hash map approach and why you store only the first occurrence.
+A Map prefixSum→earliest index; at i, if prefix-k seen at j, length i-j; store first index to maximise length; works with negatives; O(n).
+Q When can sliding window replace the hash map?
+A When all elements are non-negative (window sum is monotonic): expand right, shrink left while sum > k; O(n), O(1).
+
+@largest-subarray-with-sum-0 3 4
+Q Why does seeing the same prefix sum twice mean a subarray between those positions sums to 0?
+A If prefix[j] = prefix[i], the elements i+1..j add up to prefix[j] - prefix[i] = 0; store only the first index of each prefix sum to get the longest such subarray; a prefix sum of 0 itself means the subarray starts at index 0
+
+@count-subarrays-with-given-sum 3 5
+Q Explain the prefix-sum counting approach.
+A Map prefixSum→count, start with {0:1}; at each i add count[prefix-k] to answer then increment count[prefix]; O(n); works with negatives.
+Q Why must the map start with {0: 1}?
+A It stands for the empty prefix before index 0; it lets subarrays that start at index 0 (where the prefix itself equals k) be counted
+
+@count-subarrays-with-given-xor-k 3 4
+Q Why does prefix[i] ^ prefix[j] give the XOR of the subarray between them, and how does that help count subarrays with XOR k?
+A XOR cancels the shared part (x ^ x = 0), leaving the XOR of elements i+1..j; we need an earlier prefix equal to current ^ k; a map counts how often each prefix XOR has appeared, starting with {0: 1}
+
+# ===================== STEP 5: Binary Search =====================
+@search-x-in-sorted-array 1 4
+Q Write the loop invariant and termination condition for iterative binary search.
+A low=0, high=n-1; while low ≤ high: mid = low+(high-low)/2; compare and move low=mid+1 or high=mid-1; target if present lies in [low, high]; O(log n).
+Q Why use low + (high - low)/2?
+A low + high can overflow when both are large; low + (high - low) / 2 gives the same middle without ever exceeding high
+
+@lower-bound- upper-bound search-insert-position floor-and-ceil-in-sorted-array 2 4
+Q Define lower bound and upper bound and how binary search finds them.
+A Lower bound: first index with a[i] ≥ x; upper bound: first index with a[i] > x; keep ans=n, when condition holds ans=mid, high=mid-1, else low=mid+1.
+Q How do floor/ceil and search-insert relate to lower bound?
+A Search insert = lower bound; ceil = a[lower bound]; floor = largest element ≤ x (last index with a[i] ≤ x = upper bound - 1).
+
+@first-and-last-occurrence count-occurrences-in-a-sorted-array 2 4
+Q How do you find first and last occurrences in O(log n)?
+A Two binary searches: on match record index and keep searching left (first) / right (last); or lower_bound and upper_bound-1; count = last - first + 1.
+
+@search-in-rotated-sorted-array-i 3 5
+Q How do you binary search in a rotated sorted array?
+A At each mid one half is sorted; check if target lies in the sorted half's range, go there, else the other half; O(log n).
+
+@search-in-rotated-sorted-array-2 3 4
+Q What breaks with duplicates and how do you fix it?
+A If a[low]==a[mid]==a[high] you cannot tell which half is sorted; shrink low++ and high--; worst case O(n).
+
+@find-minimum-in-rotated-sorted-array find-out-how-many-times-the-array-is-rotated 3 4
+Q How do you find the minimum (and rotation count) in O(log n)?
+A If a[low] ≤ a[high] range is sorted, min = a[low]; else if left half sorted take a[low] as candidate and go right, otherwise go left; rotation count = index of minimum.
+
+@single-element-in-sorted-array 3 4
+Q How does index parity guide the binary search?
+A Before the single element pairs start at even index (a[even]==a[even+1]); after it at odd; check mid's pair: if pattern is intact on the left, go right, else left; O(log n).
+
+@find-square-root-of-a-number find-nth-root-of-a-number 2 3
+Q How is binary search on the answer used for floor(sqrt(n))?
+A Search mid in [1, n]: if mid*mid ≤ n, ans = mid and go right else left; use 64-bit to avoid overflow; O(log n).
+Q For the nth root, how do you avoid overflow when computing mid^n?
+A mid^n grows very quickly and can overflow; multiply step by step; stop early as soon as the product exceeds m
+
+@find-the-smallest-divisor koko-eating-bananas minimum-days-to-make-m-bouquets capacity-to-ship-packages-within-d-days 3 5
+Q What property allows binary search on the answer in this problem?
+A Monotonic feasibility: if value v works, any larger (or smaller) also works; search the minimal feasible value in [low, high] with a feasibility check.
+Q What are the search bounds and the cost of each check?
+A e.g. Koko [1, max pile], ship [max weight, sum], bouquets [min day, max day], divisor [1, max]; check is O(n); total O(n log range).
+Q Walk through checking whether Koko can finish the piles [3, 6, 7, 11] within 8 hours at speed 4.
+A Each pile takes ceil(pile / speed) hours: 1, 2, 2, 3; the total is 8 hours, which is ≤ 8, so speed 4 works; the binary search then tries smaller speeds to find the minimum
+
+@kth-missing-positive-number 3 3
+Q Explain the O(log n) approach.
+A Missing count before index i = a[i] - (i+1); binary search for the last index with missing < k; answer = k + (high + 1) (i.e. k + low).
+
+@aggressive-cows 4 5
+Q Explain how binary search on the answer applies.
+A Sort stalls; search the minimum distance d in [1, max-min]; check greedily places cows when gap ≥ d; if k cows fit, try larger d; O(n log n + n log range).
+
+@book-allocation-problem painters-partition split-array---largest-sum 4 5
+Q Why can you binary search on the maximum load, and why are the bounds the largest element and the total sum?
+A If a maximum load works, every larger load also works (monotonic), so search for the smallest feasible value; the answer can never be below the largest single item because it must be given to someone; the total sum always works with one person
+Q When is the answer -1 for book allocation?
+A Every student must get at least one book; with more students than books that is impossible, so the answer is -1
+
+@find-peak-element 3 4
+Q How do you find a peak in O(log n) when the array is not sorted?
+A Compare a[mid] with a[mid+1]: if increasing, a peak exists to the right; else to the left (including mid); boundaries treated as -inf.
+
+@median-of-2-sorted-arrays kth-element-of-2-sorted-arrays 5 4
+Q Explain the partition-based binary search.
+A Binary search the cut in the smaller array; cut2 = k(or half) - cut1; valid when l1 ≤ r2 and l2 ≤ r1; median from max(l1,l2)/min(r1,r2); O(log min(n,m)).
+Q Why search on the smaller array?
+A Searching the smaller array keeps the partner cut (half - cut1) inside the bigger array's bounds; it also makes the search take O(log of the smaller size)
+
+@minimise-max-distance-to-gas-stations 5 3
+Q Why is the answer here a real number, and how does binary search handle that?
+A Stations can be placed at any point, so the best maximum distance need not be an integer; binary search on the distance until the range is smaller than a precision like 1e-6 (or for a fixed number of iterations); the check counts how many stations each gap needs for that distance
+
+@find-row-with-maximum-1's 2 3
+Q How does each row being sorted (0s then 1s) let you avoid scanning every cell?
+A The index of the first 1 in a row tells you how many 1s it has (m - index); binary search finds it in each row; or start at the top-right corner and move left on 1 and down on 0, visiting at most n + m cells
+
+@search-in-a-2d-matrix 2 4
+Q How do you treat the matrix as a 1D sorted array?
+A Index mid → row = mid / m, col = mid % m; binary search over [0, n*m-1]; O(log(nm)).
+
+@search-in-2d-matrix-ii 3 4
+Q Explain the staircase search.
+A Start at top-right: if equal found; greater → move left; smaller → move down; each step eliminates a row or column; O(n+m).
+
+@find-peak-element-ii 4 3
+Q Explain the O(n log m) approach.
+A Binary search on columns; in mid column find the row of the max element; compare with left/right neighbours and move toward the larger; that max is a peak if both neighbours are smaller.
+
+@matrix-median 5 3
+Q Explain how binary search on the value finds the median of a row-sorted matrix.
+A Search value in [min, max]; count elements ≤ mid using upper bound in each row (O(n log m)); median is the smallest value with count > (n*m)/2.
+
+# ===================== STEP 6: Strings =====================
+@remove-outermost-parentheses maximum-nesting-depth-of-the-parentheses 2 3
+Q How do you solve this with a counter instead of a stack?
+A Track depth: increase on '(' and decrease on ')'; outermost parens are those opened at depth 0→1 and closed back to 0 (skip them); max depth = max counter; O(n), O(1).
+
+@roman-to-integer 1 3
+Q Explain the subtractive rule handling.
+A Map symbols to values; if a symbol's value is less than the next symbol's, subtract it, else add; O(n).
+
+@string-to-integer-atoi 3 4
+Q List the cases your atoi must handle.
+A Skip leading whitespace; read an optional + or - sign; read digits until a non-digit and ignore the rest; no digits gives 0; clamp to INT_MIN/INT_MAX on overflow, checking before multiplying by 10
+
+@count-number-of-substring 3 3
+Q Explain how to count substrings with exactly k distinct characters efficiently.
+A exactly(k) = atMost(k) - atMost(k-1); atMost via sliding window with a frequency map, adding (r - l + 1) per right end; O(n).
+
+@longest-palindromic-substring 3 5
+Q Why do you have to expand around both single characters and the gaps between characters?
+A Odd-length palindromes have a middle character; even-length palindromes such as "abba" are centred between two characters; expanding only around characters misses every even-length palindrome
+Q In the DP solution, what does dp[i][j] mean, and in what order do you fill it?
+A dp[i][j] is true if s[i..j] is a palindrome; it is true when s[i] == s[j] and dp[i+1][j-1] is true (or the length is ≤ 2); fill by increasing length so the smaller inner intervals are ready first
+
+@sum-of-beauty-of-all-substrings 3 2
+Q Why can you compute the beauty of all substrings starting at i by extending one character at a time?
+A Fix the start i and keep a 26-letter frequency array; each new end j adds just one character, so the counts update in O(1); beauty = highest frequency - lowest non-zero frequency of the current substring; this avoids recounting every substring from scratch
+
+# ===================== STEP 7: Recursion =====================
+@pow(x,n) 2 4
+Q Explain binary exponentiation and how negative n is handled.
+A x^n = (x^2)^(n/2) for even n, x * x^(n-1) for odd; O(log n); for negative n compute with -n (as 64-bit to avoid INT_MIN overflow) and return 1/result.
+
+@generate-parentheses 3 5
+Q What are the rules that keep partial strings valid in backtracking?
+A Add '(' if open < n; add ')' if close < open; record when length is 2n; generates exactly the valid strings.
+Q Walk through which strings are generated for n = 2, and explain why "())(" can never be produced.
+A For n = 2 the outputs are "(())" and "()()"; after "()" another ')' is not allowed because close would exceed open; no prefix ever has more ')' than '(', so an invalid string can never be built
+
+@power-set subsets-i 2 5
+Q Describe the pick / not-pick recursion tree for [1, 2]. Which subsets come out at the leaves?
+A At index 0 branch into take 1 or skip 1; at index 1 each branch takes 2 or skips 2; the leaves give [1, 2], [1], [2], []; n elements give 2^n leaves
+
+@power-set-bit-manipulation 2 4
+Q How do you generate the power set using bitmasks?
+A For mask 0..2^n-1, include element i if bit i is set; O(n * 2^n).
+
+@count-good-numbers 3 3
+Q Explain the formula and why fast exponentiation is required.
+A Even positions have 5 choices, odd positions 4: answer = 5^ceil(n/2) * 4^floor(n/2) mod 1e9+7; n up to 1e15 needs modular binary exponentiation O(log n).
+
+@reverse-a-stack 3 3
+Q How do you reverse a stack using only recursion?
+A Pop the top, reverse the rest recursively, then insert the popped element at the bottom (another recursive helper); O(n^2) time, O(n) stack.
+
+@learn-all-patterns-of-subsequences 2 4
+Q Describe the three subsequence patterns (print all, print one, count) and how the base case differs.
+A All: recurse pick/not-pick, record at end; one: return a boolean and stop once found; count: return 0/1 at base and sum both branches.
+
+@check-if-there-exists-a-subsequence-with-sum-k count-all-subsequences-with-sum-k 3 4
+Q Explain the recursion and how you would optimise it.
+A f(i, sum): pick (sum - a[i]) or not pick; base at i == n (or sum == 0); O(2^n); memoise on (i, sum) for O(n*k) when elements are non-negative.
+
+@generate-binary-strings-without-consecutive-1s 2 2
+Q Explain the recursion rule.
+A Always append '0'; append '1' only if the previous char isn't '1'; count follows Fibonacci.
+
+@combination-sum 3 5
+Q How does reuse of the same element change the recursion?
+A On pick stay at the same index (target - a[i]); on not-pick move to i+1; stop when target < 0 or i == n; exponential.
+
+@combination-sum-ii 3 4
+Q How do you avoid duplicate combinations?
+A Sort; in the loop over choices at each level, skip a[j] == a[j-1] for j > start; each element used at most once (recurse with j+1).
+
+@combination-sum-iii 3 3
+Q What bounds the search space?
+A Numbers 1-9 used at most once, exactly k numbers summing to n; prune when sum exceeds n or count exceeds k.
+
+@subsets-ii 3 4
+Q How do you generate unique subsets when the input has duplicates?
+A Sort; at each recursion level iterate j from start and skip j > start with a[j] == a[j-1]; add every path as a subset.
+
+@letter-combinations-of-a-phone-number 2 4
+Q How does backtracking build "ad", "ae", ... for the input "23"? What does each recursion level represent?
+A Each recursion level handles one digit; it loops over that digit's letters (2 → abc, 3 → def); it appends a letter, recurses to the next digit, then removes the letter (backtracks); a string is recorded when its length equals the number of digits
+
+@palindrome-partitioning 4 4
+Q Explain the backtracking and how to speed up palindrome checks.
+A For each end index j from start, if s[start..j] is palindrome, add it and recurse from j+1; precompute isPal[i][j] DP to make checks O(1); exponential output.
+
+@word-search 3 5
+Q Explain the DFS/backtracking and how cells are not reused.
+A From each cell matching word[0], DFS 4 directions matching the next char; mark cell visited (temporarily overwrite) and restore on backtrack; O(n*m*4^L).
+
+@n-queen 4 5
+Q How do you check safety in O(1)?
+A Track used columns and both diagonals: row-col (or row-col+n-1) and row+col; place row by row; backtrack on conflict.
+
+@rat-in-a-maze 3 4
+Q Why do you mark a cell as visited while exploring and unmark it when returning?
+A Marking stops the current path from walking in circles through the same cell; unmarking (backtracking) lets other paths use that cell later; without both steps you either loop forever or miss valid paths
+
+@m-coloring-problem 4 3
+Q Describe the backtracking approach.
+A Colour vertices one by one; try each colour 1..m that no adjacent vertex already has; recurse; backtrack on failure; O(m^V).
+
+@sudoko-solver 4 4
+Q How do you check validity and backtrack?
+A For each empty cell try digits 1-9 valid in its row, column and 3x3 box (box index (r/3)*3 + c/3); recurse; reset on failure; bitmask arrays speed up checks.
+
+@expression-add-operators 5 3
+Q How do you handle multiplication precedence while building expressions?
+A Track current value and the last operand; for '*': value - last + last*cur, last = last*cur; for '+'/'-' set last = ±cur; skip numbers with leading zeros; use 64-bit.
+
+# ===================== STEP 8: Linked List =====================
+@introduction-to-singly-linkedlist traversal-in-linked-list find-the-length-of-the-linked-list search-in-linked-list 1 3
+Q Compare linked lists with arrays for access, insertion and memory.
+A LL: O(n) access, O(1) insert/delete given the node, non-contiguous memory with pointer overhead; array: O(1) access, O(n) middle insert, contiguous, cache friendly.
+Q How do you traverse/search a linked list and what is the stopping condition?
+A temp = head; while temp != null: process, temp = temp.next; O(n).
+
+@deletion-in-linked-list insertion-in-linked-list deletion-of-the-head-of-ll deletion-of-the-tail-of-ll deletion-of-the-kth-element-of-ll delete-the-element-with-value-x insertion-at-the-head-of-ll insertion-at-the-tail-of-ll insertion-at-the-kth-position-of-ll insertion-before-the-value-x-in-ll 2 3
+Q To delete or insert at position k, which node do you need a pointer to and why?
+A The (k-1)th node (previous) so you can relink prev.next; head (k=1) is a special case that changes the head.
+Q What edge cases must insertion/deletion handle?
+A Empty list, single node, position 1 (head), position at tail / beyond length, value not found; free/delete the removed node in C++.
+
+@introduction-to-doubly-ll deletion-in-doubly-ll insertion-in-dll convert-array-to-dll delete-tail-of-dll delete-kth-element-of-dll removing-given-node-in-dll insert-node-before-head-in-dll insert-node-before-tail-in-dll insert-node-before-kth-node-in-dll insert-before-given-node-in-dll delete-head-of-dll 2 3
+Q What extra pointer updates does a doubly linked list require when deleting a node?
+A prev.next = node.next and node.next.prev = node.prev, with null checks for head/tail; update head if deleting head.
+Q What advantage does a DLL give over a singly linked list?
+A O(1) deletion given only the node, backward traversal; costs an extra pointer per node.
+
+@reverse-a-doubly-linked-list 2 3
+Q How do you reverse a DLL in place?
+A For each node swap its prev and next pointers, move to the old next (now prev); new head = last processed node; O(n), O(1).
+
+@reverse-a-ll 2 5
+Q Explain iterative reversal with three pointers.
+A prev = null, cur = head; loop: next = cur.next, cur.next = prev, prev = cur, cur = next; return prev; O(n), O(1).
+Q Explain the recursive version and its space cost.
+A newHead = reverse(head.next); head.next.next = head; head.next = null; O(n) stack space.
+
+@add-two-numbers-in-ll 2 5
+Q Walk through adding 342 + 465 stored in reverse as [2, 4, 3] + [5, 6, 4], and explain how the carry works.
+A 2 + 5 = 7; 4 + 6 = 10, so write 0 and carry 1; 3 + 4 + 1 = 8; the result is [7, 0, 8], which is 807; keep going while either list or a carry remains
+
+@segregate-odd-and-even-nodes-in-ll 2 3
+Q How do you group odd- and even-indexed nodes in O(1) space?
+A Two pointers odd = head, even = head.next, keep evenHead; relink odd.next = even.next, even.next = odd.next alternately; finally odd.next = evenHead.
+
+@sort-a-ll-of-0's-1's-and-2's 2 3
+Q How do you sort it in one pass without changing values?
+A Three dummy lists for 0s, 1s, 2s; append nodes accordingly; link zeroTail → oneHead (or twoHead if no ones) → twoHead; end with null.
+
+@remove-nth-node-from-the-back-of-the-ll 2 5
+Q Explain the one-pass two-pointer approach.
+A Move fast n steps ahead, then move fast and slow together until fast.next == null; slow.next is the node to delete; if fast becomes null after n steps delete head; dummy node simplifies it.
+
+@add-one-to-a-number-represented-by-ll 2 3
+Q How do you add 1 to the list 1 → 9 → 9, and what special case shows up?
+A The addition must start from the last digit, so reverse the list or use recursion to reach the tail first; 9 + 1 = 10 gives 0 with carry 1, twice; the final carry needs a new head node, giving 2 → 0 → 0
+
+@find-middle-of-linked-list 1 5
+Q Explain the tortoise-and-hare approach; which middle do you get for even length?
+A slow moves 1, fast moves 2; when fast reaches the end, slow is the middle; with `while fast && fast.next`, slow is the second middle for even length.
+
+@delete-the-middle-node-in-ll 2 3
+Q How do you stop at the node before the middle?
+A Start fast one step ahead (fast = head.next.next) or keep prev; then slow.next = slow.next.next; single node → return null.
+
+@check-if-ll-is-palindrome-or-not 3 5
+Q How do you check in O(1) extra space?
+A Find the middle, reverse the second half, compare with the first half, then reverse back to restore; O(n).
+
+@find-the-intersection-point-of-y-ll 3 4
+Q Explain the two-pointer approach without computing lengths.
+A Pointers a, b; when one reaches null, redirect it to the other list's head; they meet at the intersection (or both null) after at most n+m steps.
+
+@detect-a-loop-in-ll length-of-loop-in-ll 2 5
+Q Explain Floyd's cycle detection and why the pointers must meet if there is a loop.
+A slow +1, fast +2; inside the loop the gap shrinks by 1 each step, so they meet; length: from meeting point move one pointer until it returns, counting steps.
+
+@find-the-starting-point-in-ll 3 5
+Q After slow and fast meet, why does moving one pointer to head and stepping both by 1 find the loop start?
+A Distance head→start (L1) equals distance meeting point→start mod cycle length (L1 = nC - L2); both pointers arrive at the start together.
+
+@reverse-ll-in-group-of-given-size-k 4 5
+Q Describe how you reverse in groups and link them.
+A For each group find the kth node; if fewer than k remain leave as is; detach, reverse the group, link prevGroupTail to the new head, and the old head (now tail) to the next group; O(n).
+
+@rotate-a-ll 2 3
+Q How do you rotate right by k efficiently?
+A Find length and tail; k %= len; connect tail to head making a cycle; new tail is at len - k - 1 steps; break after it; O(n).
+
+@merge-sorted-lists- 2 5
+Q Explain merging two sorted lists in place.
+A Dummy node; compare heads, attach the smaller, advance; attach the remainder; O(n+m), O(1).
+
+@flattening-of-ll 4 3
+Q Why can the lists be flattened by merging them two at a time, and which pointer links the result?
+A Each vertical list is already sorted, and merging two sorted lists keeps the result sorted; repeat the merge until one list remains; the result is linked through the child/bottom pointer, with next set to null
+
+@sort-ll 3 4
+Q Why use merge sort for linked lists, and how do you split?
+A Merge sort needs no random access and merging is O(1) space; split at middle with slow/fast (stop before second middle); O(n log n), O(log n) stack.
+
+@clone-a-ll-with-random-and-next-pointer 4 4
+Q Explain the O(1)-extra-space interleaving method.
+A Insert each copy right after its original; set copy.random = orig.random.next; then separate the two lists restoring originals; O(n). Hash-map alternative uses O(n) space.
+
+@delete-all-occurrences-of-a-key-in-dll remove-duplicated-from-sorted-dll 2 3
+Q Which pointer updates and edge cases matter?
+A Relink prev.next and next.prev; update head when deleting head; for sorted duplicates skip runs of equal values relinking once; O(n).
+
+@find-pairs-with-given-sum-in-doubly-linked-list 2 3
+Q How do you find all pairs in a sorted DLL in O(n)?
+A Two pointers from head and tail (move tail to the end first); move left forward if sum < target, right backward if greater; stop when they cross.
+
+# ===================== STEP 9: Bit Manipulation =====================
+@introduction-to-bits-and-tricks 2 4
+Q How are negative numbers stored (two's complement), and how do you get -x from x?
+A Invert all bits and add 1; the MSB acts as sign; -x = ~x + 1; range of 32-bit int is -2^31..2^31-1.
+Q What do x & (x-1) and x & (-x) do?
+A x & (x-1) clears the lowest set bit; x & -x isolates the lowest set bit.
+
+@check-if-the-i-th-bit-is-set-or-not check-if-a-number-is-odd-or-not set-the-rightmost-unset-bit swap-two-numbers 1 3
+Q How do you check, set, clear and toggle the i-th bit?
+A Check: (n >> i) & 1 or n & (1 << i); set: n | (1 << i); clear: n & ~(1 << i); toggle: n ^ (1 << i). Odd check: n & 1.
+Q How do you swap two numbers with XOR and what is the pitfall?
+A a ^= b; b ^= a; a ^= b; fails (zeroes out) if a and b are the same memory location.
+Q Explain why n | (n + 1) sets the rightmost 0 bit of n, using n = 11 (binary 1011).
+A Adding 1 turns the trailing 1s into 0s and the rightmost 0 into 1; 11 + 1 = 12, which is 1100; OR with the original keeps all the original 1s; 1011 | 1100 = 1111, which is 15
+
+@check-if-a-number-is-power-of-2-or-not count-the-number-of-set-bits 2 4
+Q Why does n > 0 && (n & (n-1)) == 0 detect a power of two?
+A A power of two has exactly one set bit; n-1 flips it and sets lower bits, so the AND is 0; n must be positive.
+Q Explain Brian Kernighan's algorithm for counting set bits.
+A Repeat n &= (n-1) until 0, counting iterations; runs once per set bit, O(number of set bits).
+
+@minimum-bit-flips-to-convert-number 1 3
+Q Why does counting the set bits of start ^ goal give the minimum number of flips? Try start = 10 and goal = 7.
+A XOR has a 1 exactly where the bits differ; each differing bit needs exactly one flip and equal bits need none; 1010 ^ 0111 = 1101, which has 3 set bits, so 3 flips
+
+@single-number---i 1 5
+Q Why does XOR of all elements give the single number?
+A x ^ x = 0, x ^ 0 = x, XOR is commutative/associative; pairs cancel; O(n), O(1).
+
+@single-number---ii 3 4
+Q How do you find the element appearing once when others appear three times?
+A Count bit i across all numbers; bits with count % 3 != 0 belong to the answer (O(32n)); or the ones/twos bitmask trick.
+
+@single-number---iii 3 4
+Q How do you find the two numbers that appear once?
+A XOR all to get a ^ b; take its rightmost set bit (x & -x); partition numbers by that bit and XOR each group separately.
+
+@divide-two-numbers-without-multiplication-and-division 4 3
+Q How do you divide using bit shifts, and what overflow case exists?
+A Subtract the largest divisor << k that fits, adding 1 << k to the quotient; O(log^2 n) or O(log n); INT_MIN / -1 overflows → clamp to INT_MAX; work with absolute values in 64-bit.
+
+@xor-of-numbers-in-a-given-range 2 3
+Q What is the pattern for XOR from 1 to n, and how do you get L..R?
+A n%4: 0→n, 1→1, 2→n+1, 3→0; XOR(L..R) = f(R) ^ f(L-1).
+
+# ===================== STEP 10: Greedy =====================
+@assign-cookies 2 3
+Q Explain the greedy and why sorting both arrays works.
+A Sort greed and cookie sizes; two pointers give the smallest cookie that satisfies the least greedy child; never wastes a bigger cookie; O(n log n).
+
+@lemonade-change 1 2
+Q What greedy choice do you make for a $20 bill?
+A Prefer giving $10 + $5 over three $5s, since $5 bills are more flexible; track counts; fail if change can't be made.
+
+@fractional-knapsack 2 4
+Q Why does the greedy by value/weight ratio give the optimal answer here but not in 0/1 knapsack?
+A Items are divisible, so taking the highest ratio first is optimal (exchange argument); 0/1 items can't be split and greedy can fail; O(n log n).
+
+@jump-game---i 2 4
+Q Explain the greedy approach.
+A Track the max reachable index; if i > maxReach return false; maxReach = max(maxReach, i + a[i]); O(n).
+
+@jump-game-ii 3 4
+Q How do you find the minimum number of jumps in O(n)?
+A BFS-like levels: keep current range end and farthest reach; when i reaches the range end, jumps++ and range end = farthest.
+
+@shortest-job-first 2 2
+Q How do you compute the average waiting time with SJF?
+A Sort burst times; waiting time of each job = sum of previous bursts; average = total waiting / n (floor if required).
+
+@job-sequencing-problem 3 4
+Q Explain the greedy for maximising profit with deadlines.
+A Sort jobs by profit descending; place each in the latest free slot ≤ its deadline (array or DSU for speed); O(n log n + n*maxDeadline) or with DSU near O(n log n).
+
+@n-meetings-in-one-room 2 4
+Q Why sort by end time?
+A Choosing the meeting that ends earliest leaves the most room for later ones (exchange argument); pick if start > last end; O(n log n).
+
+@non-overlapping-intervals 3 4
+Q How do you find the minimum intervals to remove?
+A Sort by end; greedily keep non-overlapping intervals (like activity selection); answer = n - kept; O(n log n).
+
+@insert-interval 3 4
+Q Explain the three-phase approach.
+A Add all intervals ending before newInterval starts; merge all overlapping ones (min start, max end); add the rest; O(n).
+
+@merge-intervals 2 5
+Q Why must the intervals be sorted by start time before merging, and when do two intervals overlap?
+A After sorting, any interval overlapping the current merged one must come right after it; they overlap when next.start ≤ current.end; on overlap extend end to max(current.end, next.end), otherwise start a new interval
+
+@minimum-number-of-platforms-required-for-a-railway 3 4
+Q Explain the sort-arrivals-and-departures approach.
+A Sort arrivals and departures separately; two pointers: arrival ≤ departure → platforms++, else platforms--; track max; O(n log n).
+
+@valid-paranthesis-checker 3 3
+Q How do you check validity when '*' can be '(', ')' or empty?
+A Track a range [minOpen, maxOpen]: '(' both +1; ')' both -1; '*' min-1, max+1; if max < 0 fail; clamp min at 0; valid if min == 0 at the end; O(n).
+
+@candy 4 4
+Q Explain the two-pass solution.
+A Left pass: if rating[i] > rating[i-1], left[i] = left[i-1] + 1; right pass similarly from the right; candies[i] = max(left, right); sum; O(n) (slope method gives O(1) space).
+
+# ===================== STEP 11: Sliding Window / Two Pointers =====================
+@theory 2 4
+Q Describe the variable-size sliding window template.
+A Expand right, update window state; while window invalid shrink left; update answer; each index enters and leaves once ⇒ O(n).
+Q How do "longest valid window" and "count of subarrays" problems differ in the template?
+A Longest: update max length when valid; counting: add (r - l + 1) for at-most-k windows, and exactly(k) = atMost(k) - atMost(k-1).
+
+@maximum-points-you-can-obtain-from-cards- 2 3
+Q Why does taking k cards from the two ends reduce to looking at a window of the array?
+A Any choice is i cards from the left plus k - i from the right; start with all k from the left and move one card at a time to the right side, updating the sum; equivalently, the cards left behind form one contiguous window of size n - k whose sum should be smallest
+
+@longest-substring-without-repeating-characters 3 5
+Q Explain the sliding window with last-seen index.
+A Map char → last index; when s[r] was seen at index ≥ l, move l to last+1; update length r-l+1; O(n).
+
+@max-consecutive-ones-iii 3 4
+Q How does the window handle flipping at most k zeros?
+A Count zeros in window; while zeros > k move left (decrement on leaving zero); max length; O(n). Optimised version never shrinks below the best length.
+
+@fruit-into-baskets longest-substring-with-at-most-k-distinct-characters 3 4
+Q Explain the window using a frequency map.
+A Add s[r]; while distinct count > k (2 for fruits) decrement s[l] count, delete at 0, l++; track max length; O(n).
+
+@longest-repeating-character-replacement 4 4
+Q Why is the window valid when (window length - max frequency) ≤ k, and why can maxFreq stay stale?
+A Replacements needed = non-majority chars; shrink when > k; not decreasing maxFreq is fine because the answer only grows when a larger maxFreq appears; O(26n) or O(n).
+
+@minimum-window-substring- 4 5
+Q When do you shrink the window from the left, and how do you know it still contains all the characters of t?
+A Shrink while the window contains every required character; a counter tracks how many required characters are currently satisfied; once removing a character drops its count below what t needs, the window becomes invalid and you stop; record the smallest valid window seen
+
+@minimum-window-subsequence 4 2
+Q How does the forward-then-backward scan work?
+A Move forward to match all of t as a subsequence; then from the end walk backwards to find the latest start that still matches; record window; restart from start+1; O(n*m) worst case.
+
+@number-of-substrings-containing-all-three-characters 3 3
+Q Explain the last-seen-index trick.
+A For each r track last index of 'a', 'b', 'c'; substrings ending at r containing all three = 1 + min(last a, b, c) (if all seen); O(n).
+
+@binary-subarrays-with-sum count-number-of-nice-subarrays subarrays-with-k-different-integers 4 4
+Q Why compute atMost(k) - atMost(k-1) instead of a direct window for "exactly k"?
+A A window with exactly k is not monotonic when shrinking; atMost(k) is: count += r - l + 1 per right end; the difference gives exactly k; O(n). Prefix sum + hashmap also works for sums.
+
+# ===================== STEP 12: Stack / Queue =====================
+@implementation-using-different-ds implement-stack-using-arrays implement-queue-using-arrays implement-stack-using-linkedlist implement-queue-using-linkedlist 2 4
+Q How do you implement a queue with a fixed array efficiently?
+A Circular buffer: front and rear indices mod capacity plus a size counter; enqueue at rear, dequeue at front, O(1); check full/empty via size.
+Q Compare array-based and linked-list based stacks.
+A Array: O(1) amortised, cache friendly, fixed capacity or resizing; LL: O(1) push/pop at head, no capacity limit, extra pointer memory.
+
+@implement-stack-using-queue 2 3
+Q How do you implement a stack with one queue?
+A On push, add x to the queue; then move the older elements (size - 1 of them) from the front to the back, so x ends up at the front; pop and top just use the front; push costs O(n), pop O(1)
+
+@implement-queue-using-stack 2 4
+Q Explain the amortised O(1) two-stack queue.
+A Push to input stack; on pop/peek, if output stack is empty move all from input to output; each element moves at most once ⇒ amortised O(1).
+
+@balanced-paranthesis 1 5
+Q Explain the stack approach and the edge cases.
+A Push opening brackets; on closing check the top is the matching opener and pop; fail on mismatch or empty stack; valid if stack empty at end; O(n).
+
+@infix-to-postfix-conversion infix-to-prefix-conversion 3 3
+Q Explain the operator-precedence rules in infix to postfix conversion.
+A Operands to output; '(' push; ')' pop until '('; operator: pop while top has higher precedence (or equal and left-associative), then push; '^' is right-associative; pop the rest at the end.
+Q How do you convert infix to prefix using the postfix algorithm?
+A Reverse the infix expression; swap '(' and ')'; convert to postfix (handling operators of equal precedence carefully); reverse the result to get the prefix form
+
+@prefix-to-infix-conversion prefix-to-postfix-conversion postfix-to-infix-conversion postfix-to-prefix-conversion 2 2
+Q Describe the stack approach for postfix → infix and how prefix differs.
+A Postfix: scan left→right; operand push; operator pop two (second popped is left), push "(a op b)". Prefix: scan right→left; first popped is the left operand.
+
+@next-greater-element next-greater-element---2 next-smaller-element 3 5
+Q Explain the monotonic stack approach and why it is O(n).
+A Traverse from the right; pop while stack top ≤ current; the top is the next greater (or -1); push current; each element is pushed and popped once ⇒ O(n). Smaller: reverse comparison.
+Q How do you handle a circular array?
+A Loop i from 2n - 1 down to 0 and use index i % n, so each element also sees the elements that wrap around; only record answers when i < n; the stack logic is the same as the normal version
+
+@asteroid-collision 3 4
+Q Explain the stack simulation.
+A For each asteroid: if moving left, while the top is moving right and smaller, pop; if equal, pop and destroy both; if top is bigger, current is destroyed; else push; O(n).
+
+@sum-of-subarray-minimums sum-of-subarray-ranges 4 4
+Q How do you compute each element's contribution as the minimum?
+A Previous smaller (strict) and next smaller-or-equal via monotonic stacks; contribution = a[i] * left * right where left/right are distances; sum mod 1e9+7; O(n). Ranges = sum of max contributions - sum of min contributions.
+Q Why use strict on one side and non-strict on the other?
+A If two equal values were both treated as the minimum of the same subarray, it would be counted twice; using strictly-less on one side and less-or-equal on the other gives each subarray to exactly one of them
+
+@remove-k-digits 3 4
+Q Explain the greedy monotonic stack.
+A For each digit pop while k > 0 and stack top > digit (removing a larger earlier digit minimises the number); push; remove remaining k from the end; strip leading zeros; empty → "0"; O(n).
+
+@implement-min-stack 2 5
+Q How do you get min in O(1)?
+A Store pairs (value, min so far) or a second stack of mins; O(1) extra per element. O(1)-space trick encodes 2*val - min when pushing a new min.
+
+@sliding-window-maximum 4 5
+Q Explain the monotonic deque solution.
+A Deque of indices with decreasing values; drop indices out of window from front; pop back while values ≤ current; front is the max; O(n).
+
+@trapping-rainwater 4 5
+Q Explain the two-pointer O(1)-space solution.
+A Water at i = min(maxLeft, maxRight) - h[i]; move the side with the smaller max; that side's water is determined by its own max; O(n). Prefix/suffix max arrays are the O(n)-space version.
+
+@largest-rectangle-in-a-histogram 4 5
+Q How does the monotonic stack find the largest rectangle?
+A For each bar find previous and next smaller indices; width = next - prev - 1; area = h * width; single pass: pop when a smaller bar arrives and compute area for the popped bar; O(n).
+
+@maximum-rectangles 4 4
+Q How do you reduce the maximal rectangle in a binary matrix to histograms?
+A For each row build heights (consecutive 1s up to this row, reset on 0) and run largest-rectangle-in-histogram; O(n*m).
+
+@stock-span-problem number-of-greater-elements-to-the-right 3 3
+Q Explain the stack approach for stock span.
+A Stack of (price, span) or indices of previous greater element; span = i - previous greater index; pop while top ≤ current price; amortised O(1) per day.
+Q How would you count greater elements to the right for many queries efficiently?
+A Brute force O(n) per query; for many queries use merge sort / Fenwick tree counting with coordinate compression.
+
+@celebrity-problem 3 4
+Q Explain the O(n) two-pointer elimination.
+A top = 0, bottom = n-1; if top knows bottom, top can't be celebrity (top++); else bottom can't be (bottom--); verify the remaining candidate knows nobody and everyone knows them.
+
+@lru-cache 4 5
+Q Which data structures give O(1) get and put, and how do they work together?
+A Hash map key → node of a doubly linked list ordered by recency; get moves node to the front; put inserts at front and evicts the tail when over capacity.
+
+@lfu-cache 5 4
+Q How do you implement LFU with O(1) operations?
+A Map key → node(value, freq); map freq → doubly linked list (LRU within same freq); track minFreq; on access move node to freq+1 list; evict LRU from minFreq list; reset minFreq = 1 on insert.
+
+# ===================== STEP 13: Binary Trees =====================
+@introduction- 1 3
+Q Define full, complete, perfect and balanced binary trees.
+A Full: every node 0 or 2 children; complete: all levels full except last, filled left to right; perfect: all internal nodes have 2 children and leaves at the same level; balanced: height O(log n) (|h(left) - h(right)| ≤ 1).
+Q Why does a balanced binary tree with n nodes have a height of about log2(n)?
+A Each level can hold twice as many nodes as the level above; a tree of height h holds up to 2^(h+1) - 1 nodes; so with full levels, n nodes need a height of about log2(n); a skewed tree can instead have height n - 1
+
+@inorder-traversal preorder-traversal postorder-traversal 2 5
+Q Give the visiting order of inorder, preorder and postorder, and say which one gives sorted output for a BST.
+A Preorder is root, left, right; inorder is left, root, right; postorder is left, right, root; an inorder traversal of a BST visits the values in sorted order
+Q How do you do postorder iteratively?
+A Use two stacks: push nodes in root, left, right order into the second stack to get root-right-left, then pop it in reverse; or use one stack plus a pointer to the last visited node to know when the right subtree is finished
+
+@level-order-traversal 2 5
+Q Explain BFS level order and how you separate levels.
+A Queue; at each level record queue size and pop that many nodes, pushing their children; O(n).
+
+@pre,-post,-inorder-in-one-traversal 3 2
+Q How do you produce all three traversals in one pass?
+A Stack of (node, state): state 1 → preorder, push (node, 2) and left; state 2 → inorder, push (node, 3) and right; state 3 → postorder.
+
+@maximum-depth-in-bt 1 5
+Q Explain why depth(node) = 1 + max(depth(left), depth(right)) gives the height of the tree.
+A The longest path from a node continues through whichever child subtree is deeper; the + 1 counts the node itself; an empty subtree has depth 0, which is the base case
+
+@check-if-two-trees-are-identical-or-not check-for-symmetrical-bts 2 4
+Q Explain the recursion for identical trees, and how symmetric differs.
+A Identical: both null true; one null false; values equal and same(l.left, r.left) && same(l.right, r.right). Symmetric: compare left subtree with mirrored right: (l.left, r.right) and (l.right, r.left).
+
+@check-for-balanced-binary-tree 2 5
+Q How do you check balance in O(n) rather than O(n^2)?
+A Return height from post-order recursion, or -1 if a subtree is unbalanced; propagate -1 up; each node visited once.
+
+@diameter-of-binary-tree 3 5
+Q How do you compute the diameter in O(n)?
+A During height computation, update diameter = max(diameter, lh + rh) at each node (path may not pass through root); return 1 + max(lh, rh).
+
+@maximum-path-sum- 4 5
+Q Explain how you compute the maximum path sum and why negative branches are dropped.
+A Post-order: gain from child = max(0, childGain); update global max with node + leftGain + rightGain; return node + max(leftGain, rightGain) to parent (path can't fork upward); O(n).
+
+@children-sum-property-in-binary-tree 3 2
+Q How do you make the tree satisfy the children sum property by only increasing values?
+A Going down: if children sum < node, set children to node's value; recurse; going up: node = sum of children; O(n).
+
+@zig-zag-or-spiral-traversal 2 4
+Q How do you produce zigzag level order?
+A BFS by level with a direction flag; fill each level's list from left or right (or reverse alternate levels); O(n).
+
+@boundary-traversal 3 3
+Q What are the three parts of boundary traversal?
+A Left boundary (excluding leaves) top-down, all leaves left to right, right boundary (excluding leaves) bottom-up; root once.
+
+@vertical-order-traversal 4 4
+Q Explain vertical order traversal and how ties are ordered.
+A BFS/DFS tracking (column, row); store in map column → map row → multiset of values; output columns left→right, rows top→bottom, ties by value; O(n log n).
+
+@top-view-of-bt bottom-view-of-bt 3 4
+Q How do you compute top view and how does bottom view differ?
+A BFS with horizontal distance; top view keeps the first node seen per HD; bottom view overwrites with the last; output by HD order; BFS (not DFS) ensures correct level order.
+
+@right-left-view-of-bt 2 4
+Q Give a DFS solution for the right view.
+A DFS visiting right child first with level; add node when level == result size (first node at that level); O(n).
+
+@print-root-to-leaf-path-in-bt 2 3
+Q Describe the backtracking approach.
+A DFS with a path list; add node; at leaf record a copy; recurse; remove node on return.
+
+@lca-in-bt 3 5
+Q Explain the recursive LCA and why it works.
+A If root is null or p or q return root; recurse left and right; if both non-null root is LCA; else return the non-null side; O(n).
+
+@maximum-width-of-bt 4 4
+Q How do you compute width with indices and avoid overflow?
+A BFS assigning index 2i+1/2i+2; width = last - first + 1 per level; subtract the level's minimum index before multiplying to keep numbers small.
+
+@print-all-nodes-at-a-distance-of-k-in-bt minimum-time-taken-to-burn-the-bt-from-a-given-node 4 4
+Q Why do you need parent pointers, and how is the BFS done?
+A Distance can go upward; build a parent map by BFS; then BFS from the target over left, right and parent with a visited set; nodes at level k are the answer (burn time = number of levels - 1).
+
+@count-total-nodes-in-a-complete-bt 3 3
+Q How do you count nodes faster than O(n)?
+A If leftmost height == rightmost height the subtree is perfect: 2^h - 1; else 1 + count(left) + count(right); O(log^2 n).
+
+@flatten-binary-tree-to-linked-list 4 4
+Q Explain an O(1)-space approach.
+A Morris-like: for each node with a left child, find the rightmost node of the left subtree, attach the node's right subtree to it, move left subtree to right, set left = null; advance right. Reverse postorder with prev pointer also works.
+
+@requirements-needed-to-construct-a-unique-bt 2 3
+Q Which traversal pairs uniquely determine a binary tree?
+A Inorder plus preorder, or inorder plus postorder (or level order); preorder + postorder alone isn't unique (unless the tree is full).
+
+@construct-a-bt-from-preorder-and-inorder construct-a-bt-from-postorder-and-inorder 4 5
+Q Explain the recursive construction and how to make it O(n).
+A The first preorder (or last postorder) element is the root; find it in inorder to split left/right sizes; recurse; hash map value → inorder index gives O(n).
+
+@serialize-and-de-serialize-bt 4 5
+Q Describe your encoding and why null markers are required.
+A Level order or preorder with '#' for null; nulls make the structure unambiguous; deserialise by reading tokens in the same order; O(n).
+
+@morris-inorder-traversal- morris-preorder-traversal- 5 3
+Q Explain how Morris traversal achieves O(1) space.
+A Use threaded links: for cur with left child, find the inorder predecessor; if its right is null, set it to cur and go left; else restore it to null, visit cur (inorder), go right. Preorder visits when creating the thread. O(n) time.
+
+# ===================== STEP 14: Binary Search Trees =====================
+@introduction-to-bst search-in-bst minimum-and-maximum-in-bst 1 4
+Q What does the BST property say, and why does it let a search skip half of the tree at each step?
+A Every value in the left subtree is smaller and every value in the right subtree is larger than the node; comparing the key with the node tells you which side it must be on; so you discard the other subtree and follow a single path down
+
+@floor-and-ceil-in-a-bst 2 3
+Q How do you find the ceil of x in a BST?
+A Walk from root: if node == x return; if node > x record as candidate and go left; else go right; O(h). Floor mirrors this.
+
+@insert-a-given-node-in-bst 2 4
+Q How do you insert iteratively?
+A Walk down comparing until the correct null child position, attach new node there; O(h).
+
+@delete-a-node-in-bst 3 5
+Q Explain the three deletion cases.
+A Leaf: remove; one child: replace with the child; two children: replace value with inorder successor (min of right subtree) or predecessor and delete that node — or attach left subtree's rightmost to the right subtree; O(h).
+
+@kth-smallest-and-largest-element-in-bst 2 5
+Q Explain how to find the kth smallest efficiently.
+A Inorder traversal visits in sorted order; stop at the kth node (iterative or with a counter); O(h + k); kth largest = reverse inorder; Morris for O(1) space.
+
+@check-if-a-tree-is-a-bst-or-not 2 5
+Q Why is checking only node.left < node < node.right wrong, and what is correct?
+A A deeper node can violate an ancestor's bound; pass (min, max) range down the recursion, or check inorder is strictly increasing; O(n).
+
+@lca-in-bst 2 4
+Q How does the BST property simplify LCA?
+A If both p and q are smaller go left, both larger go right, else the current node is the LCA; O(h), O(1) iterative.
+
+@construct-a-bst-from-a-preorder-traversal 3 4
+Q How do you construct it in O(n)?
+A Recursive with an upper bound: take the next preorder value if it is < bound, build left with bound = value and right with the parent bound; index shared globally.
+
+@inorder-successor-and-predecessor-in-bst 2 4
+Q How do you find the inorder successor without parent pointers?
+A From root: if node.val > key, record as candidate and go left, else go right; O(h). Predecessor mirrors this.
+
+@bst-iterator 3 4
+Q How do you get O(1) amortised next() with O(h) memory?
+A Stack holding the left chain; next pops a node and pushes the left chain of its right child; each node is pushed/popped once.
+
+@two-sum-in-bst 3 3
+Q How do you solve Two Sum in a BST in O(n) time and O(h) space?
+A Two BST iterators: ascending (next) and descending (before); move like two pointers until they meet.
+
+@correct-bst-with-two-nodes-swapped 4 4
+Q How do you detect the two swapped nodes?
+A Inorder traversal tracking prev; first violation (prev > cur) gives first = prev, middle = cur; second violation gives last = cur; swap first with last (or with middle if adjacent); O(n), O(h) (O(1) with Morris).
+
+@largest-bst-in-binary-tree 4 4
+Q Explain the O(n) post-order solution.
+A Each subtree returns (min, max, size, isBST); a node forms a BST if left.max < node < right.min; size = left + right + 1; otherwise return invalid sentinels; track max size.
+
+# ===================== STEP 15: Heaps =====================
+@heaps-theory implement-min-heap implement-max-heap 2 4
+Q How is a binary heap stored in an array and what are parent/child indices?
+A Complete binary tree in an array; children of i at 2i+1 and 2i+2; parent at (i-1)/2; push sifts up, pop moves the last to root and sifts down; O(log n).
+Q Why is a heap a complete binary tree?
+A Complete means the levels are filled left to right with no gaps, so the heap fits in an array (children at 2i+1 and 2i+2); the height stays about log n, so push and pop are O(log n)
+
+@heapify-algorithm build-heap-from-a-given-array convert-min-heap-to-max-heap 3 4
+Q Why is building a heap bottom-up O(n) rather than O(n log n)?
+A Sift-down from the last non-leaf (n/2 - 1) to 0; most nodes are near the bottom and move little; the sum of heights is O(n).
+Q How do you convert a min-heap to a max-heap?
+A Just run build-max-heap (heapify from n/2 - 1 down to 0) on the array; O(n).
+
+@check-if-an-array-represents-a-min-heap- 2 2
+Q How do you check it?
+A For every internal node i (i ≤ n/2 - 1), check a[i] ≤ a[2i+1] and a[i] ≤ a[2i+2] when they exist; O(n).
+
+@heap-sort 3 3
+Q Explain heap sort and its properties.
+A Build max-heap, repeatedly swap root with the last element and sift down on the reduced heap; O(n log n), in-place O(1) space, not stable.
+
+@k-th-largest-element-in-an-array 3 5
+Q Compare the min-heap approach and quickselect.
+A Min-heap of size k: O(n log k); quickselect partitions around a pivot and recurses on one side: average O(n), worst O(n^2) (random pivot).
+
+@kth-largest-element-in-a-stream-of-running-integers 3 4
+Q How do you support add() efficiently?
+A Maintain a min-heap of size k; push the new value and pop if size > k; the top is the kth largest; O(log k) per add.
+
+@sort-a-k-sorted-array 2 3
+Q How do you sort an array where each element is at most k away from its position?
+A Min-heap of size k+1: push elements, pop the minimum into the output as you go; O(n log k).
+
+@merge-k-sorted-lists 3 5
+Q Why does a min-heap holding one node from each list always give you the next smallest element?
+A Each list is sorted, so its smallest remaining element is at its current head; the overall next smallest must be one of those heads; the heap returns the smallest head, and you then push the next node from that same list
+
+@replace-elements-by-their-rank 2 2
+Q How do you compute ranks?
+A Sort a copy (or use a min-heap), assign ranks to distinct values in order using a map, then map each element; O(n log n).
+
+@task-scheduler 3 4
+Q Explain the formula or greedy for the minimum time.
+A (maxFreq - 1) * (n + 1) + countOfTasksWithMaxFreq, and answer = max(that, total tasks); or simulate with a max-heap and cooldown queue.
+
+@hand-of-straights 3 3
+Q Explain the greedy grouping approach.
+A Count frequencies in an ordered map; repeatedly take the smallest card and try to form start..start+groupSize-1, decrementing counts; fail if any count is missing; O(n log n).
+
+@design-twitter 3 3
+Q How do you implement getNewsFeed efficiently?
+A Store each user's tweets with a global timestamp and a follow set; merge the latest tweets of the user and followees with a max-heap (k-way merge) taking the top 10.
+
+@minimum-cost-to-connect-sticks 2 3
+Q Why is always combining the two smallest sticks optimal?
+A Like Huffman coding: smaller sticks get added more times, so combining smallest first minimises total cost; min-heap O(n log n).
+
+@maximum-sum-combination 3 3
+Q How do you get the top k sums from two arrays without computing all n^2?
+A Sort both descending; max-heap seeded with (a[0]+b[0], 0, 0); pop and push (i+1, j) and (i, j+1) with a visited set; O(k log k).
+
+@find-median-from-data-stream 4 5
+Q Explain the two-heap approach.
+A Max-heap for the lower half, min-heap for the upper half; keep sizes balanced (differ by ≤ 1) and every lower ≤ every upper; median from the tops; add O(log n), median O(1).
+
+@top-k-frequent-elements 2 5
+Q After counting frequencies, why can buckets indexed by frequency give the top k without sorting?
+A A frequency is always between 1 and n, so n + 1 buckets are enough; put each element into bucket[frequency]; scan the buckets from highest to lowest, collecting elements until you have k
+
+# ===================== STEP 16: Graphs =====================
+@introduction-to-graph 2 4
+Q Compare adjacency matrix and adjacency list representations.
+A Matrix O(V^2) space, O(1) edge check; list O(V+E) space, efficient neighbour iteration; lists are preferred for sparse graphs.
+Q In an undirected graph, why is the sum of all degrees always even?
+A Each edge connects two vertices, so it adds 1 to the degree of both; the total of all degrees is therefore 2E; any multiple of 2 is even
+
+@traversal-techniques connected-components number-of-provinces 2 5
+Q When would you prefer BFS over DFS, and DFS over BFS? Give one example of each.
+A BFS explores level by level, so it suits shortest paths in unweighted graphs or minimum steps; DFS goes deep first, so it suits cycle detection, topological sort, or exploring all paths; both visit each vertex and edge once
+Q How do you count connected components?
+A Loop over all vertices; start a BFS/DFS from each unvisited vertex and increment the count; O(V+E) (or DSU).
+
+@number-of-islands flood-fill-algorithm number-of-enclaves surrounded-regions 3 5
+Q Explain how grid DFS/BFS works here and how you avoid revisiting cells.
+A Treat cells as nodes with 4 neighbours; mark visited (or modify grid); islands: count DFS starts; enclaves/surrounded: first flood from boundary cells, remaining unmarked cells are enclosed; O(n*m).
+Q What is the risk with recursive DFS on large grids?
+A Stack overflow for deep recursion (up to n*m); use iterative BFS/stack.
+
+@rotten-oranges distance-of-nearest-cell-having-one 3 5
+Q Why multi-source BFS, and how is time/distance computed?
+A Push all sources (rotten oranges / 1-cells) at distance 0 together; BFS layers give minimum time/distance from the nearest source; count fresh oranges to detect -1; O(n*m).
+
+@number-of-distinct-islands 3 3
+Q How do you identify island shapes?
+A During DFS record each cell's coordinates relative to the island's starting cell (or a direction path string); put the shape in a set; count distinct shapes.
+
+@detect-a-cycle-in-an-undirected-graph 3 5
+Q How does BFS/DFS detect a cycle in an undirected graph?
+A Track the parent; reaching an already visited vertex that is not the parent means a cycle; check every component; O(V+E). DSU also works.
+
+@bipartite-graph 3 4
+Q How do you check if a graph is bipartite?
+A BFS/DFS colouring with two colours; if an edge connects same-coloured nodes it is not bipartite; equivalent to having no odd cycle.
+
+@detect-a-cycle-in-a-directed-graph 3 5
+Q Why is the undirected parent check wrong for directed graphs, and what works?
+A A visited node reached by a different path isn't necessarily a cycle; use DFS with a path-visited (recursion stack) array, or Kahn's algorithm (cycle if topo order < V).
+
+@topological-sort-or-kahns-algorithm 3 5
+Q Explain Kahn's algorithm.
+A Compute indegrees; queue all zero-indegree nodes; pop, append to order, decrement neighbours' indegrees, enqueue new zeros; only valid for DAGs; O(V+E).
+Q How does DFS-based topological sort work?
+A After finishing all descendants of a node, push it on a stack; reverse of finishing order is a topological order.
+
+@find-eventual-safe-states 3 3
+Q How do you find safe nodes using topological sort?
+A Reverse the edges and run Kahn's from terminal nodes (outdegree 0); every node that gets processed is safe; or DFS colouring where nodes not on/leading to cycles are safe.
+
+@course-schedule-i course-schedule-ii 3 5
+Q How do you decide if all courses can be finished and produce an order?
+A Build graph prerequisite → course; Kahn's topological sort; if processed count == numCourses return the order, else a cycle exists (impossible).
+
+@alient-dictionary 4 4
+Q How do you derive the character order?
+A Compare adjacent words; the first differing chars give an edge a → b; topological sort over letters; invalid if a word is followed by its own prefix or a cycle exists.
+
+@shortest-path-in-dag 3 3
+Q Why can a DAG be solved in O(V+E) even with negative weights?
+A Process vertices in topological order relaxing outgoing edges; every predecessor is finalised before a vertex is processed.
+
+@shortest-path-in-undirected-graph-with-unit-weights 2 4
+Q Why is BFS enough here?
+A With unit weights BFS reaches vertices in nondecreasing distance order; dist[v] = dist[u] + 1 on first visit; O(V+E).
+
+@word-ladder-i 4 5
+Q Explain the BFS and how neighbours are generated.
+A Nodes are words; for each position try 'a'..'z', if the new word is in the dictionary set enqueue it and remove it from the set; level = transformations; O(N * L * 26).
+
+@word-ladder-ii 5 3
+Q How do you return all shortest transformation sequences without TLE?
+A BFS level by level recording each word's level (or parents), removing words only after the level completes; then backtrack (DFS) from end to begin over words with level decreasing by 1.
+
+@dijkstra's-algorithm print-shortest-path- 3 5
+Q Why does Dijkstra pick the unvisited vertex with the smallest distance first, and why can that distance never improve later?
+A With non-negative weights, any other path to it must pass through a vertex whose distance is already at least as large, so it cannot be shorter; therefore the popped distance is final; then relax its outgoing edges and push any improved distances
+Q How do you print the path?
+A Keep parent[v] updated on each relaxation; backtrack from the destination to the source and reverse.
+Q Why does Dijkstra fail with negative weights?
+A Dijkstra treats a vertex as final once it is popped; a negative edge discovered later could give a shorter path to an already finalised vertex; use Bellman-Ford when negative weights exist
+
+@shortest-path-with-minimum-effort path-with-minimum-effort swim-in-rising-water 4 4
+Q How do you adapt Dijkstra when the path cost is the maximum edge along the path?
+A dist[cell] = minimum possible max-difference so far; relax with max(dist[u], |h[u] - h[v]|); min-heap; stop when the destination is popped. Binary search + BFS/DSU are alternatives.
+
+@cheapest-flight-within-k-stops 4 5
+Q Why can't plain Dijkstra on cost be used, and what works?
+A The stops constraint means a costlier path with fewer stops may be needed later; BFS by stops (queue of (stops, node, cost)) relaxing when cost improves, or Bellman-Ford for k+1 iterations using a copy of the previous distances.
+
+@minimum-multiplications-to-reach-end 3 3
+Q How is this a shortest-path problem?
+A Nodes are values 0..99999; edges multiply by each array element mod 100000; BFS from start (unit weights) gives the minimum steps; -1 if unreachable.
+
+@number-of-ways-to-arrive-at-destination 4 4
+Q How do you count shortest paths with Dijkstra?
+A Maintain ways[]: on finding a strictly shorter distance set ways[v] = ways[u]; on an equal distance add ways[u] (mod 1e9+7); use 64-bit distances.
+
+@bellman-ford-algorithm 3 4
+Q Explain Bellman-Ford and how it detects negative cycles.
+A Relax all edges V-1 times (a shortest path has at most V-1 edges); if any edge still relaxes on the Vth iteration a negative cycle exists; O(VE).
+
+@floyd-warshall-algorithm find-the-city-with-the-smallest-number-of-neighbors 3 4
+Q Explain Floyd-Warshall and how to detect a negative cycle.
+A dp over intermediate vertex k: dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]); O(V^3); negative cycle if dist[i][i] < 0. City problem: count reachable cities within the threshold per city and pick the minimum count (largest index on ties).
+
+@network-delay-time 3 4
+Q How do you compute the time for all nodes to receive the signal?
+A Dijkstra from k; answer = max over dist; -1 if any node is unreachable.
+
+@mst-theory find-the-mst-weight 3 5
+Q Compare how Prim's and Kruskal's algorithms build a minimum spanning tree.
+A Prim grows one tree from a start vertex, always adding the cheapest edge to a new vertex (priority queue); Kruskal sorts all edges and adds the cheapest edge that does not form a cycle (disjoint set); both are greedy and rely on the cut property
+Q What is the cut property?
+A Split the vertices into any two groups (a cut); the cheapest edge crossing between the groups belongs to some minimum spanning tree; Prim and Kruskal are correct because each always adds such an edge
+
+@disjoint-set- 3 5
+Q What problem does path compression solve, and why does union by size keep the trees shallow?
+A find walks up parent links, which can be long; path compression points every visited node straight at the root, so later finds are fast; union by size attaches the smaller tree under the larger, so a node gets deeper only when its tree at least doubles, keeping depth logarithmic
+
+@number-of-operations-to-make-network-connected 3 4
+Q Why is the answer the number of components minus 1, and when is it impossible?
+A Connecting c separate components needs c - 1 cables; each redundant cable (one joining computers that are already connected) can be moved; it is impossible if there are fewer redundant cables than c - 1 (equivalently fewer than n - 1 cables in total)
+
+@accounts-merge 4 4
+Q How do you merge accounts with DSU?
+A Map each email to the first account index that has it; union account indices sharing an email; group emails by root, sort, and prepend the name.
+
+@number-of-islands-ii 4 3
+Q How do you answer island counts after each land addition efficiently?
+A DSU over cells; on adding land count++, then union with each land neighbour, decrementing count when the union merges two different sets; skip duplicate additions.
+
+@making-a-large-island 4 4
+Q Explain the DSU approach.
+A Union all 1-cells and record component sizes; for each 0 cell sum the sizes of distinct neighbouring components + 1; the answer is the max (or n*n if all ones).
+
+@most-stones-removed-with-same-row-or-column 4 3
+Q Why is the answer stones - number of components?
+A Stones sharing a row or column are connected; each component can be reduced to one stone; union rows and columns as nodes (column offset by maxRow + 1).
+
+@kosaraju's-algorithm 4 3
+Q Explain Kosaraju's three steps.
+A DFS to order vertices by finishing time (stack); reverse all edges; pop vertices from the stack and DFS on the reversed graph — each DFS tree is one SCC; O(V+E).
+
+@bridges-in-graph articulation-point-in-graph 5 4
+Q Explain discovery time and low-link, and the conditions for a bridge and an articulation point.
+A tin[u] = DFS entry time; low[u] = lowest tin reachable via the subtree plus one back edge (excluding the parent edge). Bridge (u,v): low[v] > tin[u]. Articulation point: low[v] ≥ tin[u] for a non-root u, or root with > 1 DFS children.
+
+# ===================== STEP 17: Dynamic Programming =====================
+@introduction-to-dp 2 5
+Q What two properties make a problem suitable for DP?
+A Overlapping subproblems: the same smaller problems are solved again and again (for example fib(3) many times); optimal substructure: the best answer can be built from the best answers to smaller problems; DP stores each subproblem's answer once
+Q Compare memoisation and tabulation, and how space optimisation works.
+A Memo: top-down recursion with cache, uses stack space; tabulation: bottom-up iteration over states; if dp[i] depends only on a few previous rows/values keep just those (O(1) or O(m) space).
+
+@climbing-stairs 1 5
+Q Write the recurrence and the space-optimised solution.
+A ways(n) = ways(n-1) + ways(n-2), ways(0)=1, ways(1)=1; two variables; O(n), O(1).
+
+@frog-jump frog-jump-with-k-distances 2 4
+Q Write the frog jump recurrence, and explain why greedily taking the cheaper next jump can fail.
+A dp[i] = min(dp[i-1] + |h[i]-h[i-1]|, dp[i-2] + |h[i]-h[i-2]|); greedy only looks one step ahead; a cheap jump now can force an expensive jump later; DP compares every way of reaching each stone
+
+@maximum-sum-of-non-adjacent-elements house-robber 2 5
+Q Write the recurrence and space-optimised solution.
+A dp[i] = max(a[i] + dp[i-2], dp[i-1]); prev2/prev1 variables; O(n), O(1).
+Q How do you handle houses arranged in a circle?
+A Answer = max(solve(a[0..n-2]), solve(a[1..n-1])) since first and last can't both be taken; n == 1 special case.
+
+@ninja's-training 3 3
+Q Define the state and transition.
+A dp[day][last] = max points up to day when the previous day's activity is 'last'; transition tries each task != last; O(n * 4 * 3), space-optimised to O(4).
+
+@grid-unique-paths unique-paths-ii 2 5
+Q Write the recurrence and handle obstacles.
+A dp[i][j] = dp[i-1][j] + dp[i][j-1], dp[0][0] = 1; obstacle cells = 0; 1D array optimisation; combinatorics C(m+n-2, m-1) without obstacles.
+
+@minimum-falling-path-sum triangle 3 4
+Q Write the recurrence and space optimisation.
+A Triangle: dp[i][j] = a[i][j] + min(dp[i+1][j], dp[i+1][j+1]) bottom-up, answer dp[0][0]; falling path: dp[i][j] = a[i][j] + min(up-left, up, up-right); keep one row; O(n*m).
+
+@cherry-pickup-ii 4 3
+Q Why must both robots be tracked in one DP state instead of solving each robot separately?
+A When both robots are on the same cell, its cherries must be counted only once; solving them separately would double count; moving them together row by row with the state (row, col1, col2) handles this
+
+@count-square-submatrices-with-all-one 3 4
+Q Write the recurrence.
+A If cell is 1: dp[i][j] = 1 + min(top, left, top-left); dp[i][j] = largest square ending there and also the number of squares ending there; answer = sum of dp; O(n*m).
+
+@best-time-to-buy-and-sell-stock 1 5
+Q Explain the O(n) solution.
+A Track the minimum price so far; profit = max(profit, price - min); O(n), O(1).
+
+@best-time-to-buy-and-sell-stock-ii 2 4
+Q Why does adding up every positive day-to-day price increase give the maximum profit with unlimited transactions?
+A Any profitable buy and sell over several days equals the sum of the daily changes inside it; collecting every rising day captures all of the gains; falling days are simply skipped by not holding the stock
+
+@best-time-to-buy-and-sell-stock-iii best-time-to-buy-and-sell-stock-iv 4 4
+Q Define the DP state with a transaction limit.
+A dp[i][canBuy][capLeft]: buy → -price + dp[i+1][0][cap], sell → price + dp[i+1][1][cap-1], or skip; O(n * 2 * k); space-optimised with two arrays.
+
+@best-time-to-buy-and-sell-stock-with-cooldown best-time-to-buy-and-sell-stock-with-cooldown-and-transaction-fees 3 4
+Q How do the cooldown and fee change the stock DP?
+A Cooldown: after selling jump to i+2 instead of i+1; fee: subtract the fee when selling; state dp[i][canBuy]; O(n).
+
+@subset-sum-equals-to-target partition-equal-subset-sum 3 5
+Q Write the DP and space-optimised version.
+A dp[i][t] = dp[i-1][t] || dp[i-1][t - a[i]]; 1D boolean array iterated over t descending; O(n * target). Partition: total must be even, target = total/2.
+
+@partition-a-set-into-two-subsets-with-minimum-absolute-sum-difference 4 3
+Q How does subset-sum DP solve this?
+A Compute reachable sums up to total using the subset-sum table's last row; answer = min over reachable s ≤ total/2 of |total - 2s|; doesn't work with negatives.
+
+@count-subsets-with-sum-k count-partitions-with-given-difference target-sum 3 4
+Q How does count partitions with difference d reduce to count subsets with sum k?
+A s1 - s2 = d and s1 + s2 = total ⇒ s2 = (total - d)/2, must be non-negative and integral; count subsets with that sum; target-sum maps the same way. Zeros need care (dp from index 0 counts both choices).
+
+@0-and-1-knapsack 3 5
+Q Write the recurrence and the 1D optimisation, and explain the loop direction.
+A dp[i][w] = max(dp[i-1][w], val[i] + dp[i-1][w - wt[i]]); 1D: iterate w from W down to wt[i] so each item is used once; O(n*W).
+
+@unbounded-knapsack rod-cutting-problem minimum-coins coin-change-ii 3 5
+Q How does allowing unlimited use of an item change the recurrence and loop direction?
+A Take stays on the same item: dp[i][w] uses dp[i][w - wt[i]]; in 1D iterate w ascending. Minimum coins: min count, init infinity (-1 if unreachable); coin change II: count combinations with coins in the outer loop.
+
+@longest-increasing-subsequence 3 5
+Q In the O(n log n) LIS method, what does the tails array mean, and why does it stay sorted?
+A tails[k] is the smallest possible last value of an increasing subsequence of length k + 1; each new element replaces the first tail ≥ it (lower bound) or extends the array; keeping tails as small as possible leaves the most room to extend; its length is the LIS length, but the array itself is not the LIS
+
+@print-longest-increasing-subsequence 3 3
+Q How do you reconstruct the LIS?
+A In the O(n^2) DP keep parent[i] (the j that gave the best); start from the index with the max dp and follow parents, then reverse.
+
+@largest-divisible-subset 3 3
+Q How does this map to LIS?
+A Sort; dp[i] = 1 + max dp[j] where a[i] % a[j] == 0; keep parents to print; O(n^2).
+
+@longest-string-chain 3 3
+Q How does this map to LIS?
+A Sort words by length; dp[i] = 1 + max dp[j] where word j is word i with one character removed (check by two pointers), or hash map of word → best chain trying each deletion.
+
+@longest-bitonic-subsequence 3 3
+Q How do you compute it?
+A LIS ending at i from the left and LDS starting at i (LIS from the right); answer = max(left[i] + right[i] - 1) (both > 1 if strictly bitonic required); O(n^2).
+
+@number-of-longest-increasing-subsequences 4 3
+Q What extra array do you maintain?
+A count[i] = number of LIS ending at i; when dp[j] + 1 > dp[i] set dp and copy count; when equal add count[j]; answer = sum of counts where dp == max.
+
+@longest-common-subsequence 3 5
+Q Explain the two cases of the LCS recurrence, and why you take the max when the characters differ.
+A If a[i] == b[j], both characters can be part of the LCS: 1 + dp[i-1][j-1]; if they differ, at least one of them is not in the LCS, so try dropping each: max(dp[i-1][j], dp[i][j-1]); the base case is an empty string, which gives 0
+
+@longest-common-substring 3 4
+Q How does the recurrence differ from LCS?
+A dp[i][j] = 1 + dp[i-1][j-1] if chars match else 0; answer = max over all cells.
+
+@longest-palindromic-subsequence minimum-insertions-to-make-string-palindrome 3 4
+Q How do these reduce to LCS?
+A LPS = LCS(s, reverse(s)); minimum insertions = n - LPS.
+
+@minimum-insertions-or-deletions-to-convert-string-a-to-b shortest-common-supersequence 3 3
+Q How do these use LCS?
+A Operations = (n - lcs) deletions + (m - lcs) insertions; SCS length = n + m - lcs; build SCS by backtracking the LCS table and adding non-common chars.
+
+@distinct-subsequences 4 3
+Q Write the recurrence.
+A If s[i] == t[j]: dp[i-1][j-1] + dp[i-1][j] else dp[i-1][j]; dp[i][0] = 1; can overflow — use mod or double; O(n*m).
+
+@edit-distance 4 5
+Q Write the recurrence and base cases.
+A Match: dp[i-1][j-1]; else 1 + min(insert dp[i][j-1], delete dp[i-1][j], replace dp[i-1][j-1]); dp[i][0] = i, dp[0][j] = j; O(n*m).
+
+@wildcard-matching 4 4
+Q How do you handle '*' in the recurrence?
+A '?' or equal chars: dp[i-1][j-1]; '*': dp[i-1][j] (matches empty) || dp[i][j-1] (consumes a char); base: empty pattern matches only empty string; pattern prefix of all '*' matches empty.
+
+@word-break 3 5
+Q Explain the DP.
+A dp[i] = true if some j < i has dp[j] true and s[j..i) in the dictionary set; O(n^2 * L) (limit j to max word length).
+
+@count-palindromic-subsequences 5 2
+Q Write the interval DP recurrence.
+A If s[i] == s[j]: dp[i][j] = dp[i+1][j] + dp[i][j-1] + 1; else dp[i+1][j] + dp[i][j-1] - dp[i+1][j-1] (inclusion-exclusion); mod arithmetic carefully (add mod before subtracting).
+
+@matrix-chain-multiplication 4 4
+Q Define the state and transition.
+A dp[i][j] = min cost to multiply matrices i..j = min over k of dp[i][k] + dp[k+1][j] + p[i-1]*p[k]*p[j]; O(n^3).
+
+@burst-balloons 5 4
+Q Why do you choose the LAST balloon to burst in the interval?
+A Choosing the last keeps its neighbours fixed (the interval boundaries), making subproblems independent: dp[i][j] = max over k of a[i-1]*a[k]*a[j+1] + dp[i][k-1] + dp[k+1][j]; O(n^3).
+
+@palindrome-partitioning-ii- 4 3
+Q How do you compute minimum cuts efficiently?
+A Front partition DP: dp[i] = min over j ≥ i with s[i..j] palindrome of 1 + dp[j+1]; precompute palindrome table; answer dp[0] - 1; O(n^2).
+
+@partition-array-for-maximum-sum 3 3
+Q Write the DP.
+A dp[i] = max over len 1..k of (max of a[i..i+len-1]) * len + dp[i+len]; O(n*k).
+
+@minimum-cost-to-cut-the-stick 4 3
+Q Why sort cuts and add 0 and n, and what is the recurrence?
+A Makes subproblems contiguous intervals of cuts; dp[i][j] = min over k in i..j of (cuts[j+1] - cuts[i-1]) + dp[i][k-1] + dp[k+1][j]; O(c^3).
+
+@different-ways-to-evaluate-a-boolean-expression 5 2
+Q What does each DP state store?
+A dp[i][j][isTrue] = ways for subexpression i..j to evaluate to true/false; split at each operator combining left/right true/false counts per AND/OR/XOR; O(n^3).
+
+# ===================== STEP 18: Tries =====================
+@bit-prerequisites-for-trie-problems 2 3
+Q Why do we insert numbers into a bit trie from the most significant bit?
+A To maximise XOR, a 1 in a higher bit is worth more than all lower bits combined; so decide from the highest bit down, choosing the opposite bit whenever possible; inserting numbers from the most significant bit makes this greedy walk possible
+
+@trie-implementation-and-operations trie-implementation-and-advanced-operations 3 4
+Q Describe a trie node and the cost of insert/search/startsWith.
+A Children array/map (26) + end flag (and counters for prefix/word counts); each operation is O(L) for word length L.
+Q How do you support countWordsEqualTo, countWordsStartingWith and erase?
+A Store countEnd and countPrefix in each node; increment along the path on insert, decrement on erase.
+
+@longest-word-with-all-prefixes 3 3
+Q Explain the trie approach.
+A Insert all words; for each word check every prefix node has the end flag; choose the longest (lexicographically smallest on ties).
+
+@number-of-distinct-substrings-in-a-string 4 3
+Q How does a trie count distinct substrings?
+A Insert every suffix; each newly created node is a new distinct substring; count nodes (+1 for empty if needed); O(n^2).
+
+@maximum-xor-of-two-numbers-in-an-array maximum-xor-with-an-element-from-an-array 4 4
+Q Explain how the bit trie finds the maximum XOR.
+A Insert numbers bit by bit from bit 31; for each number walk the trie preferring the opposite bit at every level; O(32n).
+Q How are queries with an upper limit (x, m) handled?
+A Offline: sort array and queries by m; insert numbers ≤ m before answering each query; -1 if nothing is inserted.
+
+# ===================== STEP 19: Strings (Advanced) =====================
+@reverse-every-word-in-a-string 2 4
+Q How do you reverse word order while handling extra spaces?
+A Split on whitespace ignoring empties and join in reverse; or reverse the whole string then each word in place and compact spaces; O(n).
+
+@minimum-number-of-bracket-reversals-to-make-an-expression-balanced 3 2
+Q After removing the already balanced pairs, why is the answer ceil(open/2) + ceil(close/2)?
+A What remains looks like }}}...{{{ (closing brackets, then opening ones); reversing one bracket fixes two of the same kind (}} becomes {}), so each pair costs 1; an odd leftover on each side costs one extra reversal; an odd total length is impossible (-1)
+
+@count-and-say 2 2
+Q Describe how you build the next term.
+A Run-length encode the previous term: count consecutive equal digits and write count then digit; iterate n-1 times.
+
+@hashing-in-strings-theory rabin-karp-algorithm 4 3
+Q Explain the rolling hash used in Rabin-Karp.
+A Hash = sum of c * base^k mod p; slide by removing the outgoing char's contribution and adding the new one in O(1); compare hashes and verify on match (collisions); O(n+m) average; double hashing reduces collisions.
+
+@z-function 4 3
+Q What does the Z-array store and how is it used for pattern search?
+A z[i] = length of the longest substring starting at i that matches a prefix; build for pattern + '$' + text; matches where z[i] == |pattern|; O(n) using the [l, r] window.
+
+@kmp-algorithm-or-lps-array 4 4
+Q What is the LPS array and how does KMP use it?
+A lps[i] = length of the longest proper prefix that is also a suffix of pat[0..i]; on mismatch jump j = lps[j-1] instead of restarting; O(n+m).
+
+@shortest-palindrome 5 2
+Q How does LPS/KMP give the shortest palindrome by adding characters in front?
+A Compute LPS of s + '#' + reverse(s); the last value is the longest palindromic prefix length L; prepend reverse(s[L..]).
+
+@longest-happy-prefix 4 2
+Q What is the answer in terms of the LPS array?
+A The LPS value at the last index is the length of the longest proper prefix that is also a suffix; the answer is s[0 .. lps[n-1]); if that value is 0 the answer is an empty string
+
+# ===================== STEP 20: Maths =====================
+@prime-factorisation-of-a-number 2 3
+Q How do you factorise one number, and many numbers efficiently?
+A Trial division up to √n dividing out each factor, leftover > 1 is prime: O(√n); for many queries precompute the smallest prime factor (SPF) sieve and divide repeatedly: O(log n) per query.
+
+@count-primes-in-range-l-to-r 3 3
+Q How do you answer many range-prime-count queries?
+A Sieve up to max R, build prefix counts of primes; answer = prefix[R] - prefix[L-1]; O(N log log N + Q). Segmented sieve for large ranges.
