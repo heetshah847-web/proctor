@@ -428,7 +428,7 @@ app.post('/api/plans/:id/quiz/start', student, aiLimit, async (req, res) => {
     token, req.ip, String(req.get('user-agent') || '').slice(0, 300),
   );
   const attemptId = Number(r.lastInsertRowid);
-  logEvent(attemptId, 'preflight', `camera=${Boolean(pre.camera)} faces=${pre.faces ?? '?'} faceDetection=${pre.faceDetection ?? '?'} objectDetection=${pre.objectDetection ?? '?'} screens=${pre.extendedDisplay === false ? 'single' : 'unknown'} ${String(pre.browser || '').slice(0, 80)}`);
+  logEvent(attemptId, 'preflight', `camera=${Boolean(pre.camera)} faces=${pre.faces ?? '?'} faceDetection=${pre.faceDetection ?? '?'} objectDetection=${pre.objectDetection ?? '?'} gazeDetection=${pre.gazeDetection ?? '?'} gazeCenter=${Number.isFinite(pre.gazeCenter) ? `${Math.round(pre.gazeCenter)}°` : '?'} screens=${pre.extendedDisplay === false ? 'single' : 'unknown'} ${String(pre.browser || '').slice(0, 80)}`);
   res.json({
     attemptId,
     token,
