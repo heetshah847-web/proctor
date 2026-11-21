@@ -334,6 +334,8 @@ const HARD = new Set([
 const SOFT = new Set([
   'no_face', 'camera_blocked', 'paste_blocked', 'copy_blocked', 'cut_blocked', 'drop_blocked', 'contextmenu_blocked', 'blocked_key',
   'mouse_left_window', 'bulk_insert', 'superhuman_typing', 'page_modified',
+  // Object detection on the webcam (browser-side, EfficientDet-Lite0).
+  'phone_detected', 'book_detected', 'device_detected', 'extra_person',
 ]);
 
 function ownAttempt(req, id) {
@@ -385,6 +387,7 @@ app.post('/api/plans/:id/quiz/start', student, aiLimit, async (req, res) => {
   const pre = req.body?.preflight || {};
   if (config.quiz.requireCamera && !pre.camera) fail(400, 'Your webcam must be on to start the quiz');
   if (pre.extendedDisplay) fail(400, 'Disconnect extra monitors before starting the quiz');
+  if (config.quiz.objectDetection && pre.phoneVisible) fail(400, 'Put your phone away (out of camera view) before starting the quiz');
   // Any attempt left open (refresh, crash, closed tab) is forfeited.
   for (const a of all("SELECT id FROM quiz_attempts WHERE plan_id = ? AND status = 'in_progress'", p.id)) endAttempt(a.id, 'terminated', 'abandoned');
   const detail = planDetail(p);
@@ -406,7 +409,7 @@ app.post('/api/plans/:id/quiz/start', student, aiLimit, async (req, res) => {
     token, req.ip, String(req.get('user-agent') || '').slice(0, 300),
   );
   const attemptId = Number(r.lastInsertRowid);
-  logEvent(attemptId, 'preflight', `camera=${Boolean(pre.camera)} faces=${pre.faces ?? '?'} faceDetection=${pre.faceDetection ?? '?'} screens=${pre.extendedDisplay === false ? 'single' : 'unknown'} ${String(pre.browser || '').slice(0, 80)}`);
+  logEvent(attemptId, 'preflight', `camera=${Boolean(pre.camera)} faces=${pre.faces ?? '?'} faceDetection=${pre.faceDetection ?? '?'} objectDetection=${pre.objectDetection ?? '?'} screens=${pre.extendedDisplay === false ? 'single' : 'unknown'} ${String(pre.browser || '').slice(0, 80)}`);
   res.json({
     attemptId,
     token,
@@ -431,7 +434,7 @@ app.post('/api/attempts/:id/event', student, (req, res) => {
   const logged = one('SELECT COUNT(*) AS n FROM proctor_events WHERE attempt_id = ?', a.id).n;
   if (recentlyEnded(a) && logged < MAX_EVENTS) logEvent(a.id, type, req.body?.detail || '');
   if (a.status === 'in_progress') {
-    if (HARD.has(type)) endAttempt(a.id, 'terminated', type);
+    if (HARD.has(type) || (type === 'phone_detected' && config.quiz.phoneEndsAttempt)) endAttempt(a.id, 'terminated', type);
     else if (SOFT.has(type)) {
       run('UPDATE quiz_attempts SET strikes = strikes + 1 WHERE id = ?', a.id);
       if (attemptStatus(a.id).strikes >= config.quiz.maxStrikes) endAttempt(a.id, 'terminated', 'too_many_warnings');

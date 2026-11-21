@@ -40,6 +40,9 @@ export const config = {
     heartbeatTimeoutMs: num('QUIZ_HEARTBEAT_TIMEOUT_MS', 12000),
     // Strict proctoring
     requireCamera: process.env.QUIZ_REQUIRE_CAMERA !== 'false',
+    // Webcam object detection (phone, book, second device, second person). PHONE_ENDS_ATTEMPT=true makes a phone end the attempt.
+    objectDetection: process.env.OBJECT_DETECTION !== 'false',
+    phoneEndsAttempt: process.env.PHONE_ENDS_ATTEMPT === 'true',
     maxStrikes: num('QUIZ_MAX_STRIKES', 3),          // warnings (no face, blocked keys, ...) before the attempt ends
     snapshotEveryMs: num('QUIZ_SNAPSHOT_EVERY_MS', 20000),
     // Webcam snapshots are deleted after this many days (0 = keep forever).
