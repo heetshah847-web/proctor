@@ -1,5 +1,5 @@
 // DSA Proctor — single-page frontend (no build step).
-import { loadFaceDetector, openCamera, countFaces, snapshot, brightness, extendedDisplay, browserName } from './proctor.js';
+import { loadFaceDetector, loadObjectDetector, openCamera, countFaces, detectObjects, snapshot, brightness, extendedDisplay, browserName } from './proctor.js';
 const $app = document.getElementById('app');
 const $nav = document.getElementById('nav');
 const $who = document.getElementById('who');
@@ -259,7 +259,7 @@ function bindToday() {
 }
 
 // ---------------- Proctored quiz ----------------
-const Q = { attempt: null, answers: [], timers: [], listeners: [], ended: false, blurTimer: null, stream: null, video: null, detector: null, lastSoft: {}, observer: null };
+const Q = { attempt: null, answers: [], timers: [], listeners: [], ended: false, blurTimer: null, stream: null, video: null, detector: null, objDetector: null, lastSoft: {}, observer: null };
 
 const HARD_REASONS = {
   visibility_hidden: 'you switched tab or minimised the window',
@@ -270,6 +270,7 @@ const HARD_REASONS = {
   timeout: 'time ran out',
   second_session: 'the quiz was opened in another tab or device',
   multiple_faces: 'more than one person was seen on camera',
+  phone_detected: 'a phone was seen on camera',
   camera_off: 'your webcam was turned off',
   camera_missing: 'webcam images stopped reaching the server',
   window_resized: 'the window was resized or developer tools were opened',
@@ -287,6 +288,10 @@ const SOFT_REASONS = {
   bulk_insert: 'a large block of text appeared at once',
   superhuman_typing: 'typing speed was unrealistically fast',
   page_modified: 'something (likely a browser extension) changed the quiz page',
+  phone_detected: 'a phone is visible on camera — put it away',
+  book_detected: 'a book or notes are visible on camera',
+  device_detected: 'another laptop or screen is visible on camera',
+  extra_person: 'another person is visible on camera',
 };
 
 function stopCamera() {
@@ -297,6 +302,8 @@ function stopCamera() {
 // ---- Pre-flight: camera, face, monitors, full screen ----
 function openQuizIntro(plan) {
   const needCam = S.settings.quiz.requireCamera;
+  const objects = needCam && S.settings.quiz.objectDetection;
+  const phoneEnds = objects && S.settings.quiz.phoneEndsAttempt;
   $quiz.hidden = false;
   $quiz.innerHTML = `<div class="inner"><div class="card">
     <h1>Proctored AI check</h1>
@@ -307,8 +314,9 @@ function openQuizIntro(plan) {
         <ul class="rules small">
           <li><b>Ends the attempt immediately (0%):</b> leaving full screen (Esc), switching tab or window, alt-tab, minimising, refreshing,
             resizing the window or opening developer tools, connecting a second monitor, opening the quiz in another tab/device,
-            pasting or dropping text into an answer${needCam ? ', turning the camera off, or a second person on camera' : ''}.</li>
+            pasting or dropping text into an answer${needCam ? ', turning the camera off, or a second person on camera' : ''}${phoneEnds ? ', a phone seen on camera' : ''}.</li>
           <li><b>Warnings</b> (${S.settings.quiz.maxStrikes} warnings end the attempt): ${needCam ? 'face not visible for 5 s, camera covered, ' : ''}
+            ${objects ? `${phoneEnds ? '' : 'a phone, '}a book or notes, another laptop or screen, or another person visible on camera, ` : ''}
             blocked shortcuts (copy, paste, print, dev tools), right-click, mouse leaving the window, browser extensions changing the page,
             text appearing faster than a person can type.</li>
           ${needCam ? `<li>Your webcam stays on. A photo is saved every ${Math.round(S.settings.quiz.snapshotEveryMs / 1000)} s and at every warning; your supervisor sees them.</li>` : ''}
@@ -327,7 +335,7 @@ function openQuizIntro(plan) {
     <p class="small muted" id="qmsg"></p>
   </div></div>`;
 
-  const st = { fullscreen: Boolean(document.documentElement.requestFullscreen), extended: extendedDisplay(), camera: !needCam, faceModel: null, faces: null };
+  const st = { fullscreen: Boolean(document.documentElement.requestFullscreen), extended: extendedDisplay(), camera: !needCam, faceModel: null, faces: null, objModel: objects ? null : false, seen: [] };
   const drawChecks = () => {
     const row = (ok, text) => `<li class="${ok === true ? 'ok' : ok === false ? 'bad' : 'warn'}"><span class="kpi">${ok === true ? '✓' : ok === false ? '✗' : '!'}</span>${text}</li>`;
     document.getElementById('checks').innerHTML = [
@@ -336,8 +344,14 @@ function openQuizIntro(plan) {
       needCam ? row(st.camera === true ? true : st.camera === false ? false : null, st.camera === true ? 'Webcam on' : st.camera === false ? `Webcam unavailable: ${esc(st.cameraError || '')}` : 'Starting webcam…') : '',
       needCam ? row(st.faceModel === false ? null : st.faces === 1, st.faceModel === false ? 'Face detection unavailable in this browser (photos only)'
         : st.faceModel == null ? 'Loading face detection…' : st.faces === 1 ? 'One face visible' : st.faces === 0 ? 'No face visible — sit in front of the camera' : `${st.faces} faces visible — only you may be on camera`) : '',
+      objects ? row(st.objModel === false ? null : st.objModel == null ? null : !st.seen.length,
+        st.objModel === false ? 'Object detection unavailable in this browser (photos only)'
+        : st.objModel == null ? 'Loading object detection…'
+        : !st.seen.length ? 'No phone, book or other device visible'
+        : `Remove from camera view: ${esc([...new Set(st.seen.map((o) => o.label))].join(', '))}`) : '',
     ].join('');
-    const ready = st.fullscreen && st.extended !== true && st.camera === true && (!needCam || st.faceModel === false || st.faces === 1);
+    // Phones, books, devices and other people must be out of view before starting (cups/bottles are fine).
+    const ready = st.fullscreen && st.extended !== true && st.camera === true && (!needCam || st.faceModel === false || st.faces === 1) && !st.seen.length;
     document.getElementById('qgo').disabled = !(ready && document.getElementById('qagree').checked);
   };
   drawChecks();
@@ -351,11 +365,16 @@ function openQuizIntro(plan) {
       .catch((e) => { st.camera = false; st.cameraError = e.name === 'NotAllowedError' ? 'permission denied — allow camera access in the address bar' : e.message; drawChecks(); });
     loadFaceDetector().then((d) => { Q.detector = d; st.faceModel = true; drawChecks(); })
       .catch((e) => { console.warn('Face detection unavailable', e); Q.detector = null; st.faceModel = false; drawChecks(); });
+    if (objects) {
+      loadObjectDetector().then((d) => { Q.objDetector = d; st.objModel = true; drawChecks(); })
+        .catch((e) => { console.warn('Object detection unavailable', e); Q.objDetector = null; st.objModel = false; drawChecks(); });
+    }
     clearInterval(Q.pfTimer);
     Q.pfTimer = setInterval(() => {
       if (!document.getElementById('checks')) return clearInterval(Q.pfTimer);
       st.extended = extendedDisplay();
       if (Q.detector && Q.video) st.faces = countFaces(Q.detector, Q.video);
+      if (Q.objDetector && Q.video) st.seen = (detectObjects(Q.objDetector, Q.video) || []).filter((o) => o.event !== 'object_seen');
       drawChecks();
     }, 600);
   }
@@ -370,6 +389,7 @@ function openQuizIntro(plan) {
       document.getElementById('qmsg').textContent = 'Preparing your questions…';
       const r = await api(`/api/plans/${plan.id}/quiz/start`, { method: 'POST', body: { preflight: {
         camera: st.camera === true && needCam, faces: st.faces, faceDetection: st.faceModel === true,
+        objectDetection: st.objModel === true, phoneVisible: st.seen.some((o) => o.event === 'phone_detected'),
         extendedDisplay: st.extended, browser: `${browserName()} ${navigator.userAgent.slice(0, 60)}`,
       } } });
       startQuiz(r);
