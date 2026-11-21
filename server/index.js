@@ -397,7 +397,10 @@ app.post('/api/plans/:id/quiz/start', student, aiLimit, async (req, res) => {
   const previous = all('SELECT questions_json FROM quiz_attempts WHERE plan_id = ?', p.id).flatMap((r) => JSON.parse(r.questions_json));
   let quiz;
   try { quiz = await generateQuiz(items, previous); }
-  catch (e) { console.error('Quiz generation failed:', e); fail(502, `Could not generate questions: ${aiErrorMessage(e)}`); }
+  catch (e) {
+    console.error('Quiz generation failed:', e);
+    fail(502, `Could not generate questions: ${/No questions available/.test(e?.message) ? "there are no questions for today's items" : aiErrorMessage(e)}`);
+  }
 
   if (!p.ratings_json) run('UPDATE plans SET ratings_json = ? WHERE id = ?', JSON.stringify(quiz.ratings), p.id);
   const t = now();
