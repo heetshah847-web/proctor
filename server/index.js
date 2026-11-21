@@ -350,6 +350,8 @@ const SOFT = new Set([
   'mouse_left_window', 'bulk_insert', 'superhuman_typing', 'page_modified',
   // Object detection on the webcam (browser-side, EfficientDet-Lite0).
   'phone_detected', 'book_detected', 'device_detected', 'extra_person',
+  // Gaze tracking (browser-side, Face Landmarker): kept looking to the left or right, e.g. at a screen out of view.
+  'looking_away',
 ]);
 
 function ownAttempt(req, id) {
