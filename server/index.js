@@ -5,7 +5,7 @@ import { config, ROOT } from './config.js';
 import { db, one, all, run } from './db.js';
 import { hashPassword, verifyPassword, newInviteCode, createSession, destroySession, loadUser, requireRole, publicUser, purgeExpiredSessions } from './auth.js';
 import { sheet, sheetItems, leetcodeRecentAccepted, leetcodeUserExists, leetcodeQuestion, tufCompletedItems } from './sources.js';
-import { generateQuiz, gradeAnswers } from './ai.js';
+import { generateQuiz, gradeAnswers, warmCodeQuestion } from './ai.js';
 import { computeAward, streakIncluding, currentStreak } from './points.js';
 import { RUBRIC_TEXT } from './rubric.js';
 import { encrypt, decrypt } from './vault.js';
@@ -126,7 +126,7 @@ function planDetail(plan, { forSupervisor = false } = {}) {
     const grading = a.grading_json ? JSON.parse(a.grading_json) : null;
     const base = {
       id: a.id, attemptNo: a.attempt_no, status: a.status, scorePct: a.score_pct, endReason: a.end_reason,
-      startedAt: a.started_at, finishedAt: a.finished_at,
+      startedAt: a.started_at, finishedAt: a.finished_at, gradedBy: grading?.gradedBy ?? null,
       questions: qs.map((q, i) => ({
         question: q.question,
         itemTitle: items.find((it) => String(it.id) === String(q.item_id))?.title ?? q.item_title,
@@ -207,8 +207,18 @@ app.post('/api/plans', student, (req, res) => {
     run('INSERT INTO plans (student_id, day, day_start, created_at) VALUES (?,?,?,?)', req.user.id, day, dayStart, now());
     p = one('SELECT * FROM plans WHERE student_id = ? AND day = ?', req.user.id, day);
   }
+  warmPlan(p.id);
   res.json({ plan: planDetail(p) });
 });
+
+/** Writes the plan's code questions in the background (no-op when ready or already being written). */
+function warmPlan(planId) {
+  const asked = all('SELECT questions_json FROM quiz_attempts WHERE plan_id = ?', planId)
+    .flatMap((r) => JSON.parse(r.questions_json)).filter((q) => q.code);
+  for (const it of all('SELECT * FROM plan_items WHERE plan_id = ? AND code IS NOT NULL', planId)) {
+    warmCodeQuestion(it, asked.filter((q) => String(q.item_id) === String(it.id)).map((q) => q.question));
+  }
+}
 
 app.post('/api/plans/:id/items', student, externalLimit, async (req, res) => {
   const p = ownPlan(req, req.params.id);
@@ -303,6 +313,7 @@ app.put('/api/plans/:id/items/:itemId/code', student, (req, res) => {
   if (code.length > 10000 || code.split('\n').length > 250) fail(400, 'Code is too long (max 250 lines)');
   const lang = ['cpp', 'java', 'python', 'javascript', 'other'].includes(req.body?.lang) ? req.body.lang : 'other';
   run('UPDATE plan_items SET code = ?, code_lang = ? WHERE id = ?', code || null, code ? lang : null, it.id);
+  warmPlan(p.id);
   res.json({ plan: planDetail(one('SELECT * FROM plans WHERE id = ?', p.id)) });
 });
 
@@ -475,7 +486,7 @@ async function gradeAndAward(attemptId) {
   const a = one('SELECT * FROM quiz_attempts WHERE id = ?', attemptId);
   const p = one('SELECT * FROM plans WHERE id = ?', a.plan_id);
   const grading = await gradeAnswers(JSON.parse(a.questions_json), JSON.parse(a.answers_json));
-  run("UPDATE quiz_attempts SET status='graded', grading_json=?, score_pct=?, finished_at=? WHERE id=?", JSON.stringify(grading), grading.pct, now(), a.id);
+  run("UPDATE quiz_attempts SET status='graded', grading_json=?, score_pct=?, finished_at=COALESCE(finished_at, ?) WHERE id=?", JSON.stringify(grading), grading.pct, now(), a.id);
   const best = Math.max(p.best_pct ?? 0, grading.pct);
   const items = all('SELECT * FROM plan_items WHERE plan_id = ?', p.id);
   const streak = streakIncluding(p.student_id, p.day);
@@ -484,34 +495,83 @@ async function gradeAndAward(attemptId) {
   return { grading, award };
 }
 
-app.post('/api/attempts/:id/submit', student, async (req, res) => {
+// ---- Background grading ----
+// Submitting only saves the answers; grading runs here, off the request, so the student never waits on the AI.
+// A failed grading is retried with growing pauses (the AI chain already retries and falls back inside each try).
+// Attempts still 'submitted' when the server starts are picked up again, so no submission is ever lost.
+const GRADE_RETRY_MS = [30_000, 2 * 60_000, 5 * 60_000, 15 * 60_000, 30 * 60_000];
+const gradeJobs = new Map(); // attemptId -> { running, tries, lastError, nextAt, timer }
+
+function queueGrading(attemptId, delayMs = 0) {
+  const job = gradeJobs.get(attemptId) || { running: false, tries: 0, lastError: null, nextAt: 0, timer: null };
+  gradeJobs.set(attemptId, job);
+  if (job.running) return job;
+  clearTimeout(job.timer);
+  job.nextAt = Date.now() + delayMs;
+  job.timer = setTimeout(() => runGrading(attemptId), delayMs);
+  return job;
+}
+
+async function runGrading(attemptId) {
+  const job = gradeJobs.get(attemptId);
+  const a = one('SELECT status FROM quiz_attempts WHERE id = ?', attemptId);
+  if (!job || a?.status !== 'submitted') return gradeJobs.delete(attemptId);
+  job.running = true; job.tries++;
+  try {
+    const { grading } = await gradeAndAward(attemptId);
+    console.log(`Attempt ${attemptId} graded ${grading.pct}% by ${grading.gradedBy || 'n/a'} (try ${job.tries})`);
+    gradeJobs.delete(attemptId);
+  } catch (e) {
+    job.running = false;
+    job.lastError = aiErrorMessage(e);
+    const wait = GRADE_RETRY_MS[Math.min(job.tries - 1, GRADE_RETRY_MS.length - 1)];
+    console.error(`Grading attempt ${attemptId} failed (try ${job.tries}), retrying in ${wait / 1000} s:`, e.message);
+    queueGrading(attemptId, wait);
+  }
+}
+
+/** Result of a submitted attempt: graded, or still grading (with the last problem and next retry, if any). */
+function attemptResult(attemptId) {
+  const a = one('SELECT * FROM quiz_attempts WHERE id = ?', attemptId);
+  const plan = planDetail(one('SELECT * FROM plans WHERE id = ?', a.plan_id));
+  if (a.status === 'graded') {
+    const g = JSON.parse(a.grading_json);
+    return { status: 'graded', grading: { pct: g.pct, results: g.results, gradedBy: g.gradedBy || null }, award: plan.award, plan };
+  }
+  if (a.status !== 'submitted') return { status: a.status, endReason: a.end_reason, plan };
+  const job = gradeJobs.get(a.id);
+  return {
+    status: 'grading', plan,
+    tries: job?.tries ?? 0, running: Boolean(job?.running), lastError: job?.lastError ?? null,
+    retryInSec: job && !job.running ? Math.max(0, Math.round((job.nextAt - Date.now()) / 1000)) : null,
+  };
+}
+
+app.post('/api/attempts/:id/submit', student, (req, res) => {
   const a = attemptFromTab(req);
   if (!checkAlive(a)) fail(409, `This attempt has ended (${one('SELECT end_reason FROM quiz_attempts WHERE id=?', a.id).end_reason})`);
   const answers = Array.isArray(req.body?.answers) ? req.body.answers.slice(0, 50).map((x) => String(x ?? '').slice(0, 4000)) : fail(400, 'answers[] required');
-  run("UPDATE quiz_attempts SET status='submitted', answers_json=? WHERE id=?", JSON.stringify(answers), a.id);
-  try {
-    const { grading, award } = await gradeAndAward(a.id);
-    res.json({ grading: { pct: grading.pct, results: grading.results }, award, plan: planDetail(one('SELECT * FROM plans WHERE id = ?', a.plan_id)) });
-  } catch (e) {
-    console.error('Grading failed:', e);
-    fail(502, `Your answers are saved but grading failed: ${aiErrorMessage(e)}. Use "Retry grading".`);
-  }
+  run("UPDATE quiz_attempts SET status='submitted', answers_json=?, finished_at=? WHERE id=?", JSON.stringify(answers), now(), a.id);
+  queueGrading(a.id);
+  res.json(attemptResult(a.id));
 });
 
-const regrading = new Set(); // attempt ids being regraded right now (stops parallel paid AI calls)
-app.post('/api/attempts/:id/regrade', student, aiLimit, async (req, res) => {
+app.get('/api/attempts/:id/result', student, (req, res) => {
+  const a = ownAttempt(req, req.params.id);
+  // Not queued (e.g. the server restarted in between): queue it now.
+  if (a.status === 'submitted' && !gradeJobs.has(a.id)) queueGrading(a.id);
+  res.json(attemptResult(a.id));
+});
+
+// "Retry now": skips the wait before the next automatic retry.
+app.post('/api/attempts/:id/regrade', student, aiLimit, (req, res) => {
   const a = ownAttempt(req, req.params.id);
   if (a.status !== 'submitted') fail(409, 'Nothing to regrade');
-  if (regrading.has(a.id)) fail(409, 'Grading is already in progress');
-  regrading.add(a.id);
-  try {
-    const { grading, award } = await gradeAndAward(a.id);
-    res.json({ grading: { pct: grading.pct, results: grading.results }, award, plan: planDetail(one('SELECT * FROM plans WHERE id = ?', a.plan_id)) });
-  } catch (e) {
-    console.error('Regrading failed:', e);
-    fail(502, `Your answers are saved but grading failed: ${aiErrorMessage(e)}. Use "Retry grading".`);
-  } finally { regrading.delete(a.id); }
+  queueGrading(a.id);
+  res.json(attemptResult(a.id));
 });
+
+for (const { id } of all("SELECT id FROM quiz_attempts WHERE status = 'submitted'")) queueGrading(id, 3000);
 
 // ======================= Supervisor =======================
 app.get('/api/supervisor/students', supervisor, (req, res) => {
