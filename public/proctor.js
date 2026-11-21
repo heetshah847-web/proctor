@@ -13,12 +13,21 @@ function loadVision() {
   return visionPromise;
 }
 
+/** Creates a MediaPipe task on the GPU (several times faster per frame), falling back to the CPU. */
+async function createTask(Task, fileset, modelAssetPath, options) {
+  try {
+    return await Task.createFromOptions(fileset, { baseOptions: { modelAssetPath, delegate: 'GPU' }, ...options });
+  } catch (e) {
+    console.warn('GPU delegate unavailable, using CPU', e);
+    return Task.createFromOptions(fileset, { baseOptions: { modelAssetPath, delegate: 'CPU' }, ...options });
+  }
+}
+
 /** Loads the BlazeFace detector once. Rejects if WebAssembly/WebGL isn't available. */
 export function loadFaceDetector() {
   detectorPromise ??= (async () => {
     const { vision: { FaceDetector }, fileset } = await loadVision();
-    return FaceDetector.createFromOptions(fileset, {
-      baseOptions: { modelAssetPath: '/models/blaze_face_short_range.tflite' },
+    return createTask(FaceDetector, fileset, '/models/blaze_face_short_range.tflite', {
       runningMode: 'VIDEO',
       minDetectionConfidence: 0.6,
     });
@@ -63,8 +72,7 @@ let objectDetectorPromise = null;
 export function loadObjectDetector() {
   objectDetectorPromise ??= (async () => {
     const { vision: { ObjectDetector }, fileset } = await loadVision();
-    return ObjectDetector.createFromOptions(fileset, {
-      baseOptions: { modelAssetPath: '/models/efficientdet_lite0.tflite' },
+    return createTask(ObjectDetector, fileset, '/models/efficientdet_lite0.tflite', {
       runningMode: 'VIDEO',
       scoreThreshold: 0.45,
       maxResults: 10,
