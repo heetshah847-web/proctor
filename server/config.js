@@ -53,6 +53,6 @@ export const config = {
     // 'practice' = practice problems need the student's code before the quiz unlocks; 'none' = code is optional.
     requireCode: process.env.REQUIRE_CODE === 'none' ? 'none' : 'practice',
   },
-  // Plans must be approved by the supervisor before the quiz unlocks.
-  requireSupervisorApproval: process.env.REQUIRE_SUPERVISOR_APPROVAL !== 'false',
+  // Plans must be approved by the supervisor before the quiz unlocks. Off unless REQUIRE_SUPERVISOR_APPROVAL=true (testing phase).
+  requireSupervisorApproval: process.env.REQUIRE_SUPERVISOR_APPROVAL === 'true',
 };
