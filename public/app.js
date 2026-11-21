@@ -565,6 +565,31 @@ function startQuiz(r) {
       multi = faces >= 2 ? multi + 1 : 0;
       if (multi >= 2) violation('multiple_faces', `${faces} faces`);
     }, 1000));
+    // ---- object detection: phone, book, other device, extra person ----
+    // An object must be seen in 3 of the last 5 checks (one per second) before it counts, so a single
+    // misdetection never costs a warning. After a warning the same kind waits 10 s before it can warn again.
+    if (Q.objDetector) {
+      const history = {}, lastWarned = {}, logged = new Set();
+      setTimeout(() => !Q.ended && Q.timers.push(setInterval(() => {
+        if (Q.ended) return;
+        const found = detectObjects(Q.objDetector, Q.video);
+        if (!found) return;
+        for (const o of found.filter((x) => x.event === 'object_seen')) {
+          if (!logged.has(o.label)) { logged.add(o.label); qapi('event', { type: 'object_seen', detail: `${o.label} ${o.score}` }).catch(() => {}); }
+        }
+        const now = Date.now();
+        for (const ev of ['phone_detected', 'book_detected', 'device_detected', 'extra_person']) {
+          const hits = found.filter((x) => x.event === ev);
+          const h = (history[ev] = [...(history[ev] || []), hits.length > 0].slice(-5));
+          if (h.filter(Boolean).length < 3 || now - (lastWarned[ev] || 0) < 10_000) continue;
+          lastWarned[ev] = now; history[ev] = [];
+          const detail = hits.length ? hits.map((x) => `${x.label} ${x.score}`).join(', ') : 'seen in 3 of the last 5 checks';
+          if (ev === 'phone_detected' && S.settings.quiz.phoneEndsAttempt) return violation(ev, detail);
+          warn(ev, detail);
+        }
+      }, 1000)), 500); // offset from the face check so both don't run in the same frame
+    }
+
     sendSnapshot('start');
     Q.timers.push(setInterval(() => sendSnapshot('periodic'), r.proctor.snapshotEveryMs));
   }
