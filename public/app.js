@@ -351,7 +351,7 @@ function openQuizIntro(plan) {
       <div>
         <h3>System check</h3>
         <ul class="checks small" id="checks"></ul>
-        ${needCam ? '<div id="pfcam" class="pfcam"></div>' : ''}
+        ${needCam ? '<div id="pfcam" class="pfcam"></div><p class="small muted" id="pfread" title="What the camera checks see right now"></p>' : ''}
       </div>
     </div>
     <details class="small"><summary>How each answer is graded</summary>${rubricHtml()}</details>
@@ -418,9 +418,19 @@ function openQuizIntro(plan) {
       st.extended = extendedDisplay();
       if (Q.detector && Q.video) st.faces = countFaces(Q.detector, Q.video);
       if (Q.objDetector && Q.video) st.seen = (detectObjects(Q.objDetector, Q.video) || []).filter((o) => o.event !== 'object_seen');
+      let g = null;
       if (Q.gazeTracker && Q.video && st.faces === 1) {
-        const g = readGaze(Q.gazeTracker, Q.video);
+        g = readGaze(Q.gazeTracker, Q.video);
         if (g) st.gazeSamples = [...st.gazeSamples, g.angle].slice(-20); // the last ~5 s
+      }
+      // Live readout so the student (or a tester) can see what the checks see: gaze angle and flagged objects.
+      const read = document.getElementById('pfread');
+      if (read) {
+        const off = g ? g.angle - gazeCenter() : null;
+        read.textContent = [
+          gaze && Q.gazeTracker ? (off == null ? 'Gaze: no face' : `Gaze: ${Math.abs(off)}° ${off > 0 ? 'left' : off < 0 ? 'right' : ''} (limit ${S.settings.quiz.gazeMaxDeg}°)`) : '',
+          objects && Q.objDetector ? `Objects: ${st.seen.map((o) => `${o.label} ${Math.round(o.score * 100)}%`).join(', ') || 'none'}` : '',
+        ].filter(Boolean).join(' · ');
       }
       drawChecks();
     }, 250);
