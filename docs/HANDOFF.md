@@ -166,3 +166,59 @@ docs/HANDOFF.md      This file
   `[dayStart, dayStart + 25h)`. So plans can only be created for *today*, and the LeetCode window cannot be moved back to old submissions.
 - One plan per student per day (`UNIQUE (student_id, day)`).
 
+---
+
+## 6. Data model (`server/db.js`)
+
+SQLite via `node:sqlite` (`DatabaseSync`, synchronous). `PRAGMA foreign_keys = ON`, WAL journal.
+Schema is created with `CREATE TABLE IF NOT EXISTS`; columns added later are applied with `ALTER TABLE ... ADD COLUMN` inside
+`try/catch` at startup (idempotent migrations). **When you add a column: add it to the CREATE statement and to the migration list.**
+
+| Table | Purpose / notable columns |
+|---|---|
+| `users` | `role` (`student`/`supervisor`), `email` unique, `password_hash` (`salt:hash`, scrypt), `invite_code` (supervisors), `supervisor_id` (students), `leetcode_username`, `tuf_cookie` (secret; never returned by the API — `publicUser()` exposes only `tufConnected`). |
+| `sessions` | `token` (random 32 bytes hex, the `sid` cookie), `user_id`, `expires_at` (14 days). Expired rows purged at startup and hourly. |
+| `plans` | One per student per day. `status`: `draft` → `proposed` → `approved`, or `changes_requested`. `day_start` (local midnight, ms). `ratings_json` (per-item toughness/importance, frozen at the first quiz). `best_pct`, `points_awarded`, `streak`. |
+| `plan_items` | `sheet_item_id` (null for custom LeetCode problems), `title/step/topic/kind/difficulty`, `leetcode_slug`, `verified_via` (`leetcode`/`tuf`/`self`), `verified_at`, `tuf_pre_done`, `code`, `code_lang`. |
+| `quiz_attempts` | `status`: `in_progress` → `submitted` → `graded`, or `terminated` / `exited`. `questions_json` holds the questions **with their key points** (never sent to the browser before grading). `answers_json`, `grading_json`, `score_pct`, `end_reason`, `deadline`, `last_seen` (heartbeat), `token` (attempt secret), `ip`, `user_agent`, `strikes`, `last_snapshot`. |
+| `proctor_events` | Every proctoring signal: `type`, `detail`, `at`. |
+| `proctor_snapshots` | Webcam JPEGs (`jpeg` BLOB, ≤200 KB each), `faces` detected client-side, `reason` (`periodic`, `start`, `submit`, or the violation type). |
+
+Note: the comment on `quiz_attempts.questions_json` in `db.js` still says "includes rubric"; it now stores `key_points` arrays
+(older rows may have a `rubric` string — `ai.js` handles both via `keysOf()`).
+
+---
+
+## 7. HTTP API (`server/index.js`)
+
+All JSON. Auth is the `sid` HttpOnly cookie. Guards: `student`, `supervisor`, `anyone` (= signed in). Errors are `{ error }`;
+`HttpError`/`fail(status, msg)` produce expected errors, anything else becomes `500 Server error (ref xxxx)` with the details only in the server log.
+
+| Method & path | Who | Notes |
+|---|---|---|
+| `POST /api/auth/signup` | public | `role, name, email, password (8–200), inviteCode?`. Rate-limited. |
+| `POST /api/auth/login` / `logout` | public | Login is rate-limited per IP and per email; constant-time for unknown emails. |
+| `GET /api/me` | any | `{ user, supervisor, settings }` — `settings` carries quiz config and the rubric text for the UI. |
+| `PUT /api/me/profile` | student | `name`, `leetcodeUsername` (validated against LeetCode), `tufCookie` (`''` disconnects), `inviteCode` (link/switch supervisor). |
+| `GET /api/sheet` | any | The whole catalogue. |
+| `POST /api/plans` | student | Get-or-create today's plan (see 5.5). |
+| `POST /api/plans/:id/items` | student | `{ sheetItemId }` or `{ leetcodeSlug }` (URL accepted). Editing a proposed plan sends it back to `draft`. |
+| `DELETE /api/plans/:id/items/:itemId` | student | Not allowed once approved. |
+| `PUT /api/plans/:id/items/:itemId/code` | student | `{ code, lang }` (`cpp/java/python/javascript/other`), ≤250 lines. Locked once any attempt exists. |
+| `POST /api/plans/:id/propose` | student | Snapshots TUF pre-done items; status → `proposed` (or straight to `approved` if approval is disabled). |
+| `POST /api/plans/:id/verify` | student | Runs LeetCode then TUF checks; returns a report + plan. |
+| `POST /api/plans/:id/items/:itemId/attest` | student | Self-mark an item that has no LeetCode link. |
+| `GET /api/student/summary`, `GET /api/student/plans/:day` | student | Totals, streak, history; one plan's detail. |
+| `POST /api/plans/:id/quiz/start` | student | Body `{ preflight }`. Returns `{ attemptId, token, attemptNo, deadline, proctor, questions }`. AI rate-limited. |
+| `POST /api/attempts/:id/heartbeat` | student | Requires `X-Attempt-Token`. |
+| `POST /api/attempts/:id/event` | student | `{ type, detail }`; hard/soft handling (section 10). Token also accepted in the body (for `sendBeacon`). |
+| `POST /api/attempts/:id/snapshot` | student | `{ image: data:image/jpeg;base64,..., faces, reason }`. |
+| `POST /api/attempts/:id/exit` / `submit` / `regrade` | student | `submit` grades immediately; `regrade` retries a failed grading. |
+| `GET /api/supervisor/students` | supervisor | Dashboard rows: today's status, verified count, best %, streak, total points, terminated attempts, pending plans. |
+| `GET /api/supervisor/students/:id` | supervisor | Last 60 plans with items, code, attempts, answers, key-point grading, AI summary/suspicion, events, strikes, snapshot list. |
+| `GET /api/supervisor/snapshots/:id` | supervisor | The JPEG (only for the supervisor's own students). |
+| `POST /api/supervisor/plans/:id/review` | supervisor | `{ action: approve | request_changes, note, removeItemIds }`. |
+
+`planDetail(plan, { forSupervisor })` is the single serializer for plans; it also computes `quiz.unlocked` and the human-readable
+`quiz.reason` (empty plan → waiting for approval → unverified items → missing code → no attempts left → perfect score).
+
