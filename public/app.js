@@ -665,6 +665,12 @@ function showResult({ grading, award, plan }) {
 }
 
 // ---------------- History / plan detail ----------------
+// Supervisor chips for objects the webcam detector flagged during an attempt (see the events table and photos for evidence).
+const OBJECT_CHIPS = { phone_detected: 'phone on camera', book_detected: 'book/notes on camera', device_detected: 'other device on camera', extra_person: 'other person on camera' };
+const objectChips = (events) => Object.entries(OBJECT_CHIPS)
+  .map(([type, label]) => [label, (events || []).filter((e) => e.type === type).length])
+  .filter(([, n]) => n).map(([label, n]) => `<span class="chip bad">${label}${n > 1 ? ` ×${n}` : ''}</span>`).join('');
+
 function attemptsHtml(plan, forSupervisor) {
   if (!plan.attempts.length) return '<p class="muted small">No quiz attempts.</p>';
   return plan.attempts.map((a) => `<details class="qa"><summary><b>Attempt ${a.attemptNo}</b> · ${pctChip(a.scorePct)}
@@ -673,7 +679,8 @@ function attemptsHtml(plan, forSupervisor) {
       ${forSupervisor && a.suspicion ? '<span class="chip warn">AI flagged</span>' : ''}
       ${forSupervisor && a.events?.length ? `<span class="chip">${a.events.length} proctor events</span>` : ''}
       ${forSupervisor && a.strikes ? `<span class="chip warn">${a.strikes} warning(s)</span>` : ''}
-      ${forSupervisor && a.snapshots?.some((x) => x.faces != null && x.faces !== 1) ? '<span class="chip bad">face issue on camera</span>' : ''}</summary>
+      ${forSupervisor && a.snapshots?.some((x) => x.faces != null && x.faces !== 1) ? '<span class="chip bad">face issue on camera</span>' : ''}
+      ${forSupervisor ? objectChips(a.events) : ''}</summary>
     ${forSupervisor && a.summary ? `<p class="small"><b>AI summary:</b> ${esc(a.summary)}</p>` : ''}
     ${forSupervisor && a.suspicion ? `<p class="small" style="color:var(--warn)"><b>AI suspicion:</b> ${esc(a.suspicion)}</p>` : ''}
     ${forSupervisor && a.snapshots?.length ? `<div class="snaps">${a.snapshots.map((x) => `<figure class="${x.faces != null && x.faces !== 1 ? 'flag' : ''}"><img src="/api/supervisor/snapshots/${x.id}" loading="lazy" alt="webcam"><figcaption>${new Date(x.at).toLocaleTimeString()} · ${esc(x.reason || '')}${x.faces != null ? ` · ${x.faces} face${x.faces === 1 ? '' : 's'}` : ''}</figcaption></figure>`).join('')}</div>` : ''}
