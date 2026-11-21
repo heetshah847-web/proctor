@@ -131,14 +131,15 @@ async function renderToday() {
 function setupWarnings() {
   const w = [];
   if (!S.me.leetcodeUsername) w.push('Add your <b>LeetCode username</b> in Profile so problems can be auto-verified.');
-  if (!S.me.supervisorId) w.push('You are not linked to a supervisor yet — add their invite code in Profile.');
+  if (S.settings.requireSupervisorApproval && !S.me.supervisorId) w.push('You are not linked to a supervisor yet — add their invite code in Profile.');
   return w.map((x) => `<div class="banner warn small">${x}</div>`).join('');
 }
 
 function drawToday() {
   const p = S.plan;
   const locked = p.status === 'approved';
-  const st = STATUS[p.status];
+  const needApproval = S.settings.requireSupervisorApproval;
+  const st = !needApproval && p.status === 'approved' ? ['Plan locked in for today', 'ok'] : STATUS[p.status];
   const inPlan = new Set(p.items.map((i) => i.sheetItemId).filter(Boolean));
   $app.innerHTML = `
   <div class="grid cols-3" style="margin-bottom:16px">
@@ -164,8 +165,8 @@ function drawToday() {
             ${!locked ? `<button class="btn sm danger" data-del="${it.id}" title="Remove">✕</button>` : ''}
           </li>${S.codeOpen === it.id ? codeEditorHtml(it, p.codeLocked) : ''}`).join('')}</ul>` : '<p class="muted">No items yet — pick today’s topics from the Striver sheet on the right.</p>'}
         <div class="row" style="margin-top:12px">
-          ${!locked ? `<input type="text" id="pnote" placeholder="Note for your supervisor (optional)" value="${esc(p.studentNote || '')}" style="flex:1;min-width:200px">
-            <button class="btn primary" id="propose" ${p.items.length ? '' : 'disabled'}>${p.status === 'proposed' ? 'Re-send' : 'Send to supervisor'}</button>` : ''}
+          ${!locked ? `${needApproval ? `<input type="text" id="pnote" placeholder="Note for your supervisor (optional)" value="${esc(p.studentNote || '')}" style="flex:1;min-width:200px">` : ''}
+            <button class="btn primary" id="propose" ${p.items.length ? '' : 'disabled'}>${!needApproval ? 'Lock in plan' : p.status === 'proposed' ? 'Re-send' : 'Send to supervisor'}</button>` : ''}
           <button class="btn" id="verify" ${p.items.length ? '' : 'disabled'}>Check progress</button>
         </div>
         <div id="vreport" class="small muted" style="margin-top:8px"></div>
@@ -243,7 +244,7 @@ function bindToday() {
   const addlc = document.getElementById('addlc');
   if (addlc) addlc.onclick = () => act(async () => refresh(await api(`/api/plans/${p.id}/items`, { method: 'POST', body: { leetcodeSlug: document.getElementById('lcslug').value } })), addlc);
   const prop = document.getElementById('propose');
-  if (prop) prop.onclick = () => act(async () => { refresh(await api(`/api/plans/${p.id}/propose`, { method: 'POST', body: { note: document.getElementById('pnote').value } })); toast(S.settings.requireSupervisorApproval ? 'Sent to your supervisor' : 'Plan locked in'); }, prop);
+  if (prop) prop.onclick = () => act(async () => { refresh(await api(`/api/plans/${p.id}/propose`, { method: 'POST', body: { note: document.getElementById('pnote')?.value || '' } })); toast(S.settings.requireSupervisorApproval ? 'Sent to your supervisor' : 'Plan locked in'); }, prop);
   const ver = document.getElementById('verify');
   ver.onclick = () => act(async () => {
     const r = await api(`/api/plans/${p.id}/verify`, { method: 'POST' });
