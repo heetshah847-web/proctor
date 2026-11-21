@@ -272,3 +272,58 @@ student's matches the real code, mark covered; no-key questions → write 3 key 
 - Day award = `round(base × multiplier × best% / 100)` if `best% ≥ pass`, else 0. Recomputed after every graded attempt using the **best** attempt.
 - Total points = sum of `plans.points_awarded`.
 
+---
+
+## 9. AI integration (`server/ai.js`)
+
+### 9.1 Providers
+
+`parse(system, user, zodSchema)` is the only entry point; it dispatches on `config.aiProvider`.
+
+- **Gemini** (`geminiParse`): raw `fetch` to `POST https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent` with header
+  `x-goog-api-key`, body `system_instruction`, `contents`, `generationConfig: { responseMimeType: 'application/json', maxOutputTokens: 32768, thinkingConfig: { thinkingLevel } }`.
+  The Zod schema is converted with `z.toJSONSchema()` and **embedded in the prompt** (we deliberately do not rely on a schema field in the
+  request, because Google's docs available at build time did not confirm whether `responseSchema` or `responseJsonSchema` takes standard JSON Schema).
+  The reply text (non-`thought` parts) is stripped of code fences, `JSON.parse`d and validated with the Zod schema; one retry on malformed output.
+  429 → "rate limit (free tier)" error. Google's free tier may use submitted content (questions + student answers) to improve its products.
+- **Claude** (`claudeParse`): `client.beta.messages.parse` with `betaZodOutputFormat(schema)`, model `claude-opus-5-5`,
+  `output_config.effort: 'medium'`, `max_tokens: 16000`, and server-side refusal fallbacks (`betas: ['server-side-fallback-2026-07-01']`, `fallbacks: 'default'`).
+  `stop_reason === 'refusal'` and missing `parsed_output` throw.
+- **Demo** (`AI_MODE=demo` / `npm run demo`): no network. Bank questions as usual; grading marks a key point covered if the answer shares ≥50% of the
+  point's 4+-letter words (partial ≥25%); dry-run questions use a template. The UI shows an "AI demo mode" badge.
+
+Neither real provider has been exercised end-to-end against a live key in this repo's history: Gemini was tested with a mocked HTTP reply
+(and once against Google with a fake key, which reached the auth check). The first real quizzes are the real test.
+
+### 9.2 Building an attempt — `generateQuiz(items, previous)`
+
+1. **Dry-run code questions** (`codeQuestions`, up to `CODE_QUESTIONS`, default 1): picks practice items that have code, least-asked first then
+   hardest. Sends the problem title + the student's code **with line numbers** inside `<code>` tags (`SYSTEM_CODEQ`). The model must pick a small
+   concrete input, ask for exact variable values at a named step/iteration and the final output, and ask *why* a specific line (by number) is
+   there; it traces the code itself and returns 3–5 key points (expected values, output, reason). Earlier questions on the same code are passed
+   in so retries use a different input and line. **Any failure (e.g. Gemini quota) falls back to bank questions — the quiz is never blocked.**
+2. **Remaining questions**: from the bank (`QUESTION_SOURCE=bank`, default — no AI call) or AI-written (`QUESTION_SOURCE=ai`, `SYSTEM_QUIZ`,
+   which also forbids bare complexity questions).
+3. Ratings come from the bank (or the AI in `ai` mode) and are frozen on the plan at the first attempt.
+
+AI calls per attempt (defaults): **1 for the dry-run question + 1 for grading**. `CODE_QUESTIONS=0` → grading only.
+
+### 9.3 Grading — `gradeAnswers(questions, answers)`
+
+- One call for all questions of the attempt. Each question is sent with its problem title, the student's code (for dry-run questions),
+  a numbered answer key (or "NONE — write the 3 key points yourself"), and the answer inside `<answer index="i">`.
+- Output schema: per question `key_points[{ point, status: covered|partial|missing }]` + `feedback`; plus `summary` (for the supervisor) and
+  `suspicion` (note if answers look copied/generated).
+- Server side: bank questions keep **our** key point texts and take the AI's statuses **by position** (missing → `missing`); no-key
+  questions use the AI's points (max 5). Score per question via `scoreQuestion()`; attempt % via the rubric.
+- **Prompt-injection hardening:** student text (answers and code) is untrusted. `untrusted()` breaks any `<answer`/`<code`/`</answer` tag-like text
+  (replaces `<` with `‹`) so a student cannot close the block early; the system prompt tells the grader to ignore instructions inside the
+  blocks and mark such answers missing. Answers are capped at 4000 chars, max 50 answers.
+
+### 9.4 Student code
+
+- Saved per plan item via `PUT /api/plans/:id/items/:itemId/code`; required for practice items when `REQUIRE_CODE=practice` (quiz stays locked
+  with "Add your code for: ..."). Locked once the first attempt starts, so it cannot be edited after seeing questions.
+- The app cannot prove the pasted code equals the LeetCode submission (reading submission code needs the student's LeetCode session).
+  The dry-run question makes that hard to exploit: the student must trace and justify whatever they pasted, under proctoring.
+
