@@ -327,3 +327,88 @@ AI calls per attempt (defaults): **1 for the dry-run question + 1 for grading**.
 - The app cannot prove the pasted code equals the LeetCode submission (reading submission code needs the student's LeetCode session).
   The dry-run question makes that hard to exploit: the student must trace and justify whatever they pasted, under proctoring.
 
+---
+
+## 10. Proctoring
+
+The product owner asked for the quiz to be "very strict": the student may only answer or exit. A browser cannot lock a computer, so the
+design is: block what the page can block, detect everything else, end the attempt on serious signals, and keep evidence for the supervisor.
+**Every important rule is enforced or re-checked on the server**, because the page's JavaScript can be tampered with.
+
+### 10.1 Pre-flight (client, `openQuizIntro` in `public/app.js`)
+
+The *Start* button stays disabled until all of these pass and the student ticks the consent box:
+- Fullscreen API available.
+- Single monitor: `screen.isExtended === false` (Chromium only; elsewhere shown as "unavailable — use Chrome or Edge" but not blocking).
+- Webcam on (`getUserMedia`), when `QUIZ_REQUIRE_CAMERA` (default true).
+- Exactly one face visible (MediaPipe BlazeFace, `public/proctor.js`). If the face model cannot load (no WebAssembly/WebGL), the check is shown as
+  "photos only" and does not block.
+
+On start: `requestFullscreen()` (needs the click gesture, so it is called first), then `navigator.keyboard.lock()` (Chrome/Edge, fullscreen only:
+routes Alt+Tab, the Windows key and Esc to the page; holding Esc still exits fullscreen), then `POST /quiz/start` with a `preflight` summary.
+The server refuses to start without a camera (when required) or with `extendedDisplay: true`, and logs the preflight as an event.
+
+### 10.2 The attempt secret
+
+`/quiz/start` returns a random `token`; every attempt request sends it as `X-Attempt-Token` (or `token` in the body for `sendBeacon`).
+`attemptFromTab()` in `server/index.js`:
+- in-progress attempt + wrong/missing token → logs `second_session` and **ends the attempt** (another tab or device);
+- ended attempt + wrong token → 409.
+Starting a new attempt forfeits any attempt still `in_progress` (`abandoned`) — so refreshing the page loses the attempt.
+
+### 10.3 Violations
+
+Hard violations end the attempt immediately (0%, the attempt is used). Soft violations are warnings ("strikes"); `QUIZ_MAX_STRIKES` (3) of them
+end the attempt with `too_many_warnings`. The lists live in `HARD` and `SOFT` in `server/index.js`; the client mirrors them in
+`HARD_REASONS` / `SOFT_REASONS` (`public/app.js`) for messages. Unknown event types are logged but have no effect.
+
+| Hard (ends attempt) | Detected by |
+|---|---|
+| `visibility_hidden` | `visibilitychange` (tab switch, minimise) |
+| `window_blur` | `window.blur` lasting > 300 ms (other app/window, alt-tab where not locked) |
+| `fullscreen_exit` | `fullscreenchange` |
+| `page_unload` | `beforeunload` / `pagehide` via `sendBeacon` |
+| `window_resized` | inner size shrinks > 80 px vs. the size 1.5 s after start (dev tools docked, window resized) |
+| `extra_monitor` | `screen.isExtended` becomes true (checked every second) |
+| `text_injected` | `beforeinput` with any `inputType` other than typing/deleting/undo/IME (paste, drop, autofill, replacement) |
+| `camera_off` | video track `ended` |
+| `multiple_faces` | ≥2 faces in two consecutive 1-second checks |
+| `second_session` | server: wrong attempt token |
+| `heartbeat_lost` | server: no heartbeat for `QUIZ_HEARTBEAT_TIMEOUT_MS` (12 s); client sends one every 4 s |
+| `camera_missing` | server: no snapshot for `QUIZ_MAX_SNAPSHOT_GAP_MS` (60 s) when the camera is required |
+| `timeout` | server: 30 s after the deadline (the client auto-submits at the deadline) |
+
+| Soft (warning) | Detected by |
+|---|---|
+| `no_face` | 0 faces for 5 s (re-armed every 5 s) |
+| `camera_blocked` | average frame brightness < 18/255 for 5 s (covered lens) |
+| `paste_/copy_/cut_/drop_/contextmenu_blocked` | capture-phase listeners, `preventDefault` |
+| `blocked_key` | Ctrl/Meta/Alt shortcuts (only editing keys Ctrl+Z/Y/A/arrows/Backspace/Delete/Home/End allowed), F-keys, PrintScreen. AltGr is allowed (needed for @/€ on many layouts). |
+| `mouse_left_window` | `mouseleave` on the document |
+| `bulk_insert` | a single `insertText` of > 3 chars |
+| `superhuman_typing` | > 100 typed chars in 5 s |
+| `page_modified` | `MutationObserver` on `<html>`/`<body>` direct children (extensions like Grammarly inject there); once per tag |
+
+The client throttles each warning type to one per 3 s (a held key must not burn all strikes). The server counts strikes and returns
+`{ status: { status, end_reason, strikes }, maxStrikes }`; the quiz shows "Warning n of 3", and "One more warning ends this attempt" on the last one.
+
+### 10.4 Webcam evidence
+
+- Video stays on the student's machine; face detection runs in the browser (`countFaces`, VIDEO mode with strictly increasing timestamps).
+- 320×240 JPEG snapshots (~15–30 KB) every `QUIZ_SNAPSHOT_EVERY_MS` (20 s), at start, at submit and at every warning/violation, with the face count.
+- Server checks: data URL must be `image/jpeg`, ≤200 KB, start with JPEG magic bytes; max snapshots per attempt ≈ minutes×60/cadence + 60;
+  max 500 events per attempt. After an attempt ends, its tab may still deliver its final snapshot/event — accepted for a 15 s grace period only.
+- Supervisor view: thumbnails with time, reason and face count; photos whose face count ≠ 1 get a red border; chips for warning count and "face issue".
+- MediaPipe (`@mediapipe/tasks-vision@0.10.14`) is served from `node_modules` at `/vendor/mediapipe`; the model is `public/models/blaze_face_short_range.tflite`.
+  No CDN at quiz time. The CSP allows `'wasm-unsafe-eval'` and `blob:` workers for it.
+
+### 10.5 Known limits (be honest about these)
+
+- Not detectable from a browser: a phone held out of camera view, someone whispering, a second person out of frame, Ctrl+Alt+Del, OS overlays
+  that are invisible to the page. Full lockdown needs a desktop kiosk app (e.g. Electron) or a second camera.
+- Keyboard Lock and `screen.isExtended` are Chromium-only.
+- Heuristics that may need tuning after real use: typing-speed limit, 5 s no-face rule, darkness threshold (dim rooms), 300 ms blur debounce,
+  80 px resize tolerance.
+- **The client-side proctoring has never been run in a real browser during development** (only syntax-checked and its assets verified to be served).
+  The server-side rules were tested end to end (see section 12). Test a full quiz in Chrome before relying on it.
+
