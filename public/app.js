@@ -1,5 +1,5 @@
 // DSA Proctor — single-page frontend (no build step).
-import { loadFaceDetector, loadObjectDetector, openCamera, countFaces, detectObjects, snapshot, brightness, extendedDisplay, browserName, WATCHED_OBJECTS } from './proctor.js';
+import { loadFaceDetector, loadObjectDetector, loadGazeTracker, readGaze, openCamera, countFaces, detectObjects, snapshot, brightness, extendedDisplay, browserName, WATCHED_OBJECTS } from './proctor.js';
 
 // Lowest confidence threshold per object event (a detection this much above it warns on a single frame).
 const WATCHED_MIN = {};
@@ -281,7 +281,7 @@ function bindToday() {
 }
 
 // ---------------- Proctored quiz ----------------
-const Q = { attempt: null, answers: [], timers: [], listeners: [], ended: false, blurTimer: null, stream: null, video: null, detector: null, objDetector: null, lastSoft: {}, observer: null };
+const Q = { attempt: null, answers: [], timers: [], listeners: [], ended: false, blurTimer: null, stream: null, video: null, detector: null, objDetector: null, gazeTracker: null, gazeCenter: 0, lastSoft: {}, observer: null };
 
 const HARD_REASONS = {
   visibility_hidden: 'you switched tab or minimised the window',
@@ -360,7 +360,14 @@ function openQuizIntro(plan) {
     <p class="small muted" id="qmsg"></p>
   </div></div>`;
 
-  const st = { fullscreen: Boolean(document.documentElement.requestFullscreen), extended: extendedDisplay(), camera: !needCam, faceModel: null, faces: null, objModel: objects ? null : false, seen: [] };
+  const st = { fullscreen: Boolean(document.documentElement.requestFullscreen), extended: extendedDisplay(), camera: !needCam, faceModel: null, faces: null, objModel: objects ? null : false, seen: [], gazeModel: gaze ? null : false, gazeSamples: [] };
+  // Straight ahead for this student's camera: the median gaze angle while they look at this page.
+  // A camera mounted off to one side shifts it; it is capped so it can't hide a real side screen.
+  const GAZE_SAMPLES = 8;
+  const gazeCenter = () => {
+    const a = [...st.gazeSamples].sort((x, y) => x - y);
+    return a.length ? Math.max(-20, Math.min(20, a[a.length >> 1])) : 0;
+  };
   const drawChecks = () => {
     const row = (ok, text) => `<li class="${ok === true ? 'ok' : ok === false ? 'bad' : 'warn'}"><span class="kpi">${ok === true ? '✓' : ok === false ? '✗' : '!'}</span>${text}</li>`;
     document.getElementById('checks').innerHTML = [
@@ -374,9 +381,16 @@ function openQuizIntro(plan) {
         : st.objModel == null ? 'Loading object detection…'
         : !st.seen.length ? 'No phone, book or other device visible'
         : `Remove from camera view: ${esc([...new Set(st.seen.map((o) => o.label))].join(', '))}`) : '',
+      gaze ? row(st.gazeModel === false ? null : st.gazeSamples.length >= GAZE_SAMPLES ? true : null,
+        st.gazeModel === false ? 'Eye tracking unavailable in this browser'
+        : st.gazeModel == null ? 'Loading eye tracking…'
+        : st.gazeSamples.length < GAZE_SAMPLES ? 'Look at this screen to calibrate eye tracking…'
+        : Math.abs(gazeCenter()) >= 20 ? 'Eye tracking ready — your camera looks off to one side; centre it above the screen if you can'
+        : 'Eye tracking ready') : '',
     ].join('');
     // Phones, books, devices and other people must be out of view before starting (cups/bottles are fine).
-    const ready = st.fullscreen && st.extended !== true && st.camera === true && (!needCam || st.faceModel === false || st.faces === 1) && !st.seen.length;
+    const ready = st.fullscreen && st.extended !== true && st.camera === true && (!needCam || st.faceModel === false || st.faces === 1) && !st.seen.length
+      && (st.gazeModel !== true || st.gazeSamples.length >= GAZE_SAMPLES);
     document.getElementById('qgo').disabled = !(ready && document.getElementById('qagree').checked);
   };
   drawChecks();
@@ -394,12 +408,20 @@ function openQuizIntro(plan) {
       loadObjectDetector().then((d) => { Q.objDetector = d; st.objModel = true; drawChecks(); })
         .catch((e) => { console.warn('Object detection unavailable', e); Q.objDetector = null; st.objModel = false; drawChecks(); });
     }
+    if (gaze) {
+      loadGazeTracker().then((g) => { Q.gazeTracker = g; st.gazeModel = true; drawChecks(); })
+        .catch((e) => { console.warn('Eye tracking unavailable', e); Q.gazeTracker = null; st.gazeModel = false; drawChecks(); });
+    }
     clearInterval(Q.pfTimer);
     Q.pfTimer = setInterval(() => {
       if (!document.getElementById('checks')) return clearInterval(Q.pfTimer);
       st.extended = extendedDisplay();
       if (Q.detector && Q.video) st.faces = countFaces(Q.detector, Q.video);
       if (Q.objDetector && Q.video) st.seen = (detectObjects(Q.objDetector, Q.video) || []).filter((o) => o.event !== 'object_seen');
+      if (Q.gazeTracker && Q.video && st.faces === 1) {
+        const g = readGaze(Q.gazeTracker, Q.video);
+        if (g) st.gazeSamples = [...st.gazeSamples, g.angle].slice(-20); // the last ~5 s
+      }
       drawChecks();
     }, 250);
   }
@@ -415,8 +437,10 @@ function openQuizIntro(plan) {
       const r = await api(`/api/plans/${plan.id}/quiz/start`, { method: 'POST', body: { preflight: {
         camera: st.camera === true && needCam, faces: st.faces, faceDetection: st.faceModel === true,
         objectDetection: st.objModel === true, phoneVisible: st.seen.some((o) => o.event === 'phone_detected'),
+        gazeDetection: st.gazeModel === true, gazeCenter: st.gazeModel === true ? gazeCenter() : null,
         extendedDisplay: st.extended, browser: `${browserName()} ${navigator.userAgent.slice(0, 60)}`,
       } } });
+      Q.gazeCenter = gazeCenter();
       startQuiz(r);
     } catch (err) {
       navigator.keyboard?.unlock?.();
