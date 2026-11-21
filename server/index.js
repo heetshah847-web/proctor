@@ -352,8 +352,16 @@ function attemptFromTab(req) {
     endAttempt(a.id, 'terminated', 'second_session');
     fail(409, 'This attempt was opened somewhere else and has been ended');
   }
+  if (a.status !== 'in_progress' && token !== a.token) fail(409, 'This attempt has ended');
   return a;
 }
+
+// After an attempt ends, the tab may still deliver its last snapshot/event (they race the end).
+// Accept those for a short grace period only, and cap the totals so nobody can fill the disk.
+const EVIDENCE_GRACE_MS = 15_000;
+const recentlyEnded = (a) => a.status === 'in_progress' || (a.finished_at && now() - a.finished_at < EVIDENCE_GRACE_MS);
+const maxSnapshots = () => Math.ceil((config.quiz.minutes * 60_000) / config.quiz.snapshotEveryMs) + 60;
+const MAX_EVENTS = 500;
 function endAttempt(id, status, reason) {
   run("UPDATE quiz_attempts SET status=?, end_reason=?, finished_at=?, score_pct=COALESCE(score_pct,0) WHERE id=? AND status='in_progress'", status, reason, now(), id);
 }
@@ -419,7 +427,8 @@ app.post('/api/attempts/:id/heartbeat', student, (req, res) => {
 app.post('/api/attempts/:id/event', student, (req, res) => {
   const a = attemptFromTab(req);
   const type = String(req.body?.type || '').slice(0, 40);
-  logEvent(a.id, type, req.body?.detail || '');
+  const logged = one('SELECT COUNT(*) AS n FROM proctor_events WHERE attempt_id = ?', a.id).n;
+  if (recentlyEnded(a) && logged < MAX_EVENTS) logEvent(a.id, type, req.body?.detail || '');
   if (a.status === 'in_progress') {
     if (HARD.has(type)) endAttempt(a.id, 'terminated', type);
     else if (SOFT.has(type)) {
@@ -433,10 +442,13 @@ app.post('/api/attempts/:id/event', student, (req, res) => {
 // Webcam snapshot (small JPEG). Stored for the supervisor; also proves the camera stayed on.
 app.post('/api/attempts/:id/snapshot', student, express.json({ limit: '300kb' }), (req, res) => {
   const a = attemptFromTab(req);
+  if (!recentlyEnded(a)) fail(409, 'This attempt has ended');
+  if (one('SELECT COUNT(*) AS n FROM proctor_snapshots WHERE attempt_id = ?', a.id).n >= maxSnapshots()) fail(429, 'Too many snapshots for this attempt');
   const m = String(req.body?.image || '').match(/^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/);
   if (!m) fail(400, 'Invalid snapshot');
   const jpeg = Buffer.from(m[1], 'base64');
   if (jpeg.length > 200_000) fail(400, 'Snapshot too large');
+  if (jpeg[0] !== 0xff || jpeg[1] !== 0xd8 || jpeg[2] !== 0xff) fail(400, 'Invalid snapshot'); // JPEG magic bytes
   const faces = Number.isInteger(req.body?.faces) ? req.body.faces : null;
   run('INSERT INTO proctor_snapshots (attempt_id, at, faces, reason, jpeg) VALUES (?,?,?,?,?)', a.id, now(), faces, String(req.body?.reason || 'periodic').slice(0, 40), jpeg);
   if (a.status === 'in_progress') run('UPDATE quiz_attempts SET last_snapshot = ? WHERE id = ?', now(), a.id);
