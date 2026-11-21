@@ -4,12 +4,24 @@ import path from 'node:path';
 import { ROOT } from './config.js';
 import { encrypt, isEncrypted, hashToken } from './vault.js';
 
-fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
-export const db = new DatabaseSync(process.env.DB_PATH || path.join(ROOT, 'data', 'proctor.db'));
+const DB_FILE = process.env.DB_PATH || path.join(ROOT, 'data', 'proctor.db');
+fs.mkdirSync(path.dirname(DB_FILE), { recursive: true, mode: 0o700 });
+export const db = new DatabaseSync(DB_FILE);
 
 db.exec(`
 PRAGMA journal_mode = WAL;
 PRAGMA foreign_keys = ON;
+PRAGMA secure_delete = ON;   -- overwrite deleted rows (sessions, snapshots) instead of leaving them in free pages
+PRAGMA busy_timeout = 5000;
+`);
+
+// Owner-only file permissions (Linux/macOS; on Windows rely on the folder's ACLs).
+if (process.platform !== 'win32') {
+  try { fs.chmodSync(path.dirname(DB_FILE), 0o700); } catch { /* not our folder */ }
+  for (const f of [DB_FILE, `${DB_FILE}-wal`, `${DB_FILE}-shm`]) { try { fs.chmodSync(f, 0o600); } catch { /* may not exist yet */ } }
+}
+
+db.exec(`
 
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY,
