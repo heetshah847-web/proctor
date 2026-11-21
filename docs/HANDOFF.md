@@ -110,3 +110,59 @@ docs/HANDOFF.md      This file
 | `TRUST_PROXY` | `false` | Set behind a reverse proxy so `req.ip` (rate limits, IP logging) is the real client. |
 | `PORT`, `DB_PATH` | 3000, `data/proctor.db` | |
 
+---
+
+## 5. Data sources and progress verification
+
+### 5.1 The Striver A2Z sheet catalogue
+
+- takeuforward has **no public API**. The sheet page (`https://takeuforward.org/prep-hub/strivers-a2z-dsa-sheet`) is a Next.js app whose data
+  is embedded in `self.__next_f.push([...])` script chunks (the React "flight" payload).
+- `server/striver-parse.js` concatenates those chunks, finds the `"sheet_syllabus":` object by bracket matching (string/escape aware),
+  and decodes its compact row format: `fields` is a list of field-name arrays; each row is `[fieldsIndex, ...values]`.
+  Rows are either `category` (with `children` row indices) or `item`. `roots` are the 20 steps.
+- Important fields per item: `id`, `slug`, `label` (title), `layoutType` (`practice` | `learning`), `difficulty` (`basic` | `core` | `pro`),
+  `leetcode_link` (289 of 495 items have one), and `status` (per-user progress; `"unsolved"` on the anonymous page).
+  Values starting with `$` are flight references, not real values — the parser ignores them for `difficulty`.
+- `scripts/import-striver.mjs` runs the parser once and writes `data/striver-sheet.json` (statuses stripped). It is committed, so the app
+  does not depend on takeuforward at runtime except for the optional per-student progress check.
+- If takeuforward changes its page format the importer and TUF verification break; the catalogue JSON keeps working.
+- Slugs are the stable key used everywhere else (question bank, etc.). Note two slugs contain commas: `pow(x,n)` and
+  `pre,-post,-inorder-in-one-traversal`. The slug `basic-hashing` appears twice in the sheet (step 1 and step 4).
+
+### 5.2 LeetCode verification (`server/sources.js`)
+
+- Public GraphQL at `https://leetcode.com/graphql`, no login:
+  - `recentAcSubmissionList(username, limit: 20)` → `{ titleSlug, timestamp }` (LeetCode caps this list at ~20).
+  - `matchedUser(username)` to validate the username in Profile (a GraphQL error "That user does not exist" is mapped to "not found").
+  - `question(titleSlug)` to add a custom LeetCode problem (title, difficulty, tags).
+- A plan item is verified via LeetCode when its `leetcode_slug` is in the recent accepted list with a timestamp in
+  `[plan.day_start, plan.day_start + 48h)` (the extra day allows late-night work). Solves from before the plan's day never count.
+- The student's recent submissions must be public. Because only ~20 are returned, students should press *Check progress* the same day.
+
+### 5.3 takeuforward verification (optional)
+
+- The per-user `status` on the sheet page is only present when the page is fetched **as the logged-in user**. The student pastes their
+  TUF `Cookie` header in Profile (`users.tuf_cookie`); the server fetches the page with it and treats statuses matching
+  `/^(solved|completed|done|complete)$/i` as done (`tufCompletedItems`). Those status values are an assumption — nobody has verified them
+  against a real account. If TUF uses another word, change `DONE` in `server/sources.js`.
+- Zero done items usually means the cookie was rejected (anonymous page); the verify report shows a warning.
+- **Anti-replay:** when a plan is proposed, the server snapshots which of its items are already done on TUF (`plan_items.tuf_pre_done`).
+  Those items cannot later be verified through TUF (TUF statuses have no timestamps, so old ticks would otherwise count).
+- Why a cookie and not "paste the login redirect URL"? The user asked for a CodeTantra-style flow (log in, paste the redirect URL with
+  `?code=`). That only works for apps registered as OAuth clients with the identity provider; LeetCode and takeuforward offer no OAuth to
+  third parties, and their sessions live in HttpOnly cookies, never in the URL. A suggested improvement (not built): LeetCode ownership proof
+  by putting a one-time code in the LeetCode profile "About me", and accepting a pasted "Copy as cURL" for TUF.
+
+### 5.4 Self-attested items
+
+- Items with no LeetCode link (videos, articles, GFG-only problems) can be marked done by the student (`verified_via = 'self'`) when TUF
+  is not connected (or the item was already done on TUF before the plan). The supervisor sees these labelled `self`. The quiz is the real check.
+
+### 5.5 Plan days and time zones
+
+- The client sends its local date (`day`, `YYYY-MM-DD`) and local midnight (`dayStart`, epoch ms). `POST /api/plans` accepts them only if
+  they are self-consistent (implied UTC offset between −12h and +14h, multiple of 15 min) **and** the real current time is inside
+  `[dayStart, dayStart + 25h)`. So plans can only be created for *today*, and the LeetCode window cannot be moved back to old submissions.
+- One plan per student per day (`UNIQUE (student_id, day)`).
+
