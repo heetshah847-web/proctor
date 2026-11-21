@@ -1,5 +1,9 @@
 // DSA Proctor — single-page frontend (no build step).
-import { loadFaceDetector, loadObjectDetector, openCamera, countFaces, detectObjects, snapshot, brightness, extendedDisplay, browserName } from './proctor.js';
+import { loadFaceDetector, loadObjectDetector, openCamera, countFaces, detectObjects, snapshot, brightness, extendedDisplay, browserName, WATCHED_OBJECTS } from './proctor.js';
+
+// Lowest confidence threshold per object event (a detection this much above it warns on a single frame).
+const WATCHED_MIN = {};
+for (const { event, minScore } of Object.values(WATCHED_OBJECTS)) WATCHED_MIN[event] = Math.min(WATCHED_MIN[event] ?? 1, minScore);
 const $app = document.getElementById('app');
 const $nav = document.getElementById('nav');
 const $who = document.getElementById('who');
@@ -377,7 +381,7 @@ function openQuizIntro(plan) {
       if (Q.detector && Q.video) st.faces = countFaces(Q.detector, Q.video);
       if (Q.objDetector && Q.video) st.seen = (detectObjects(Q.objDetector, Q.video) || []).filter((o) => o.event !== 'object_seen');
       drawChecks();
-    }, 600);
+    }, 250);
   }
 
   document.getElementById('qgo').onclick = async (e) => {
@@ -451,11 +455,14 @@ async function warn(type, detail) {
   if (t - (Q.lastSoft[type] || 0) < 3000) return; // one warning per kind every 3 s (e.g. a held key)
   Q.lastSoft[type] = t;
   sendSnapshot(type);
+  // Show the warning immediately; the strike count fills in when the server replies.
+  const el = document.getElementById('qwarn');
+  if (el) { el.hidden = false; el.innerHTML = `⚠ Warning: ${esc(SOFT_REASONS[type] || type)}.`; }
   try {
     const r = await qapi('event', { type, detail });
     if (r.status.status !== 'in_progress') return showEnded(r.status.end_reason || 'too_many_warnings');
     const left = r.maxStrikes - r.status.strikes;
-    const el = document.getElementById('qwarn');
+    if (!el) return;
     el.hidden = false;
     el.innerHTML = `⚠ Warning ${r.status.strikes} of ${r.maxStrikes}: ${esc(SOFT_REASONS[type] || type)}. ${left === 1 ? '<b>One more warning ends this attempt.</b>' : ''}`;
     document.getElementById('qstrikes').textContent = `Warnings ${r.status.strikes}/${r.maxStrikes}`;
@@ -477,7 +484,7 @@ function startQuiz(r) {
         <textarea data-i="${i}" placeholder="Type your answer in your own words…" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" data-gramm="false" data-enable-grammarly="false"></textarea></div>`).join('')}
       <div class="row"><button class="btn primary" id="qsubmit">Submit answers</button><span class="small muted" id="qmsg"></span></div>
     </div>
-    ${Q.stream ? '<div class="cam" id="qcam"><span class="camdot" id="qcamdot"></span></div>' : ''}`;
+    ${Q.stream ? '<div class="cam" id="qcam"><span class="camdot" id="qcamdot"></span><div class="camalert" id="qcamalert" hidden></div></div>' : ''}`;
   if (Q.stream) document.getElementById('qcam').prepend(Q.video);
 
   // ---- answer boxes: only real typing is allowed ----
@@ -550,27 +557,44 @@ function startQuiz(r) {
   if (Q.stream) {
     const track = Q.stream.getVideoTracks()[0];
     track.addEventListener('ended', () => violation('camera_off'));
+    // Checks run every 250 ms (face) and 250 ms offset by 125 ms (objects), so a problem shows on screen
+    // within a quarter second (live alert on the camera box). A warning (strike) needs a short confirmation
+    // so one bad frame never costs a strike: no face 2 s, dark lens 2 s, 2+ faces 3 frames (~0.75 s),
+    // objects 3 of the last 5 frames (~0.75 s) or a single very confident frame.
+    const TICK = 250;
     let noFaceSince = null, darkSince = null, multi = 0;
+    const live = { face: '', objects: '' };
+    const showLive = () => {
+      const el = document.getElementById('qcamalert');
+      if (!el) return;
+      const msg = [live.face, live.objects].filter(Boolean).join(' · ');
+      el.hidden = !msg; el.textContent = msg;
+      document.getElementById('qcam')?.classList.toggle('alert', Boolean(msg));
+    };
     Q.timers.push(setInterval(() => {
+      if (Q.ended) return;
       if (track.readyState === 'ended') return violation('camera_off');
       const now = Date.now();
       const b = brightness(Q.video);
-      if (b != null && b < 18) { darkSince ??= now; if (now - darkSince > 5000) { darkSince = now; warn('camera_blocked', `brightness ${Math.round(b)}`); } }
+      const dark = b != null && b < 18;
+      if (dark) { darkSince ??= now; if (now - darkSince > 2000) { darkSince = now; warn('camera_blocked', `brightness ${Math.round(b)}`); } }
       else darkSince = null;
       const faces = Q.detector ? countFaces(Q.detector, Q.video) : null;
       const dot = document.getElementById('qcamdot');
       if (dot) dot.className = `camdot ${faces == null ? '' : faces === 1 ? 'ok' : 'bad'}`;
+      live.face = dark ? 'Camera blocked' : faces === 0 ? 'No face visible' : faces >= 2 ? `${faces} faces visible` : '';
+      showLive();
       if (faces == null) return;
-      if (faces === 0) { noFaceSince ??= now; if (now - noFaceSince > 5000) { noFaceSince = now; warn('no_face'); } }
+      if (faces === 0) { noFaceSince ??= now; if (now - noFaceSince > 2000) { noFaceSince = now; warn('no_face'); } }
       else noFaceSince = null;
       multi = faces >= 2 ? multi + 1 : 0;
-      if (multi >= 2) violation('multiple_faces', `${faces} faces`);
-    }, 1000));
+      if (multi >= 3) violation('multiple_faces', `${faces} faces`);
+    }, TICK));
     // ---- object detection: phone, book, other device, extra person ----
-    // An object must be seen in 3 of the last 5 checks (one per second) before it counts, so a single
-    // misdetection never costs a warning. After a warning the same kind waits 10 s before it can warn again.
+    // After a warning the same kind waits 10 s before it can warn again (one phone = one strike, not five).
     if (Q.objDetector) {
       const history = {}, lastWarned = {}, logged = new Set();
+      const LIVE_TEXT = { phone_detected: 'Phone visible', book_detected: 'Book/notes visible', device_detected: 'Other screen visible', extra_person: 'Another person visible' };
       setTimeout(() => !Q.ended && Q.timers.push(setInterval(() => {
         if (Q.ended) return;
         const found = detectObjects(Q.objDetector, Q.video);
@@ -578,17 +602,21 @@ function startQuiz(r) {
         for (const o of found.filter((x) => x.event === 'object_seen')) {
           if (!logged.has(o.label)) { logged.add(o.label); qapi('event', { type: 'object_seen', detail: `${o.label} ${o.score}` }).catch(() => {}); }
         }
+        const flagged = found.filter((x) => LIVE_TEXT[x.event]);
+        live.objects = [...new Set(flagged.map((x) => LIVE_TEXT[x.event]))].join(' · ');
+        showLive();
         const now = Date.now();
-        for (const ev of ['phone_detected', 'book_detected', 'device_detected', 'extra_person']) {
+        for (const ev of Object.keys(LIVE_TEXT)) {
           const hits = found.filter((x) => x.event === ev);
           const h = (history[ev] = [...(history[ev] || []), hits.length > 0].slice(-5));
-          if (h.filter(Boolean).length < 3 || now - (lastWarned[ev] || 0) < 10_000) continue;
+          const sure = hits.some((x) => x.score >= WATCHED_MIN[ev] + 0.2);
+          if ((!sure && h.filter(Boolean).length < 3) || now - (lastWarned[ev] || 0) < 10_000) continue;
           lastWarned[ev] = now; history[ev] = [];
           const detail = hits.length ? hits.map((x) => `${x.label} ${x.score}`).join(', ') : 'seen in 3 of the last 5 checks';
           if (ev === 'phone_detected' && S.settings.quiz.phoneEndsAttempt) return violation(ev, detail);
           warn(ev, detail);
         }
-      }, 1000)), 500); // offset from the face check so both don't run in the same frame
+      }, TICK)), TICK / 2); // offset from the face check so both don't run in the same frame
     }
 
     sendSnapshot('start');
