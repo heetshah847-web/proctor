@@ -314,6 +314,7 @@ const SOFT_REASONS = {
   book_detected: 'a book or notes are visible on camera',
   device_detected: 'another laptop or screen is visible on camera',
   extra_person: 'another person is visible on camera',
+  looking_away: 'you kept looking to the side, away from the quiz — keep your eyes on the screen',
 };
 
 function stopCamera() {
@@ -745,8 +746,8 @@ function showResult({ grading, award, plan }) {
 }
 
 // ---------------- History / plan detail ----------------
-// Supervisor chips for objects the webcam detector flagged during an attempt (see the events table and photos for evidence).
-const OBJECT_CHIPS = { phone_detected: 'phone on camera', book_detected: 'book/notes on camera', device_detected: 'other device on camera', extra_person: 'other person on camera' };
+// Supervisor chips for what the webcam detectors flagged during an attempt (see the events table and photos for evidence).
+const OBJECT_CHIPS = { phone_detected: 'phone on camera', book_detected: 'book/notes on camera', device_detected: 'other device on camera', extra_person: 'other person on camera', looking_away: 'kept looking to the side' };
 const objectChips = (events) => Object.entries(OBJECT_CHIPS)
   .map(([type, label]) => [label, (events || []).filter((e) => e.type === type).length])
   .filter(([, n]) => n).map(([label, n]) => `<span class="chip bad">${label}${n > 1 ? ` ×${n}` : ''}</span>`).join('');
