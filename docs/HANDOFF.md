@@ -222,3 +222,53 @@ All JSON. Auth is the `sid` HttpOnly cookie. Guards: `student`, `supervisor`, `a
 `planDetail(plan, { forSupervisor })` is the single serializer for plans; it also computes `quiz.unlocked` and the human-readable
 `quiz.reason` (empty plan → waiting for approval → unverified items → missing code → no attempts left → perfect score).
 
+---
+
+## 8. Questions, grading rubric and points
+
+### 8.1 The question bank (`data/question-bank.txt`, `server/question-bank.js`)
+
+Why it exists: the free Gemini tier has tight limits, so questions are pre-written and the AI is used mainly for grading.
+
+Format (plain text, editable by hand; reloaded on server start):
+
+```
+@two-sum 1 5                         <- one or more space-separated sheet slugs, toughness 1-5, interview importance 1-5
+Q With a single pass and a hash map, how do you still find the pair when the matching partner appears later in the array?
+A For each x you check whether target - x has already been seen; if the partner comes later, ...; so every pair is found at its second element; insert x after checking, ...
+```
+
+- `A` lines are **answer keys made of key points separated by `;`**. Every key has 2–7 points (most 3–4). Points are never shown to students before grading.
+- Coverage: all 495 sheet items, 336 blocks, 431 questions. Blocks can share questions across several slugs (e.g. all 22 star patterns, LL basics).
+- A custom LeetCode problem can get its own block keyed by its LeetCode slug (`bankEntry()` looks up the sheet slug first, then the LeetCode slug).
+- Question style rule (requested by the product owner): good, not tough. Ask *why it works*, a *walk-through on a concrete example*,
+  or *what breaks in a careless version*. **No bare "what is the time/space complexity" questions.** 69 earlier questions were rewritten to this rule;
+  complexity may appear as one key point inside a broader question.
+- `pickQuestions(items, alreadyAsked, count)`: builds a per-item queue (shuffled bank questions first, then generic templates),
+  sorts items by `toughness + importance` (random tie-break), and takes questions round-robin, skipping any question text already asked
+  in earlier attempts that day. It also returns per-item ratings from the bank (fallback: difficulty basic/easy→2, core/medium→3, pro/hard→4; importance 3).
+- Generic templates (no key points; the grader writes its own 3): explain the core idea and why it works; walk through on an example;
+  the key observation that avoids brute force; an input that breaks a careless solution.
+
+### 8.2 The single grading rubric (`server/rubric.js`)
+
+One rubric for every question, shown to students before the quiz, on the Profile page, and under every result:
+
+- Each question is worth **10 points**, split **equally** between its key points.
+- Each key point is **covered** (1 × share), **partly covered** (0.5 × share — vague, incomplete or a small mistake) or **missed** (0 — absent or wrong).
+- Own words are fine; meaning is judged, not wording.
+- Attempt % = points earned ÷ points possible.
+
+The AI only returns a status per key point; `scoreQuestion()` does the arithmetic (`round(sum(credits)/n × 10, 1 decimal)`), so scores are
+consistent and explainable. Blank answers are scored 0 locally without an AI call. Example: 4 points, 2 covered + 1 partial + 1 missed → 6.25/10.
+`GRADER_RUBRIC` is the model-facing version (includes: re-trace dry-run code yourself; if the answer key's trace is wrong but the
+student's matches the real code, mark covered; no-key questions → write 3 key points first).
+
+### 8.3 Points and streaks (`server/points.js`)
+
+- Item points = `5 + 3×toughness + 2×importance` (10–30). Learning items (videos/articles) count half.
+- Ratings are frozen in `plans.ratings_json` at the first quiz start, so retries cannot change the base.
+- Streak = consecutive days (ending on the plan's day) with `best_pct ≥ QUIZ_PASS_PCT`. Multiplier = `1 + 0.05 × min(streak − 1, 20)` (max ×2).
+- Day award = `round(base × multiplier × best% / 100)` if `best% ≥ pass`, else 0. Recomputed after every graded attempt using the **best** attempt.
+- Total points = sum of `plans.points_awarded`.
+
