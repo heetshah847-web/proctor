@@ -54,26 +54,30 @@ Before the quiz, a system check must pass:
 - full screen is supported;
 - only one monitor is connected;
 - the webcam is on, with exactly one face visible;
+- no phone, book or other screen is visible, and eye tracking has calibrated where the student looks straight ahead;
 - the student ticks a consent box.
 
 The quiz then runs full screen. Where supported, Keyboard Lock routes Alt+Tab, the Windows key and Esc to the page, so they can be blocked.
 
 | Ends the attempt immediately (0%) | Warning (`QUIZ_MAX_STRIKES`, default 3, ends it) |
 |---|---|
-| leaving full screen; switching tab or window; alt-tab; minimising | face not visible for 5 s; camera covered or dark |
+| leaving full screen; switching tab or window; alt-tab; minimising | face not visible for 2 s; camera covered or dark |
 | refresh or close; resizing the window or opening dev tools | copy, paste, print, dev-tools or new-tab shortcuts; right-click |
 | a second monitor connected; the quiz opened in another tab or device | mouse leaving the window |
 | text pasted, dropped or autofilled into an answer | text appearing faster than a person types (>100 chars in 5 s) |
 | camera turned off; two or more faces on camera | a browser extension injecting into the page |
-| no heartbeat for 12 s; webcam photos stop reaching the server for 60 s | |
+| no heartbeat for 12 s; webcam photos stop reaching the server for 60 s | a phone, book/notes, another screen or another person on camera |
+| | looking to the left or right for 4 s at a time, or 15 s in total within a minute |
 
 - Webcam photos are taken every 20 s and at every warning. The supervisor sees them per attempt, with face counts, plus the full event log and warning count.
 - Face detection (MediaPipe BlazeFace) runs **in the browser**; video never leaves the computer, only the small photos do. The library and model are served from this server, not a CDN.
+- Object detection (EfficientDet-Lite0 float16) and eye tracking (MediaPipe Face Landmarker) also run in the browser, on the CPU. All three models are open source (Apache 2.0) and live in `public/models/`.
+- Eye tracking adds the head turn and the eye turn into one angle, measured from where the student looked during the system check (so a webcam mounted slightly to one side still works). This catches reading from a second laptop, tablet or notes placed **out of camera view**, which object detection cannot see. A live "Looking to your left/right" alert shows on the camera box before it becomes a warning.
 - Each attempt gets a secret token, and requests without it (another tab or device) end the attempt. The camera and heartbeat rules are also enforced on the server, so turning off the page's JavaScript doesn't get around them.
 - Each retry gets new questions, the answer keys never reach the browser before grading, and student answers are treated as untrusted input by the grader.
 
 ### Limits to know about
-- A web page cannot fully lock the computer. The webcam catches a second person, but not a phone held out of view or someone whispering. Full lockdown would need a desktop kiosk app (e.g. Electron) or a second camera.
+- A web page cannot fully lock the computer. The webcam catches a second person and long looks to the side, but not a phone held below the camera while looking at the screen, or someone whispering. Full lockdown would need a desktop kiosk app (e.g. Electron) or a second camera.
 - Ctrl+Alt+Del and OS-level overlays can't be blocked by a browser, though leaving the quiz window is still detected.
 - LeetCode's public API returns only the ~20 most recent accepted submissions, so press **Check progress** the same day.
 - The LeetCode profile's recent submissions must be public.
@@ -107,6 +111,9 @@ The `A` line is the answer key: key points separated by `;`, each scored separat
 | `QUIZ_QUESTIONS` / `QUIZ_MINUTES` / `QUIZ_MAX_ATTEMPTS` / `QUIZ_PASS_PCT` | 3 / 15 / 3 / 50 | |
 | `QUIZ_REQUIRE_CAMERA` | `true` | `false` turns off webcam proctoring |
 | `QUIZ_MAX_STRIKES` | `3` | warnings before an attempt ends |
+| `OBJECT_DETECTION` / `PHONE_ENDS_ATTEMPT` | `true` / `false` | phone, book, screen and second-person detection; `true` makes a phone end the attempt |
+| `GAZE_DETECTION` | `true` | warn when the student keeps looking to the side |
+| `GAZE_MAX_DEG` / `GAZE_AWAY_SECONDS` / `GAZE_BUDGET_SECONDS` | 30 / 4 / 15 | how far is "away", how long at once, how long in total per minute |
 | `REQUIRE_SUPERVISOR_APPROVAL` | `true` | `false` = quiz unlocks without approval |
 
 ## Layout
