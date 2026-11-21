@@ -54,6 +54,13 @@ export const config = {
     // Webcam object detection (phone, book, second device, second person). PHONE_ENDS_ATTEMPT=true makes a phone end the attempt.
     objectDetection: process.env.OBJECT_DETECTION !== 'false',
     phoneEndsAttempt: process.env.PHONE_ENDS_ATTEMPT === 'true',
+    // Gaze tracking: a warning when the student keeps looking to the left or right (e.g. reading a second
+    // laptop or notes placed out of camera view). Angles are head turn + eye turn, measured from where the
+    // student looked during the pre-quiz check. Short glances are fine.
+    gazeDetection: process.env.GAZE_DETECTION !== 'false',
+    gazeMaxDeg: num('GAZE_MAX_DEG', 30),              // further to the side than this counts as looking away
+    gazeAwaySeconds: num('GAZE_AWAY_SECONDS', 4),     // looking away this long without a break = a warning
+    gazeBudgetSeconds: num('GAZE_BUDGET_SECONDS', 15), // ...or this long in total within any 60 seconds
     maxStrikes: num('QUIZ_MAX_STRIKES', 3),          // warnings (no face, blocked keys, ...) before the attempt ends
     snapshotEveryMs: num('QUIZ_SNAPSHOT_EVERY_MS', 20000),
     // Webcam snapshots are deleted after this many days (0 = keep forever).
