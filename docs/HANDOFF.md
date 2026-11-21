@@ -412,3 +412,80 @@ The client throttles each warning type to one per 3 s (a held key must not burn 
 - **The client-side proctoring has never been run in a real browser during development** (only syntax-checked and its assets verified to be served).
   The server-side rules were tested end to end (see section 12). Test a full quiz in Chrome before relying on it.
 
+---
+
+## 11. Security and operations
+
+| Area | What is in place (files) |
+|---|---|
+| Passwords | scrypt (async, libuv pool), random 16-byte salt, `timingSafeEqual`; unknown emails verify against a dummy hash so timing does not reveal accounts (`auth.js`). Password 8–200 chars. |
+| Sessions | 32-byte random token in `sid` cookie: `HttpOnly; SameSite=Lax; Path=/`, plus `Secure` when `NODE_ENV=production` or `COOKIE_SECURE=true`. 14-day expiry, purged hourly. |
+| Headers | CSP (`default-src 'self'`, `script-src 'self' 'wasm-unsafe-eval'`, `frame-ancestors 'none'`, …), `X-Frame-Options: DENY`, `nosniff`, Referrer-Policy, Permissions-Policy (camera self only), COOP; HSTS when secure cookies are on; `x-powered-by` off. |
+| Rate limits (`ratelimit.js`, in-memory) | login 10 / 15 min per IP and per email; signup 5 / h per IP; AI routes (quiz start, regrade) 10 / h per user; external calls (profile, add item, propose, verify) 30 / 10 min per user; all `/api` 600 / min. Behind a proxy set `TRUST_PROXY=true`. Multiple server instances would need a shared store. |
+| Errors | Unexpected errors return `Server error (ref xxxx)`; details only in the server log. AI provider errors are reduced to "busy" / "unavailable". |
+| Input limits | JSON body 200 KB (snapshot route 300 KB), answers ≤4000 chars × ≤50, code ≤250 lines / 10 000 chars, events ≤500 and snapshots capped per attempt. |
+| Authorization | Students only touch their own plans/attempts (`ownPlan`, `ownAttempt`); supervisors only their linked students (joins on `users.supervisor_id`), including snapshot images. |
+| Secrets | `.env*` git-ignored except `.env.example`. `users.tuf_cookie` is stored in plaintext in SQLite and never sent to the browser — encrypting it at rest is a reasonable next step. |
+| Paid API abuse | Regrade guarded against parallel calls; AI routes rate-limited; blank answers never call the AI. |
+
+---
+
+## 12. Testing
+
+There is no committed test suite yet. During development these were run against a throwaway DB (`DB_PATH=<tmp>/test.db PORT=3999 node server/index.js --demo`)
+with small Node scripts using `fetch` and a cookie jar (the scripts lived in a scratch folder and are not in the repo):
+
+- **Full flow:** signup both roles → link by invite code → LeetCode username validation (bad name rejected) → plan for a day containing a real
+  accepted submission of the public user `lee215` → add sheet + custom LeetCode items → propose → verify (LeetCode hit found) → self-attest
+  rules → supervisor removes an item and approves → plan locked → quiz locked until code is saved → attempts → points/streak → supervisor
+  detail → student cannot call supervisor routes. (Because of the "today only" rule added later, such a test now has to use today's date.)
+- **Proctoring server rules:** start refused without camera / with two monitors; snapshot accepted, bad image rejected; request without the
+  token ends the attempt (`second_session`); 3 warnings → `too_many_warnings`; snapshots stopping → `camera_missing` (with `QUIZ_MAX_SNAPSHOT_GAP_MS=3000`);
+  `multiple_faces` → terminated; clean submit graded; supervisor can fetch the JPEG, the student gets 403.
+- **Grading math:** mocked Gemini replies checked status-by-position alignment and the rubric arithmetic (e.g. 2/2 → 10, covered+partial+missed → 5).
+- **Dry-run questions:** mocked Gemini verified the prompt (numbered code) and the fallback to bank questions on a 429.
+- **Question bank:** a script checks every one of the 495 sheet slugs has a block and every answer key has ≥2 `;`-separated points.
+
+Not tested: live Gemini or Claude calls, real TUF cookies, and the browser-side proctoring in a real browser (camera, face detection, keyboard lock).
+Recommended next step: commit these scripts as `npm test` (e.g. `node --test`), using `--demo` and a mocked `fetch` for the AI.
+
+---
+
+## 13. How the project evolved (decisions and their reasons)
+
+1. **Initial build** — roles, daily plan with supervisor approval, LeetCode/TUF verification, AI quiz with retries (best score counts), points with
+   streak and topic weight, browser-level proctoring. Claude was the first AI provider.
+2. **"Paste the login redirect URL" request (not built)** — see 5.3: impossible for LeetCode/TUF because they offer no third-party OAuth.
+   The user pasted a live Microsoft OAuth `code` for CodeTantra; it was not used. Never use such codes.
+3. **Gemini support** — the owner has a free Gemini key. Gemini became the auto-selected provider when it is the only key.
+4. **Question bank** — to save Gemini quota, questions were pre-written for all 495 items; AI used for grading only.
+5. **Key-point rubric + better questions** — the owner wanted transparent scoring ("how many points my answer covers") and good, not tough,
+   questions without bare complexity prompts. Answer keys became `;`-separated key points; one rubric; 69 questions rewritten.
+6. **Dry-run questions on the student's own code** — the owner asked for questions that make the student trace their code on an example and
+   justify specific lines. Added code storage per item, the code requirement, and one AI-written dry-run question per attempt.
+7. **Strict proctoring** — webcam + in-browser face detection, hard/soft violations with strikes, attempt token, server-enforced heartbeat and
+   snapshot gaps, keyboard lock, input forensics, supervisor evidence.
+8. **Security hardening** (separate commits after step 7) — headers/CSP, rate limits, async scrypt, generic errors, server-side "today only"
+   plans, attempt locking with grace period and caps, untrusted-text neutralisation for the grader, deployment env docs.
+9. **This handoff document.**
+
+---
+
+## 14. Conventions and guidance for future changes
+
+- No build step and no framework: keep the frontend as ES modules; escape all user content with `esc()` when building HTML strings.
+- Keep **all scoring math on the server** (`rubric.js`, `points.js`); the AI only classifies key points.
+- Never send key points / answer keys to the browser before grading (`/quiz/start` returns only question text, item title, and the student's own code).
+- Every new attempt endpoint must go through `attemptFromTab()` (token check) and respect `recentlyEnded()` for evidence.
+- New proctoring signal → add it to `HARD` or `SOFT` in `server/index.js` **and** a message in `HARD_REASONS` / `SOFT_REASONS` in `public/app.js`.
+- New DB column → CREATE statement **and** the migration list in `db.js`.
+- Treat all student text (answers, code, notes) as untrusted in prompts: wrap it in tags and pass it through `untrusted()`.
+- Paid/quota'd calls (AI, LeetCode, TUF) must sit behind the matching rate limiter.
+- The `README.md` is the user-facing doc; this file is the engineering handoff. Update both when behaviour changes.
+
+### Open ideas (not built)
+
+- LeetCode account ownership proof (one-time code in the profile "About me").
+- TUF connection by pasting "Copy as cURL" and validating it immediately.
+- Encrypt `tuf_cookie` at rest; move rate limits to a shared store for multi-instance deployments.
+- Committed automated tests (section 12), and an Electron kiosk build for full lockdown.
