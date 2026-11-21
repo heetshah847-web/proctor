@@ -40,7 +40,8 @@ The quiz exists because LeetCode "accepted" and TUF "done" can be faked (pasting
 - **Express 5** server, **SQLite** file DB (`data/proctor.db`, WAL mode).
 - **Vanilla JS** single-page frontend in `public/` (ES modules, no framework).
 - **AI:** Google **Gemini** (REST `generateContent`) or **Anthropic Claude** (`@anthropic-ai/sdk`), chosen by env vars.
-- **Face detection:** `@mediapipe/tasks-vision@0.10.14` (BlazeFace), served locally from `node_modules`, model file in `public/models/`.
+- **Webcam checks:** `@mediapipe/tasks-vision@0.10.14` served locally from `node_modules`: BlazeFace (face count), EfficientDet-Lite0 (phone,
+  book, screen, person) and Face Landmarker (gaze); model files in `public/models/` (see 10.5).
 
 ```bash
 npm install
