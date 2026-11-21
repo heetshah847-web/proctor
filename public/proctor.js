@@ -54,6 +54,24 @@ export function countFaces(detector, video) {
   return detector.detectForVideo(video, ts).detections.length;
 }
 
+// ---------- Gaze: where the head and eyes point (MediaPipe Face Landmarker: 478 landmarks, blendshapes, head pose) ----------
+let gazePromise = null;
+/** Loads the face landmarker once (≈3.7 MB). Rejects if unavailable. */
+export function loadGazeTracker() {
+  gazePromise ??= (async () => {
+    const { vision: { FaceLandmarker }, fileset } = await loadVision();
+    // CPU only (~40 ms a frame): on the GPU delegate it reported extra faces that were not in the picture.
+    return FaceLandmarker.createFromOptions(fileset, {
+      baseOptions: { modelAssetPath: '/models/face_landmarker.task', delegate: 'CPU' },
+      runningMode: 'VIDEO',
+      numFaces: 1,
+      outputFaceBlendshapes: true,
+      outputFacialTransformationMatrixes: true,
+    });
+  })().catch((e) => { gazePromise = null; throw e; });
+  return gazePromise;
+}
+
 // ---------- Object detection (EfficientDet-Lite0, 80 COCO classes) ----------
 // Each watched COCO label maps to the proctoring event it raises, with its own confidence threshold.
 // 'object_seen' is only logged for the supervisor (a cup of water is fine).
