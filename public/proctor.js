@@ -1,12 +1,22 @@
 // Browser-side proctoring helpers: webcam, face detection (MediaPipe, served locally), snapshots, screen checks.
 const MP = '/vendor/mediapipe';
 let detectorPromise = null;
+let visionPromise = null;
+
+/** Loads the MediaPipe vision bundle and WASM files once; shared by all detectors. */
+function loadVision() {
+  visionPromise ??= (async () => {
+    const vision = await import(`${MP}/vision_bundle.mjs`);
+    const fileset = await vision.FilesetResolver.forVisionTasks(`${MP}/wasm`);
+    return { vision, fileset };
+  })().catch((e) => { visionPromise = null; throw e; });
+  return visionPromise;
+}
 
 /** Loads the BlazeFace detector once. Rejects if WebAssembly/WebGL isn't available. */
 export function loadFaceDetector() {
   detectorPromise ??= (async () => {
-    const { FilesetResolver, FaceDetector } = await import(`${MP}/vision_bundle.mjs`);
-    const fileset = await FilesetResolver.forVisionTasks(`${MP}/wasm`);
+    const { vision: { FaceDetector }, fileset } = await loadVision();
     return FaceDetector.createFromOptions(fileset, {
       baseOptions: { modelAssetPath: '/models/blaze_face_short_range.tflite' },
       runningMode: 'VIDEO',
@@ -33,6 +43,55 @@ export function countFaces(detector, video) {
   const ts = Math.max(performance.now(), lastTs + 1); // VIDEO mode needs increasing timestamps
   lastTs = ts;
   return detector.detectForVideo(video, ts).detections.length;
+}
+
+// ---------- Object detection (EfficientDet-Lite0, 80 COCO classes) ----------
+// Each watched COCO label maps to the proctoring event it raises, with its own confidence threshold.
+// 'object_seen' is only logged for the supervisor (a cup of water is fine).
+export const WATCHED_OBJECTS = {
+  'cell phone': { event: 'phone_detected', minScore: 0.5 },
+  book: { event: 'book_detected', minScore: 0.55 },
+  laptop: { event: 'device_detected', minScore: 0.6 },
+  tv: { event: 'device_detected', minScore: 0.6 },
+  person: { event: 'extra_person', minScore: 0.6 }, // raised only when 2+ people are seen
+  cup: { event: 'object_seen', minScore: 0.5 },
+  bottle: { event: 'object_seen', minScore: 0.5 },
+};
+
+let objectDetectorPromise = null;
+/** Loads the object detector once (≈4.6 MB model). Rejects if unavailable. */
+export function loadObjectDetector() {
+  objectDetectorPromise ??= (async () => {
+    const { vision: { ObjectDetector }, fileset } = await loadVision();
+    return ObjectDetector.createFromOptions(fileset, {
+      baseOptions: { modelAssetPath: '/models/efficientdet_lite0.tflite' },
+      runningMode: 'VIDEO',
+      scoreThreshold: 0.45,
+      maxResults: 10,
+      categoryAllowlist: Object.keys(WATCHED_OBJECTS),
+    });
+  })().catch((e) => { objectDetectorPromise = null; throw e; });
+  return objectDetectorPromise;
+}
+
+/**
+ * Watched objects in the current frame, as [{ label, event, score }], or null if detection isn't possible.
+ * Each detection is kept only above its label's own threshold; 'person' becomes extra_person only for the 2nd+ person.
+ */
+export function detectObjects(detector, video) {
+  if (!detector || video.readyState < 2) return null;
+  const ts = Math.max(performance.now(), lastTs + 1);
+  lastTs = ts;
+  const found = [];
+  let people = 0;
+  for (const d of detector.detectForVideo(video, ts).detections) {
+    const c = d.categories?.[0];
+    const rule = c && WATCHED_OBJECTS[c.categoryName];
+    if (!rule || c.score < rule.minScore) continue;
+    if (c.categoryName === 'person' && ++people < 2) continue;
+    found.push({ label: c.categoryName, event: rule.event, score: Math.round(c.score * 100) / 100 });
+  }
+  return found;
 }
 
 /** Small JPEG of the current frame (≈15–30 KB). */
