@@ -10,7 +10,31 @@ import { computeAward, streakIncluding, currentStreak } from './points.js';
 import { RUBRIC_TEXT } from './rubric.js';
 
 const app = express();
-app.use(express.json({ limit: '200kb' }));
+app.disable('x-powered-by');
+if (config.trustProxy) app.set('trust proxy', 1);
+
+// Security headers. MediaPipe needs 'wasm-unsafe-eval' (WebAssembly) and blob: workers; the page uses inline style attributes.
+const CSP = [
+  "default-src 'self'", "script-src 'self' 'wasm-unsafe-eval'", "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:", "media-src 'self' blob:", "connect-src 'self'", "worker-src 'self' blob:",
+  "object-src 'none'", "base-uri 'self'", "form-action 'self'", "frame-ancestors 'none'",
+].join('; ');
+app.use((_req, res, next) => {
+  res.set({
+    'Content-Security-Policy': CSP,
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Permissions-Policy': 'camera=(self), microphone=(), geolocation=(), payment=()',
+    'Cross-Origin-Opener-Policy': 'same-origin',
+  });
+  if (config.secureCookies) res.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains');
+  next();
+});
+
+// Snapshots get their own, larger body limit (a 200 KB JPEG is ~270 KB as base64).
+const jsonBody = express.json({ limit: '200kb' });
+app.use((req, res, next) => (/^\/api\/attempts\/\d+\/snapshot$/.test(req.path) ? next() : jsonBody(req, res, next)));
 app.use(loadUser);
 app.use(express.static(path.join(ROOT, 'public')));
 // Face detection runs in the browser from a locally served copy of MediaPipe (no CDN needed during a quiz).

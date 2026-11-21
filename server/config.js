@@ -17,6 +17,10 @@ const num = (k, d) => (process.env[k] !== undefined ? Number(process.env[k]) : d
 
 export const config = {
   port: num('PORT', 3000),
+  // Secure cookies + HSTS: on by default in production (HTTPS). Set COOKIE_SECURE=false to test production mode over plain http.
+  secureCookies: process.env.COOKIE_SECURE ? process.env.COOKIE_SECURE === 'true' : process.env.NODE_ENV === 'production',
+  // Set TRUST_PROXY=true when running behind a reverse proxy / load balancer, so req.ip is the real client IP.
+  trustProxy: process.env.TRUST_PROXY === 'true',
   // 'claude' (default) uses the Anthropic API; 'demo' uses canned questions + heuristic grading for local trials.
   aiMode: process.env.AI_MODE === 'demo' || process.argv.includes('--demo') ? 'demo' : 'claude',
   // 'gemini' or 'claude'. Defaults to gemini when only GEMINI_API_KEY is set.
