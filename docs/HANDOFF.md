@@ -343,6 +343,10 @@ The *Start* button stays disabled until all of these pass and the student ticks 
 - Webcam on (`getUserMedia`), when `QUIZ_REQUIRE_CAMERA` (default true).
 - Exactly one face visible (MediaPipe BlazeFace, `public/proctor.js`). If the face model cannot load (no WebAssembly/WebGL), the check is shown as
   "photos only" and does not block.
+- No phone, book, laptop/TV or second person visible (object detection, when `OBJECT_DETECTION` is on).
+- Eye tracking calibrated (when `GAZE_DETECTION` is on and the model loaded): 8+ gaze samples while one face is visible. The median of the
+  last 20 samples, capped to ±20°, becomes the student's straight-ahead angle (`Q.gazeCenter`) and is logged in the preflight event.
+- A live readout under the camera preview shows the current gaze angle and flagged objects with their scores (useful for tuning).
 
 On start: `requestFullscreen()` (needs the click gesture, so it is called first), then `navigator.keyboard.lock()` (Chrome/Edge, fullscreen only:
 routes Alt+Tab, the Windows key and Esc to the page; holding Esc still exits fullscreen), then `POST /quiz/start` with a `preflight` summary.
@@ -388,6 +392,8 @@ end the attempt with `too_many_warnings`. The lists live in `HARD` and `SOFT` in
 | `bulk_insert` | a single `insertText` of > 3 chars |
 | `superhuman_typing` | > 100 typed chars in 5 s |
 | `page_modified` | `MutationObserver` on `<html>`/`<body>` direct children (extensions like Grammarly inject there); once per tag |
+| `phone_/book_/device_detected`, `extra_person` | object detection: seen in 3 of the last 5 checks (~0.75 s) or one frame ≥ threshold + 0.2; 10 s cool-down per kind |
+| `looking_away` | gaze > `GAZE_MAX_DEG` (30°) from centre for `GAZE_AWAY_SECONDS` (4 s) without a break, or `GAZE_BUDGET_SECONDS` (15 s) in total within 60 s; 10 s cool-down |
 
 The client throttles each warning type to one per 3 s (a held key must not burn all strikes). The server counts strikes and returns
 `{ status: { status, end_reason, strikes }, maxStrikes }`; the quiz shows "Warning n of 3", and "One more warning ends this attempt" on the last one.
@@ -402,9 +408,31 @@ The client throttles each warning type to one per 3 s (a held key must not burn 
 - MediaPipe (`@mediapipe/tasks-vision@0.10.14`) is served from `node_modules` at `/vendor/mediapipe`; the model is `public/models/blaze_face_short_range.tflite`.
   No CDN at quiz time. The CSP allows `'wasm-unsafe-eval'` and `blob:` workers for it.
 
-### 10.5 Known limits (be honest about these)
+### 10.5 Object detection and eye tracking
 
-- Not detectable from a browser: a phone held out of camera view, someone whispering, a second person out of frame, Ctrl+Alt+Del, OS overlays
+Both run in the browser on the CPU, from models in `public/models/` (all Apache 2.0):
+
+| Model | File | Used for | Delegate |
+|---|---|---|---|
+| BlazeFace short-range | `blaze_face_short_range.tflite` | face count | GPU, CPU fallback |
+| EfficientDet-Lite0 float16 | `efficientdet_lite0_fp16.tflite` | phone, book, laptop/TV, second person | **CPU only** |
+| Face Landmarker | `face_landmarker.task` | head pose + eye direction | **CPU only** |
+
+- **Why CPU only:** on the GPU delegate EfficientDet loaded without an error but returned no detections at all, so the CPU fallback never
+  ran and phones were never flagged. The Face Landmarker on the GPU reported faces that were not in the picture. Tested in headless Chrome on
+  photos of people holding phones: CPU found the phone in 4 of 5 (scores 0.74–0.79), GPU in 0 of 5. Costs: ~85 ms (objects) and ~40 ms
+  (landmarker) per frame on the CPU, each 4× a second.
+- **Model choice:** the float16 Lite0 found phones the int8 Lite0 missed; Lite2 (int8 and float16) was 2–3× slower and found fewer phones.
+- **Gaze angle** (`readGaze` in `public/proctor.js`): head yaw from the facial transformation matrix + eye turn from the `eyeLookIn/Out`
+  blendshapes × 30°. The blendshape sides have the opposite sign to the head yaw; with that, test photos of people who turned their head but
+  looked at the camera all came out within ±12°. Positive = the student's left. The quiz compares it with the calibrated centre.
+- If the face detector sees one face but the landmarker returns nothing for 10 s, a `gaze_unavailable` event is logged once (no strike), so
+  a silently broken model shows up in the supervisor's event log.
+- Supervisor chips: "phone on camera", "book/notes on camera", "other device on camera", "other person on camera", "kept looking to the side".
+
+### 10.6 Known limits (be honest about these)
+
+- Not detectable from a browser: a phone held below the camera while the student keeps looking at the screen, someone whispering, a second person out of frame, Ctrl+Alt+Del, OS overlays
   that are invisible to the page. Full lockdown needs a desktop kiosk app (e.g. Electron) or a second camera.
 - Keyboard Lock and `screen.isExtended` are Chromium-only.
 - Heuristics that may need tuning after real use: typing-speed limit, 5 s no-face rule, darkness threshold (dim rooms), 300 ms blur debounce,
