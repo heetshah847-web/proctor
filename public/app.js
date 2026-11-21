@@ -327,6 +327,7 @@ function openQuizIntro(plan) {
   const needCam = S.settings.quiz.requireCamera;
   const objects = needCam && S.settings.quiz.objectDetection;
   const phoneEnds = objects && S.settings.quiz.phoneEndsAttempt;
+  const gaze = needCam && S.settings.quiz.gazeDetection;
   $quiz.hidden = false;
   $quiz.innerHTML = `<div class="inner"><div class="card">
     <h1>Proctored AI check</h1>
@@ -338,7 +339,8 @@ function openQuizIntro(plan) {
           <li><b>Ends the attempt immediately (0%):</b> leaving full screen (Esc), switching tab or window, alt-tab, minimising, refreshing,
             resizing the window or opening developer tools, connecting a second monitor, opening the quiz in another tab/device,
             pasting or dropping text into an answer${needCam ? ', turning the camera off, or a second person on camera' : ''}${phoneEnds ? ', a phone seen on camera' : ''}.</li>
-          <li><b>Warnings</b> (${S.settings.quiz.maxStrikes} warnings end the attempt): ${needCam ? 'face not visible for 5 s, camera covered, ' : ''}
+          <li><b>Warnings</b> (${S.settings.quiz.maxStrikes} warnings end the attempt): ${needCam ? 'face not visible for 2 s, camera covered, ' : ''}
+            ${gaze ? `looking to the left or right for ${S.settings.quiz.gazeAwaySeconds} s at a time (or ${S.settings.quiz.gazeBudgetSeconds} s in any minute), ` : ''}
             ${objects ? `${phoneEnds ? '' : 'a phone, '}a book or notes, another laptop or screen, or another person visible on camera, ` : ''}
             blocked shortcuts (copy, paste, print, dev tools), right-click, mouse leaving the window, browser extensions changing the page,
             text appearing faster than a person can type.</li>
