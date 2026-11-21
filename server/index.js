@@ -192,6 +192,14 @@ app.post('/api/plans', student, (req, res) => {
   if (!isDay(day) || !Number.isFinite(dayStart)) fail(400, 'day and dayStart are required');
   let p = one('SELECT * FROM plans WHERE student_id = ? AND day = ?', req.user.id, day);
   if (!p) {
+    // The client sends its local date and local midnight. Accept them only if they are consistent with each
+    // other (UTC-12..UTC+14) and with the real current time, so plans can't be made for other days
+    // and the LeetCode verification window can't be moved back to old submissions.
+    const H = 3600_000;
+    const utcMidnight = Date.parse(`${day}T00:00:00Z`);
+    const offset = utcMidnight - dayStart; // = the client's UTC offset
+    if (!Number.isFinite(utcMidnight) || offset < -12 * H || offset > 14 * H || offset % (15 * 60_000) !== 0) fail(400, 'Invalid day');
+    if (now() < dayStart || now() >= dayStart + 25 * H) fail(400, "You can only create today's plan — check your computer's date and time");
     run('INSERT INTO plans (student_id, day, day_start, created_at) VALUES (?,?,?,?)', req.user.id, day, dayStart, now());
     p = one('SELECT * FROM plans WHERE student_id = ? AND day = ?', req.user.id, day);
   }
