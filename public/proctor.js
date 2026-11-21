@@ -58,7 +58,7 @@ export function countFaces(detector, video) {
 // Each watched COCO label maps to the proctoring event it raises, with its own confidence threshold.
 // 'object_seen' is only logged for the supervisor (a cup of water is fine).
 export const WATCHED_OBJECTS = {
-  'cell phone': { event: 'phone_detected', minScore: 0.5 },
+  'cell phone': { event: 'phone_detected', minScore: 0.4 }, // phones often score 0.4–0.5 on a webcam
   book: { event: 'book_detected', minScore: 0.55 },
   laptop: { event: 'device_detected', minScore: 0.6 },
   tv: { event: 'device_detected', minScore: 0.6 },
@@ -72,9 +72,12 @@ let objectDetectorPromise = null;
 export function loadObjectDetector() {
   objectDetectorPromise ??= (async () => {
     const { vision: { ObjectDetector }, fileset } = await loadVision();
-    return createTask(ObjectDetector, fileset, '/models/efficientdet_lite0.tflite', {
+    // CPU only: on the GPU delegate EfficientDet loads without error but returns no detections at all
+    // (tested: phone photos give 'cell phone' 0.74–0.79 on CPU, nothing on GPU), so the fallback never ran.
+    return ObjectDetector.createFromOptions(fileset, {
+      baseOptions: { modelAssetPath: '/models/efficientdet_lite0.tflite', delegate: 'CPU' },
       runningMode: 'VIDEO',
-      scoreThreshold: 0.45,
+      scoreThreshold: 0.35,
       maxResults: 10,
       categoryAllowlist: Object.keys(WATCHED_OBJECTS),
     });
