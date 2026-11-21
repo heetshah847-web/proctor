@@ -607,13 +607,31 @@ function startQuiz(r) {
     // objects 3 of the last 5 frames (~0.75 s) or a single very confident frame.
     const TICK = 250;
     let noFaceSince = null, darkSince = null, multi = 0;
-    const live = { face: '', objects: '' };
+    const live = { face: '', gaze: '', objects: '' };
     const showLive = () => {
       const el = document.getElementById('qcamalert');
       if (!el) return;
-      const msg = [live.face, live.objects].filter(Boolean).join(' · ');
+      const msg = [live.face, live.gaze, live.objects].filter(Boolean).join(' · ');
       el.hidden = !msg; el.textContent = msg;
       document.getElementById('qcam')?.classList.toggle('alert', Boolean(msg));
+    };
+    // ---- gaze: looking to the left or right, e.g. reading a laptop or notes placed out of camera view ----
+    // Head turn + eye turn, measured from the straight-ahead angle calibrated before the quiz. Glances are fine;
+    // looking away for gazeAwaySeconds without a break is a warning (then 10 s before the next one).
+    const G = S.settings.quiz;
+    let awaySince = null, gazeWarned = 0;
+    const checkGaze = (now) => {
+      const g = readGaze(Q.gazeTracker, Q.video);
+      const off = g ? g.angle - Q.gazeCenter : 0;
+      const away = g != null && Math.abs(off) > G.gazeMaxDeg;
+      const side = off > 0 ? 'left' : 'right'; // the student's own left/right
+      live.gaze = away ? `Looking to your ${side}` : '';
+      if (!away) { awaySince = null; return; }
+      awaySince ??= now;
+      if (now - awaySince < G.gazeAwaySeconds * 1000 || now - gazeWarned < 10_000) return;
+      const secs = Math.round((now - awaySince) / 1000);
+      gazeWarned = now; awaySince = null;
+      warn('looking_away', `looked ${side} for ${secs} s (${Math.round(Math.abs(off))}° off centre: head ${g.yaw}°, eyes ${g.eyes}°)`);
     };
     Q.timers.push(setInterval(() => {
       if (Q.ended) return;
@@ -627,6 +645,8 @@ function startQuiz(r) {
       const dot = document.getElementById('qcamdot');
       if (dot) dot.className = `camdot ${faces == null ? '' : faces === 1 ? 'ok' : 'bad'}`;
       live.face = dark ? 'Camera blocked' : faces === 0 ? 'No face visible' : faces >= 2 ? `${faces} faces visible` : '';
+      if (Q.gazeTracker && faces === 1) checkGaze(now);
+      else { live.gaze = ''; awaySince = null; }
       showLive();
       if (faces == null) return;
       if (faces === 0) { noFaceSince ??= now; if (now - noFaceSince > 2000) { noFaceSince = now; warn('no_face'); } }
