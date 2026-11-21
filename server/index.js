@@ -153,6 +153,9 @@ function planDetail(plan, { forSupervisor = false } = {}) {
   const needsCode = (i) => config.quiz.requireCode === 'practice' && i.kind !== 'learning' && !i.code?.trim();
   const missingCode = items.filter(needsCode).map((i) => i.title);
   const used = attempts.length;
+  // QUIZ_MAX_ATTEMPTS=0 (the testing default) means unlimited attempts, including retries after a perfect score.
+  const limited = config.quiz.maxAttempts > 0;
+  const outOfAttempts = limited && used >= config.quiz.maxAttempts;
   const approvedOk = !config.requireSupervisorApproval || plan.status === 'approved';
   return {
     id: plan.id, day: plan.day, status: plan.status, studentNote: plan.student_note, supervisorNote: plan.supervisor_note,
@@ -169,14 +172,14 @@ function planDetail(plan, { forSupervisor = false } = {}) {
     award: ratings ? award : null,
     quiz: {
       attemptsUsed: used,
-      maxAttempts: config.quiz.maxAttempts,
-      unlocked: approvedOk && allVerified && !missingCode.length && used < config.quiz.maxAttempts && (plan.best_pct ?? 0) < 100,
+      maxAttempts: limited ? config.quiz.maxAttempts : null, // null = unlimited
+      unlocked: approvedOk && allVerified && !missingCode.length && !outOfAttempts && !(limited && (plan.best_pct ?? 0) >= 100),
       reason: !items.length ? 'Add items to your plan'
         : !approvedOk ? 'Waiting for supervisor approval'
         : !allVerified ? 'Complete and verify every item first'
         : missingCode.length ? `Add your code for: ${missingCode.join(', ')}`
-        : used >= config.quiz.maxAttempts ? 'No attempts left today'
-        : (plan.best_pct ?? 0) >= 100 ? 'Perfect score already' : null,
+        : outOfAttempts ? 'No attempts left today'
+        : limited && (plan.best_pct ?? 0) >= 100 ? 'Perfect score already' : null,
     },
   };
 }

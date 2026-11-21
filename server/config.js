@@ -35,7 +35,7 @@ export const config = {
   quiz: {
     questions: num('QUIZ_QUESTIONS', 3),
     minutes: num('QUIZ_MINUTES', 15),
-    maxAttempts: num('QUIZ_MAX_ATTEMPTS', 3),
+    maxAttempts: num('QUIZ_MAX_ATTEMPTS', 0),       // attempts per day; 0 = unlimited (testing phase default)
     passPct: num('QUIZ_PASS_PCT', 50),        // below this the day is not approved (0 points)
     heartbeatTimeoutMs: num('QUIZ_HEARTBEAT_TIMEOUT_MS', 12000),
     // Strict proctoring
