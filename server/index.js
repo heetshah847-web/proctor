@@ -559,8 +559,17 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: `Server error (ref ${ref})` });
 });
 
-purgeExpiredSessions();
-setInterval(purgeExpiredSessions, 3600_000).unref();
+// Housekeeping: expired sessions and old webcam snapshots (privacy: don't keep biometric images forever).
+function purgeOldData() {
+  purgeExpiredSessions();
+  const days = config.quiz.snapshotRetentionDays;
+  if (days > 0) {
+    const n = run('DELETE FROM proctor_snapshots WHERE at < ?', now() - days * 864e5).changes;
+    if (n) console.log(`Deleted ${n} webcam snapshot(s) older than ${days} days`);
+  }
+}
+purgeOldData();
+setInterval(purgeOldData, 3600_000).unref();
 
 app.listen(config.port, () => {
   const ai = config.aiMode === 'demo' ? 'demo' : config.aiProvider === 'gemini' ? `gemini (${config.geminiModel})` : `claude (${config.model})`;

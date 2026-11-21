@@ -42,6 +42,8 @@ export const config = {
     requireCamera: process.env.QUIZ_REQUIRE_CAMERA !== 'false',
     maxStrikes: num('QUIZ_MAX_STRIKES', 3),          // warnings (no face, blocked keys, ...) before the attempt ends
     snapshotEveryMs: num('QUIZ_SNAPSHOT_EVERY_MS', 20000),
+    // Webcam snapshots are deleted after this many days (0 = keep forever).
+    snapshotRetentionDays: num('SNAPSHOT_RETENTION_DAYS', 90),
     maxSnapshotGapMs: num('QUIZ_MAX_SNAPSHOT_GAP_MS', 60000),
     // Dry-run questions on the student's own code (1 extra AI call per attempt when > 0).
     codeQuestions: num('CODE_QUESTIONS', 1),
