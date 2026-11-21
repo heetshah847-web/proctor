@@ -8,6 +8,7 @@ import { sheet, sheetItems, leetcodeRecentAccepted, leetcodeUserExists, leetcode
 import { generateQuiz, gradeAnswers } from './ai.js';
 import { computeAward, streakIncluding, currentStreak } from './points.js';
 import { RUBRIC_TEXT } from './rubric.js';
+import { loginLimit, signupLimit, aiLimit, externalLimit, apiLimit } from './ratelimit.js';
 
 const app = express();
 app.disable('x-powered-by');
@@ -36,6 +37,7 @@ app.use((_req, res, next) => {
 const jsonBody = express.json({ limit: '200kb' });
 app.use((req, res, next) => (/^\/api\/attempts\/\d+\/snapshot$/.test(req.path) ? next() : jsonBody(req, res, next)));
 app.use(loadUser);
+app.use('/api', apiLimit);
 app.use(express.static(path.join(ROOT, 'public')));
 // Face detection runs in the browser from a locally served copy of MediaPipe (no CDN needed during a quiz).
 app.use('/vendor/mediapipe', express.static(path.join(ROOT, 'node_modules', '@mediapipe', 'tasks-vision')));
@@ -50,7 +52,7 @@ const now = () => Date.now();
 const isDay = (d) => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d);
 
 // ======================= Auth =======================
-app.post('/api/auth/signup', async (req, res) => {
+app.post('/api/auth/signup', signupLimit, async (req, res) => {
   const { role, name, email, password, inviteCode } = req.body || {};
   if (!['student', 'supervisor'].includes(role)) fail(400, 'Role must be student or supervisor');
   if (typeof name !== 'string' || typeof email !== 'string' || typeof password !== 'string') fail(400, 'Name, email and password are required');
@@ -72,7 +74,7 @@ app.post('/api/auth/signup', async (req, res) => {
   res.json({ user: publicUser(one('SELECT * FROM users WHERE id = ?', r.lastInsertRowid)) });
 });
 
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', loginLimit, async (req, res) => {
   const { email, password } = req.body || {};
   const u = one('SELECT * FROM users WHERE email = ?', String(email || '').trim().toLowerCase());
   if (!(await verifyPassword(String(password || '').slice(0, 200), u?.password_hash))) fail(401, 'Wrong email or password');
@@ -91,7 +93,7 @@ app.get('/api/me', (req, res) => {
   });
 });
 
-app.put('/api/me/profile', student, async (req, res) => {
+app.put('/api/me/profile', student, externalLimit, async (req, res) => {
   const { leetcodeUsername, tufCookie, inviteCode, name } = req.body || {};
   if (name !== undefined && name.trim()) run('UPDATE users SET name = ? WHERE id = ?', name.trim(), req.user.id);
   if (leetcodeUsername !== undefined) {
@@ -192,7 +194,7 @@ app.post('/api/plans', student, (req, res) => {
   res.json({ plan: planDetail(p) });
 });
 
-app.post('/api/plans/:id/items', student, async (req, res) => {
+app.post('/api/plans/:id/items', student, externalLimit, async (req, res) => {
   const p = ownPlan(req, req.params.id);
   editable(p);
   const { sheetItemId, leetcodeSlug } = req.body || {};
@@ -219,7 +221,7 @@ app.delete('/api/plans/:id/items/:itemId', student, (req, res) => {
   res.json({ plan: planDetail(one('SELECT * FROM plans WHERE id = ?', p.id)) });
 });
 
-app.post('/api/plans/:id/propose', student, async (req, res) => {
+app.post('/api/plans/:id/propose', student, externalLimit, async (req, res) => {
   const p = ownPlan(req, req.params.id);
   editable(p);
   const items = all('SELECT * FROM plan_items WHERE plan_id = ?', p.id);
@@ -236,7 +238,7 @@ app.post('/api/plans/:id/propose', student, async (req, res) => {
   res.json({ plan: planDetail(one('SELECT * FROM plans WHERE id = ?', p.id)) });
 });
 
-app.post('/api/plans/:id/verify', student, async (req, res) => {
+app.post('/api/plans/:id/verify', student, externalLimit, async (req, res) => {
   const p = ownPlan(req, req.params.id);
   const items = all('SELECT * FROM plan_items WHERE plan_id = ? AND verified_at IS NULL', p.id);
   const report = { leetcode: null, tuf: null, newlyVerified: [] };
@@ -357,7 +359,7 @@ function checkAlive(a) {
 }
 const attemptStatus = (id) => one('SELECT status, end_reason, strikes FROM quiz_attempts WHERE id=?', id);
 
-app.post('/api/plans/:id/quiz/start', student, async (req, res) => {
+app.post('/api/plans/:id/quiz/start', student, aiLimit, async (req, res) => {
   const p = ownPlan(req, req.params.id);
   const pre = req.body?.preflight || {};
   if (config.quiz.requireCamera && !pre.camera) fail(400, 'Your webcam must be on to start the quiz');
@@ -462,7 +464,7 @@ app.post('/api/attempts/:id/submit', student, async (req, res) => {
   }
 });
 
-app.post('/api/attempts/:id/regrade', student, async (req, res) => {
+app.post('/api/attempts/:id/regrade', student, aiLimit, async (req, res) => {
   const a = ownAttempt(req, req.params.id);
   if (a.status !== 'submitted') fail(409, 'Nothing to regrade');
   const { grading, award } = await gradeAndAward(a.id);
