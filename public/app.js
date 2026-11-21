@@ -130,6 +130,23 @@ async function renderToday() {
   await act(loadToday);
   if (!S.sheet) S.sheet = await api('/api/sheet');
   drawToday();
+  watchGrading();
+}
+
+// While an attempt is being graded in the background, quietly reload today's plan until the score is in.
+let gradingWatch = null;
+function watchGrading() {
+  clearTimeout(gradingWatch);
+  if (!S.plan?.attempts?.some((a) => a.status === 'submitted')) return;
+  gradingWatch = setTimeout(async () => {
+    if (S.view !== 'today' || !$quiz.hidden) return watchGrading();
+    try {
+      const before = S.plan.attempts.filter((a) => a.status === 'submitted').length;
+      await loadToday();
+      if (S.plan.attempts.filter((a) => a.status === 'submitted').length < before) { drawToday(); toast('Your quiz has been graded'); }
+    } catch { /* try again next round */ }
+    watchGrading();
+  }, 5000);
 }
 
 function setupWarnings() {
@@ -211,7 +228,7 @@ function quizCard(p) {
     <p class="small muted">Once every item is verified, answer ${S.settings.quiz.questions} questions about today’s problems in a locked, full-screen session
       (${S.settings.quiz.minutes} min). Score ≥ ${pass}% approves the day. You can retry to raise your best score — points use your <b>best</b> attempt.</p>
     ${p.attempts.length ? `<table><tr><th>#</th><th>Result</th><th class="num">Score</th></tr>${p.attempts.map((a) => `<tr><td>${a.attemptNo}</td>
-      <td>${a.status === 'graded' ? 'graded' : `<span class="chip bad">${esc(a.status)}</span> <span class="small muted">${esc(a.endReason || '')}</span>`}</td>
+      <td>${a.status === 'graded' ? 'graded' : a.status === 'submitted' ? '<span class="chip warn">grading…</span>' : `<span class="chip bad">${esc(a.status)}</span> <span class="small muted">${esc(a.endReason || '')}</span>`}</td>
       <td class="num">${pctChip(a.scorePct)}</td></tr>`).join('')}</table>` : ''}
     ${award ? `<p class="small">Base ${award.base} pts × streak ${award.multiplier} × best ${Math.round(award.bestPct)}% = <b>${award.total} pts</b>${award.passed ? '' : ` <span class="chip bad">below ${pass}% — not approved</span>`}</p>` : ''}
     <div class="row" style="margin-top:8px">
@@ -659,21 +676,55 @@ async function submit(auto) {
   Q.ended = true; cleanupQuiz();
   const r = Q.attempt;
   const answers = Q.answers;
-  $quiz.innerHTML = '<div class="inner"><div class="card"><h2>Grading your answers…</h2><p class="muted">The AI is reviewing your answers. This can take up to a minute.</p></div></div>';
+  $quiz.innerHTML = '<div class="inner"><div class="card"><h2>Submitting…</h2></div></div>';
   try {
     const res = await qapi('submit', { answers });
     stopCamera();
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-    showResult(res);
+    if (res.status === 'graded') showResult(res);
+    else showGrading(r.attemptId, res);
   } catch (e) {
     stopCamera();
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-    $quiz.innerHTML = `<div class="inner"><div class="card"><h2>Grading problem</h2><p>${esc(e.message)}</p>
-      <div class="row">${/saved/.test(e.message) ? '<button class="btn primary" id="qre">Retry grading</button>' : ''}<button class="btn" id="qclose">Back</button></div></div></div>`;
+    $quiz.innerHTML = `<div class="inner"><div class="card"><h2>Could not submit</h2><p>${esc(e.message)}</p>
+      <div class="row"><button class="btn" id="qclose">Back</button></div></div></div>`;
     document.getElementById('qclose').onclick = closeQuiz;
-    const re = document.getElementById('qre');
-    if (re) re.onclick = () => act(async () => showResult(await api(`/api/attempts/${r.attemptId}/regrade`, { method: 'POST' })), re);
   }
+}
+
+/**
+ * Answers are saved; grading runs on the server in the background. Polls for the result and shows it
+ * the moment it's ready. The student can leave at any time: the score appears on the dashboard.
+ */
+function showGrading(attemptId, first) {
+  let stopped = false;
+  const draw = (res) => {
+    const slow = res.lastError || res.tries > 1;
+    $quiz.innerHTML = `<div class="inner"><div class="card">
+      <h2>✓ Answers saved</h2>
+      <p>Your answers are being graded in the background. You don’t have to wait here: your score will show on the dashboard as soon as it’s ready.</p>
+      <p class="small muted" id="qgstate">${slow
+        ? `The AI is busy right now${res.retryInSec != null ? ` — retrying automatically in ${res.retryInSec} s` : ' — retrying now'}. Nothing is lost.`
+        : 'Grading… this usually takes under a minute.'}</p>
+      <div class="row"><button class="btn primary" id="qclose">Back to dashboard</button>
+        ${slow && !res.running ? '<button class="btn" id="qre">Retry now</button>' : ''}</div></div></div>`;
+    document.getElementById('qclose').onclick = () => { stopped = true; closeQuiz(); };
+    const re = document.getElementById('qre');
+    if (re) re.onclick = () => act(async () => draw(await api(`/api/attempts/${attemptId}/regrade`, { method: 'POST' })), re);
+  };
+  draw(first);
+  (async function poll() {
+    while (!stopped && !$quiz.hidden) {
+      await new Promise((ok) => setTimeout(ok, 2500));
+      if (stopped || $quiz.hidden) return;
+      try {
+        const res = await api(`/api/attempts/${attemptId}/result`);
+        if (res.status === 'graded') return showResult(res);
+        if (res.status !== 'grading') return closeQuiz();
+        draw(res);
+      } catch { /* keep polling */ }
+    }
+  })();
 }
 
 function showResult({ grading, award, plan }) {
@@ -687,7 +738,7 @@ function showResult({ grading, award, plan }) {
     ${qs.map((q, i) => `<div class="qa">${q.code ? `<details class="small"><summary>Your code</summary>${codeBlock(q.code, q.codeLang)}</details>` : ''}<div class="q">${esc(q.question)}</div><div class="a">${esc(Q.answers[i] || '(empty)')}</div>
       <div class="small"><b>${fmtScore(grading.results[i]?.score ?? 0)}</b> — ${esc(grading.results[i]?.feedback || '')}</div>
       ${keyPointsHtml(grading.results[i]?.key_points)}</div>`).join('')}
-    <details class="small" style="margin-top:10px"><summary>Grading rubric</summary>${rubricHtml()}</details>
+    <details class="small" style="margin-top:10px"><summary>Grading rubric</summary>${rubricHtml()}${grading.gradedBy ? `<p class="muted">Graded by ${esc(grading.gradedBy)}</p>` : ''}</details>
     <div class="row" style="margin-top:12px"><button class="btn primary" id="qclose">Back to dashboard</button></div>
   </div></div>`;
   document.getElementById('qclose').onclick = closeQuiz;
@@ -703,7 +754,8 @@ const objectChips = (events) => Object.entries(OBJECT_CHIPS)
 function attemptsHtml(plan, forSupervisor) {
   if (!plan.attempts.length) return '<p class="muted small">No quiz attempts.</p>';
   return plan.attempts.map((a) => `<details class="qa"><summary><b>Attempt ${a.attemptNo}</b> · ${pctChip(a.scorePct)}
-      ${a.status !== 'graded' ? `<span class="chip bad">${esc(a.status)}: ${esc(a.endReason || '')}</span>` : ''}
+      ${a.status === 'submitted' ? '<span class="chip warn">grading…</span>' : a.status !== 'graded' ? `<span class="chip bad">${esc(a.status)}: ${esc(a.endReason || '')}</span>` : ''}
+      ${forSupervisor && a.gradedBy ? `<span class="chip" title="Model that graded this attempt">${esc(a.gradedBy)}</span>` : ''}
       <span class="small muted">${fmtTime(a.startedAt)}</span>
       ${forSupervisor && a.suspicion ? '<span class="chip warn">AI flagged</span>' : ''}
       ${forSupervisor && a.events?.length ? `<span class="chip">${a.events.length} proctor events</span>` : ''}
