@@ -2,6 +2,7 @@ import { DatabaseSync } from 'node:sqlite';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from './config.js';
+import { encrypt, isEncrypted } from './vault.js';
 
 fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
 export const db = new DatabaseSync(process.env.DB_PATH || path.join(ROOT, 'data', 'proctor.db'));
@@ -106,6 +107,17 @@ for (const col of ['code TEXT', 'code_lang TEXT']) {
 }
 for (const col of ['token TEXT', 'ip TEXT', 'user_agent TEXT', 'strikes INTEGER NOT NULL DEFAULT 0', 'last_snapshot INTEGER']) {
   try { db.exec(`ALTER TABLE quiz_attempts ADD COLUMN ${col}`); } catch { /* already exists */ }
+}
+
+// Versioned data migrations (PRAGMA user_version).
+const version = () => db.prepare('PRAGMA user_version').get().user_version;
+if (version() < 1) {
+  // v1: encrypt takeuforward cookies that were stored in plain text.
+  db.exec('BEGIN');
+  for (const u of db.prepare('SELECT id, tuf_cookie FROM users WHERE tuf_cookie IS NOT NULL').all()) {
+    if (!isEncrypted(u.tuf_cookie)) db.prepare('UPDATE users SET tuf_cookie = ? WHERE id = ?').run(encrypt(u.tuf_cookie), u.id);
+  }
+  db.exec('PRAGMA user_version = 1; COMMIT');
 }
 
 export const one = (sql, ...p) => db.prepare(sql).get(...p);

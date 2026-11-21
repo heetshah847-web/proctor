@@ -8,6 +8,7 @@ import { sheet, sheetItems, leetcodeRecentAccepted, leetcodeUserExists, leetcode
 import { generateQuiz, gradeAnswers } from './ai.js';
 import { computeAward, streakIncluding, currentStreak } from './points.js';
 import { RUBRIC_TEXT } from './rubric.js';
+import { encrypt, decrypt } from './vault.js';
 import { loginLimit, signupLimit, aiLimit, externalLimit, apiLimit } from './ratelimit.js';
 
 const app = express();
@@ -105,7 +106,7 @@ app.put('/api/me/profile', student, externalLimit, async (req, res) => {
     if (u && !(await leetcodeUserExists(u))) fail(400, `LeetCode user "${u}" not found`);
     run('UPDATE users SET leetcode_username = ? WHERE id = ?', u || null, req.user.id);
   }
-  if (tufCookie !== undefined) run('UPDATE users SET tuf_cookie = ? WHERE id = ?', String(tufCookie || '').trim() || null, req.user.id);
+  if (tufCookie !== undefined) run('UPDATE users SET tuf_cookie = ? WHERE id = ?', encrypt(String(tufCookie || '').trim().slice(0, 8000)), req.user.id);
   if (inviteCode !== undefined && String(inviteCode).trim()) {
     const sup = one("SELECT id FROM users WHERE role='supervisor' AND invite_code = ?", String(inviteCode).trim().toUpperCase());
     if (!sup) fail(400, 'Supervisor invite code not found');
@@ -241,7 +242,7 @@ app.post('/api/plans/:id/propose', student, externalLimit, async (req, res) => {
   // Snapshot TUF: items already marked done before today can't be verified through TUF later.
   if (req.user.tuf_cookie) {
     try {
-      const done = await tufCompletedItems(req.user.tuf_cookie);
+      const done = await tufCompletedItems(decrypt(req.user.tuf_cookie));
       for (const it of items) run('UPDATE plan_items SET tuf_pre_done = ? WHERE id = ?', it.sheet_item_id && done.has(it.sheet_item_id) ? 1 : 0, it.id);
     } catch (e) { console.warn('TUF snapshot failed:', e.message); }
   }
@@ -274,7 +275,7 @@ app.post('/api/plans/:id/verify', student, externalLimit, async (req, res) => {
   const remaining = items.filter((i) => !i.verified_at && i.sheet_item_id);
   if (req.user.tuf_cookie && remaining.length) {
     try {
-      const done = await tufCompletedItems(req.user.tuf_cookie);
+      const done = await tufCompletedItems(decrypt(req.user.tuf_cookie));
       report.tuf = { ok: true, doneOnSheet: done.size };
       for (const it of remaining) {
         if (done.has(it.sheet_item_id) && !it.tuf_pre_done) {

@@ -59,6 +59,7 @@ const DONE = /^(solved|completed|done|complete)$/i;
 
 /** Returns Map<sheetItemId, status> for items marked done on the student's TUF account. */
 export async function tufCompletedItems(cookie) {
+  if (!cookie) throw new Error('takeuforward cookie is missing or could not be decrypted — reconnect it in Profile');
   const res = await fetch(STRIVER_URL, { headers: { Cookie: cookie, 'User-Agent': 'Mozilla/5.0' } });
   if (!res.ok) throw new Error(`takeuforward responded ${res.status}`);
   const { items } = parseStriverSheet(await res.text());
