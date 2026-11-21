@@ -72,6 +72,33 @@ export function loadGazeTracker() {
   return gazePromise;
 }
 
+// How far the eyes turn (degrees) when an eyeLook blendshape is fully on. With 30, people in test photos who
+// turned their head but looked back at the camera all came out within ±5° of straight ahead.
+const EYE_DEG = 30;
+const DEG = 180 / Math.PI;
+
+/**
+ * Where the student is looking in the current frame, or null if no face is found or detection isn't possible.
+ * Returns degrees: { angle, yaw, eyes, pitch }. angle = head turn + eye turn (the horizontal direction of gaze).
+ * Positive = towards the student's left, negative = towards their right (camera frame, not mirrored).
+ */
+export function readGaze(tracker, video) {
+  if (!tracker || video.readyState < 2) return null;
+  const ts = Math.max(performance.now(), lastTs + 1);
+  lastTs = ts;
+  const r = tracker.detectForVideo(video, ts);
+  const m = r.facialTransformationMatrixes?.[0]?.data;
+  if (!m) return null;
+  const R = (i, j) => m[j * 4 + i]; // column-major 4x4 head pose
+  const yaw = Math.atan2(R(0, 2), R(2, 2)) * DEG;
+  const pitch = Math.atan2(R(2, 1), R(2, 2)) * DEG;
+  // Both eyes turn together: one looks "out", the other "in". The blendshape sides are the opposite of the head yaw sign.
+  const b = Object.fromEntries((r.faceBlendshapes?.[0]?.categories || []).map((c) => [c.categoryName, c.score]));
+  const eyes = (((b.eyeLookOutLeft ?? 0) + (b.eyeLookInRight ?? 0)) - ((b.eyeLookInLeft ?? 0) + (b.eyeLookOutRight ?? 0))) / 2 * EYE_DEG;
+  const round = (x) => Math.round(x);
+  return { angle: round(yaw + eyes), yaw: round(yaw), eyes: round(eyes), pitch: round(pitch) };
+}
+
 // ---------- Object detection (EfficientDet-Lite0, 80 COCO classes) ----------
 // Each watched COCO label maps to the proctoring event it raises, with its own confidence threshold.
 // 'object_seen' is only logged for the supervisor (a cup of water is fine).
