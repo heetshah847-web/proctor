@@ -68,14 +68,14 @@ export const WATCHED_OBJECTS = {
 };
 
 let objectDetectorPromise = null;
-/** Loads the object detector once (≈4.6 MB model). Rejects if unavailable. */
+/** Loads the object detector once (≈7 MB float16 model; the int8 one missed more phones). Rejects if unavailable. */
 export function loadObjectDetector() {
   objectDetectorPromise ??= (async () => {
     const { vision: { ObjectDetector }, fileset } = await loadVision();
     // CPU only: on the GPU delegate EfficientDet loads without error but returns no detections at all
     // (tested: phone photos give 'cell phone' 0.74–0.79 on CPU, nothing on GPU), so the fallback never ran.
     return ObjectDetector.createFromOptions(fileset, {
-      baseOptions: { modelAssetPath: '/models/efficientdet_lite0.tflite', delegate: 'CPU' },
+      baseOptions: { modelAssetPath: '/models/efficientdet_lite0_fp16.tflite', delegate: 'CPU' },
       runningMode: 'VIDEO',
       scoreThreshold: 0.35,
       maxResults: 10,
