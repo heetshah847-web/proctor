@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 import { promisify } from 'node:util';
 import { one, run } from './db.js';
 import { config } from './config.js';
+import { hashToken } from './vault.js';
 
 const SESSION_DAYS = 14;
 const scrypt = promisify(crypto.scrypt);
@@ -31,13 +32,13 @@ export function newInviteCode() {
 export function createSession(res, userId) {
   const token = crypto.randomBytes(32).toString('hex');
   const expires = Date.now() + SESSION_DAYS * 864e5;
-  run('INSERT INTO sessions (token, user_id, expires_at) VALUES (?,?,?)', token, userId, expires);
+  run('INSERT INTO sessions (token, user_id, expires_at) VALUES (?,?,?)', hashToken(token), userId, expires); // only the hash is stored
   res.setHeader('Set-Cookie', `sid=${token}; ${cookieAttrs}; Max-Age=${SESSION_DAYS * 86400}`);
 }
 
 export function destroySession(req, res) {
   const token = readCookie(req, 'sid');
-  if (token) run('DELETE FROM sessions WHERE token = ?', token);
+  if (token) run('DELETE FROM sessions WHERE token = ?', hashToken(token));
   res.setHeader('Set-Cookie', `sid=; ${cookieAttrs}; Max-Age=0`);
 }
 
@@ -59,7 +60,7 @@ export function loadUser(req, _res, next) {
   if (token) {
     const row = one(
       `SELECT u.* FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token = ? AND s.expires_at > ?`,
-      token, Date.now(),
+      hashToken(token), Date.now(),
     );
     if (row) req.user = row;
   }

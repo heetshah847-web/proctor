@@ -2,7 +2,7 @@ import { DatabaseSync } from 'node:sqlite';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from './config.js';
-import { encrypt, isEncrypted } from './vault.js';
+import { encrypt, isEncrypted, hashToken } from './vault.js';
 
 fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
 export const db = new DatabaseSync(process.env.DB_PATH || path.join(ROOT, 'data', 'proctor.db'));
@@ -118,6 +118,14 @@ if (version() < 1) {
     if (!isEncrypted(u.tuf_cookie)) db.prepare('UPDATE users SET tuf_cookie = ? WHERE id = ?').run(encrypt(u.tuf_cookie), u.id);
   }
   db.exec('PRAGMA user_version = 1; COMMIT');
+}
+if (version() < 2) {
+  // v2: sessions store SHA-256(token) instead of the token. Hash existing rows so nobody is logged out.
+  db.exec('BEGIN');
+  for (const s of db.prepare('SELECT token FROM sessions').all()) {
+    db.prepare('UPDATE sessions SET token = ? WHERE token = ?').run(hashToken(s.token), s.token);
+  }
+  db.exec('PRAGMA user_version = 2; COMMIT');
 }
 
 export const one = (sql, ...p) => db.prepare(sql).get(...p);
