@@ -617,21 +617,26 @@ function startQuiz(r) {
     };
     // ---- gaze: looking to the left or right, e.g. reading a laptop or notes placed out of camera view ----
     // Head turn + eye turn, measured from the straight-ahead angle calibrated before the quiz. Glances are fine;
-    // looking away for gazeAwaySeconds without a break is a warning (then 10 s before the next one).
+    // looking away for gazeAwaySeconds without a break is a warning, and so is gazeBudgetSeconds in total within
+    // any 60 s (catches repeated short looks at a side screen). After a warning, 10 s before the next one.
     const G = S.settings.quiz;
-    let awaySince = null, gazeWarned = 0;
+    let awaySince = null, gazeWarned = 0, awayTicks = [];
     const checkGaze = (now) => {
       const g = readGaze(Q.gazeTracker, Q.video);
       const off = g ? g.angle - Q.gazeCenter : 0;
       const away = g != null && Math.abs(off) > G.gazeMaxDeg;
       const side = off > 0 ? 'left' : 'right'; // the student's own left/right
       live.gaze = away ? `Looking to your ${side}` : '';
+      awayTicks = awayTicks.filter((t) => now - t < 60_000);
       if (!away) { awaySince = null; return; }
       awaySince ??= now;
-      if (now - awaySince < G.gazeAwaySeconds * 1000 || now - gazeWarned < 10_000) return;
-      const secs = Math.round((now - awaySince) / 1000);
-      gazeWarned = now; awaySince = null;
-      warn('looking_away', `looked ${side} for ${secs} s (${Math.round(Math.abs(off))}° off centre: head ${g.yaw}°, eyes ${g.eyes}°)`);
+      awayTicks.push(now);
+      const total = awayTicks.length * TICK;
+      const long = now - awaySince >= G.gazeAwaySeconds * 1000, often = total >= G.gazeBudgetSeconds * 1000;
+      if (!(long || often) || now - gazeWarned < 10_000) return;
+      const what = long ? `looked ${side} for ${Math.round((now - awaySince) / 1000)} s` : `looked away ${Math.round(total / 1000)} s in the last minute`;
+      gazeWarned = now; awaySince = null; awayTicks = [];
+      warn('looking_away', `${what} (${Math.round(Math.abs(off))}° off centre: head ${g.yaw}°, eyes ${g.eyes}°)`);
     };
     Q.timers.push(setInterval(() => {
       if (Q.ended) return;
