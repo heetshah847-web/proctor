@@ -47,6 +47,10 @@ const supervisor = requireRole('supervisor');
 const anyone = requireRole();
 
 class HttpError extends Error { constructor(status, msg) { super(msg); this.status = status; } }
+// AI provider errors are logged in full on the server; the browser only gets a short, safe reason.
+const aiErrorMessage = (e) => (/rate limit|429|overloaded|529/i.test(e?.message || '')
+  ? 'the AI service is busy right now — try again in a few minutes'
+  : 'the AI service is unavailable right now — try again later');
 const fail = (status, msg) => { throw new HttpError(status, msg); };
 const now = () => Date.now();
 const isDay = (d) => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d);
@@ -373,7 +377,7 @@ app.post('/api/plans/:id/quiz/start', student, aiLimit, async (req, res) => {
   const previous = all('SELECT questions_json FROM quiz_attempts WHERE plan_id = ?', p.id).flatMap((r) => JSON.parse(r.questions_json));
   let quiz;
   try { quiz = await generateQuiz(items, previous); }
-  catch (e) { console.error('Quiz generation failed:', e); fail(502, `Could not generate questions: ${e.message}`); }
+  catch (e) { console.error('Quiz generation failed:', e); fail(502, `Could not generate questions: ${aiErrorMessage(e)}`); }
 
   if (!p.ratings_json) run('UPDATE plans SET ratings_json = ? WHERE id = ?', JSON.stringify(quiz.ratings), p.id);
   const t = now();
@@ -453,22 +457,30 @@ async function gradeAndAward(attemptId) {
 app.post('/api/attempts/:id/submit', student, async (req, res) => {
   const a = attemptFromTab(req);
   if (!checkAlive(a)) fail(409, `This attempt has ended (${one('SELECT end_reason FROM quiz_attempts WHERE id=?', a.id).end_reason})`);
-  const answers = Array.isArray(req.body?.answers) ? req.body.answers.map((x) => String(x ?? '').slice(0, 4000)) : fail(400, 'answers[] required');
+  const answers = Array.isArray(req.body?.answers) ? req.body.answers.slice(0, 50).map((x) => String(x ?? '').slice(0, 4000)) : fail(400, 'answers[] required');
   run("UPDATE quiz_attempts SET status='submitted', answers_json=? WHERE id=?", JSON.stringify(answers), a.id);
   try {
     const { grading, award } = await gradeAndAward(a.id);
     res.json({ grading: { pct: grading.pct, results: grading.results }, award, plan: planDetail(one('SELECT * FROM plans WHERE id = ?', a.plan_id)) });
   } catch (e) {
     console.error('Grading failed:', e);
-    fail(502, `Your answers are saved but grading failed: ${e.message}. Use "Retry grading".`);
+    fail(502, `Your answers are saved but grading failed: ${aiErrorMessage(e)}. Use "Retry grading".`);
   }
 });
 
+const regrading = new Set(); // attempt ids being regraded right now (stops parallel paid AI calls)
 app.post('/api/attempts/:id/regrade', student, aiLimit, async (req, res) => {
   const a = ownAttempt(req, req.params.id);
   if (a.status !== 'submitted') fail(409, 'Nothing to regrade');
-  const { grading, award } = await gradeAndAward(a.id);
-  res.json({ grading: { pct: grading.pct, results: grading.results }, award, plan: planDetail(one('SELECT * FROM plans WHERE id = ?', a.plan_id)) });
+  if (regrading.has(a.id)) fail(409, 'Grading is already in progress');
+  regrading.add(a.id);
+  try {
+    const { grading, award } = await gradeAndAward(a.id);
+    res.json({ grading: { pct: grading.pct, results: grading.results }, award, plan: planDetail(one('SELECT * FROM plans WHERE id = ?', a.plan_id)) });
+  } catch (e) {
+    console.error('Regrading failed:', e);
+    fail(502, `Your answers are saved but grading failed: ${aiErrorMessage(e)}. Use "Retry grading".`);
+  } finally { regrading.delete(a.id); }
 });
 
 // ======================= Supervisor =======================
@@ -519,8 +531,11 @@ app.post('/api/supervisor/plans/:id/review', supervisor, (req, res) => {
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found' }));
 app.use((err, _req, res, _next) => {
   if (err instanceof HttpError) return res.status(err.status).json({ error: err.message });
-  console.error(err);
-  res.status(500).json({ error: err.message || 'Server error' });
+  // Body-parser errors (bad JSON, too large) carry a safe 4xx status.
+  if (err.status >= 400 && err.status < 500 && err.expose) return res.status(err.status).json({ error: err.message });
+  const ref = crypto.randomBytes(4).toString('hex');
+  console.error(`[error ${ref}]`, err);
+  res.status(500).json({ error: `Server error (ref ${ref})` });
 });
 
 purgeExpiredSessions();
