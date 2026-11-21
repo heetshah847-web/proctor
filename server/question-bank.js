@@ -63,11 +63,13 @@ export function pickQuestions(items, alreadyAsked, count) {
     ratings.push({ item_id: String(it.id), toughness, importance });
     const fromBank = (e?.questions || []).map((x) => ({ question: x.q, key_points: keyPointsOf(x.a) }));
     const generic = TEMPLATES.map((f) => ({ question: f(it.title), key_points: [] }));
+    // Bank questions first (shuffled), generic ones only as a fallback. Once every question for an item has been
+    // asked in earlier attempts, repeat old ones (shuffled) rather than fail — an item has only 1 bank + 4 generic.
+    const all = [...shuffle(fromBank), ...generic];
     return {
       item: it,
       weight: toughness + importance,
-      // Bank questions first (shuffled), generic ones only as a fallback.
-      queue: [...shuffle(fromBank), ...generic].filter((q) => !asked.has(q.question)),
+      queue: [...all.filter((q) => !asked.has(q.question)), ...shuffle(all.filter((q) => asked.has(q.question)))],
     };
   });
 
