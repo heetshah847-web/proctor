@@ -29,6 +29,17 @@ export const config = {
   geminiApiKey: process.env.GEMINI_API_KEY || '',
   geminiModel: process.env.GEMINI_MODEL || 'gemini-4-hydrogen',
   geminiThinkingLevel: process.env.GEMINI_THINKING_LEVEL ?? 'medium',
+  // Tried in the same call when the main Gemini model is overloaded (e.g. gemini-4-helium). Empty = none.
+  geminiFallbackModel: process.env.GEMINI_FALLBACK_MODEL || '',
+  // Local model through Ollama (https://ollama.com): runs on this machine, never rate-limited.
+  ollamaUrl: (process.env.OLLAMA_URL || 'http://127.0.0.1:11434').replace(/\/$/, ''),
+  ollamaModel: process.env.OLLAMA_MODEL || 'qwen3:8b',
+  // Per-call time limit for each provider (ms). A local model on a laptop is slower than a cloud API.
+  aiTimeouts: {
+    gemini: num('GEMINI_TIMEOUT_MS', 45000),
+    claude: num('CLAUDE_TIMEOUT_MS', 60000),
+    ollama: num('OLLAMA_TIMEOUT_MS', 180000),
+  },
   // 'bank' (default): questions from data/question-bank.txt, AI only grades (1 AI call per attempt).
   // 'ai': the AI writes fresh questions each attempt (2 AI calls per attempt).
   questionSource: process.env.QUESTION_SOURCE === 'ai' ? 'ai' : 'bank',
@@ -55,4 +66,14 @@ export const config = {
   },
   // Plans must be approved by the supervisor before the quiz unlocks. Off unless REQUIRE_SUPERVISOR_APPROVAL=true (testing phase).
   requireSupervisorApproval: process.env.REQUIRE_SUPERVISOR_APPROVAL === 'true',
+  // Every AI grading is appended here (question, key points, answer, verdict, model) as a dataset for a
+  // future fine-tuned grader. Empty = off. Contains student answers: keep it private (it is git-ignored).
+  gradingLog: process.env.GRADING_LOG ?? 'data/grading-log.jsonl',
 };
+
+// Providers tried in order for every AI call. AI_CHAIN=gemini,ollama overrides; otherwise the main provider
+// first, then the local model (skipped instantly when Ollama isn't running). AI_PROVIDER=ollama = local only.
+const PROVIDERS = ['gemini', 'claude', 'ollama'];
+config.aiChain = [...new Set((process.env.AI_CHAIN || `${config.aiProvider},ollama`)
+  .split(',').map((s) => s.trim().toLowerCase()).filter((s) => PROVIDERS.includes(s)))];
+if (!config.aiChain.length) config.aiChain = ['ollama'];
