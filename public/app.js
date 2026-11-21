@@ -97,7 +97,7 @@ function renderAuth(mode = 'login') {
         <div class="field"><label>I am a</label><select name="role"><option value="student">Student</option><option value="supervisor">Supervisor</option></select></div>
         <div class="field"><label>Name</label><input type="text" name="name" required></div>` : ''}
       <div class="field"><label>Email</label><input type="email" name="email" required></div>
-      <div class="field"><label>Password</label><input type="password" name="password" required minlength="6"></div>
+      <div class="field"><label>Password</label><input type="password" name="password" required minlength="8" maxlength="200"></div>
       ${mode === 'signup' ? `<div class="field" id="invf"><label>Supervisor invite code (students, optional — can add later)</label><input type="text" name="inviteCode"></div>` : ''}
       <div class="field"><button class="btn primary" style="width:100%">${mode === 'login' ? 'Log in' : 'Create account'}</button></div>
     </form>

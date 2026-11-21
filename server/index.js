@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import { config, ROOT } from './config.js';
 import { db, one, all, run } from './db.js';
-import { hashPassword, verifyPassword, newInviteCode, createSession, destroySession, loadUser, requireRole, publicUser } from './auth.js';
+import { hashPassword, verifyPassword, newInviteCode, createSession, destroySession, loadUser, requireRole, publicUser, purgeExpiredSessions } from './auth.js';
 import { sheet, sheetItems, leetcodeRecentAccepted, leetcodeUserExists, leetcodeQuestion, tufCompletedItems } from './sources.js';
 import { generateQuiz, gradeAnswers } from './ai.js';
 import { computeAward, streakIncluding, currentStreak } from './points.js';
@@ -50,10 +50,12 @@ const now = () => Date.now();
 const isDay = (d) => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d);
 
 // ======================= Auth =======================
-app.post('/api/auth/signup', (req, res) => {
+app.post('/api/auth/signup', async (req, res) => {
   const { role, name, email, password, inviteCode } = req.body || {};
   if (!['student', 'supervisor'].includes(role)) fail(400, 'Role must be student or supervisor');
-  if (!name?.trim() || !email?.trim() || !password || password.length < 6) fail(400, 'Name, email and a password of 6+ characters are required');
+  if (typeof name !== 'string' || typeof email !== 'string' || typeof password !== 'string') fail(400, 'Name, email and password are required');
+  if (!name.trim() || name.length > 100 || !/^[^\s@]{1,64}@[^\s@]{1,190}$/.test(email.trim())) fail(400, 'A name and a valid email are required');
+  if (password.length < 8 || password.length > 200) fail(400, 'Password must be 8-200 characters');
   if (one('SELECT id FROM users WHERE email = ?', email.trim().toLowerCase())) fail(409, 'An account with this email already exists');
   let supervisorId = null;
   if (role === 'student' && inviteCode?.trim()) {
@@ -61,18 +63,19 @@ app.post('/api/auth/signup', (req, res) => {
     if (!sup) fail(400, 'Supervisor invite code not found');
     supervisorId = sup.id;
   }
+  const passwordHash = await hashPassword(password);
   const r = run(
     'INSERT INTO users (role, name, email, password_hash, invite_code, supervisor_id, created_at) VALUES (?,?,?,?,?,?,?)',
-    role, name.trim(), email.trim().toLowerCase(), hashPassword(password), role === 'supervisor' ? newInviteCode() : null, supervisorId, now(),
+    role, name.trim(), email.trim().toLowerCase(), passwordHash, role === 'supervisor' ? newInviteCode() : null, supervisorId, now(),
   );
   createSession(res, Number(r.lastInsertRowid));
   res.json({ user: publicUser(one('SELECT * FROM users WHERE id = ?', r.lastInsertRowid)) });
 });
 
-app.post('/api/auth/login', (req, res) => {
+app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body || {};
   const u = one('SELECT * FROM users WHERE email = ?', String(email || '').trim().toLowerCase());
-  if (!u || !verifyPassword(String(password || ''), u.password_hash)) fail(401, 'Wrong email or password');
+  if (!(await verifyPassword(String(password || '').slice(0, 200), u?.password_hash))) fail(401, 'Wrong email or password');
   createSession(res, u.id);
   res.json({ user: publicUser(u) });
 });
@@ -517,6 +520,9 @@ app.use((err, _req, res, _next) => {
   console.error(err);
   res.status(500).json({ error: err.message || 'Server error' });
 });
+
+purgeExpiredSessions();
+setInterval(purgeExpiredSessions, 3600_000).unref();
 
 app.listen(config.port, () => {
   const ai = config.aiMode === 'demo' ? 'demo' : config.aiProvider === 'gemini' ? `gemini (${config.geminiModel})` : `claude (${config.model})`;
