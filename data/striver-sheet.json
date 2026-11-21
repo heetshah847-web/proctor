@@ -1,0 +1,5580 @@
+{
+ "source": "https://takeuforward.org/prep-hub/strivers-a2z-dsa-sheet",
+ "importedAt": "2026-11-21T15:38:33.798Z",
+ "steps": [
+  {
+   "id": "1995",
+   "title": "Beginner Problems",
+   "topics": [
+    {
+     "id": "2014",
+     "title": "Fundamentals of Programming",
+     "items": [
+      {
+       "id": "17136",
+       "slug": "breaking-the-myth",
+       "title": "Breaking The Myth",
+       "kind": "learning",
+       "duration": "8 min",
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/breaking-the-myth"
+      },
+      {
+       "id": "17132",
+       "slug": "programming-and-what-are-computers",
+       "title": "Programming and What Are Computers?",
+       "kind": "learning",
+       "duration": "32 min",
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/programming-and-what-are-computers"
+      },
+      {
+       "id": "17133",
+       "slug": "how-to-think-like-a-programmer",
+       "title": "How to Think Like a Programmer",
+       "kind": "learning",
+       "duration": "24 min",
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/how-to-think-like-a-programmer"
+      },
+      {
+       "id": "17134",
+       "slug": "flowcharts-and-pseudocode",
+       "title": "Flowcharts and Pseudocode",
+       "kind": "learning",
+       "duration": "34 min",
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/flowcharts-and-pseudocode"
+      },
+      {
+       "id": "17135",
+       "slug": "flowchart-problem-solving",
+       "title": "Flowchart Problem-Solving ",
+       "kind": "learning",
+       "duration": "43 min",
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/flowchart-problem-solving"
+      },
+      {
+       "id": "17137",
+       "slug": "dry-runs-edge-cases-and-debugging",
+       "title": "Dry Runs, Edge Cases and Debugging",
+       "kind": "learning",
+       "duration": "21 min",
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/dry-runs-edge-cases-and-debugging"
+      },
+      {
+       "id": "17138",
+       "slug": "programming-languages-and-choosing-a-path",
+       "title": "Programming Languages and Choosing a Path",
+       "kind": "learning",
+       "duration": "39 min",
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/programming-languages-and-choosing-a-path"
+      }
+     ]
+    },
+    {
+     "id": "2015",
+     "title": "Language Basics",
+     "items": [
+      {
+       "id": "17083",
+       "slug": "learn-cpp",
+       "title": "Learn C++",
+       "kind": "learning",
+       "duration": "106 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/learn-cpp"
+      },
+      {
+       "id": "17084",
+       "slug": "learn-java",
+       "title": "Learn Java",
+       "kind": "learning",
+       "duration": "186 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/learn-java"
+      },
+      {
+       "id": "17085",
+       "slug": "learn-python",
+       "title": "Learn Python",
+       "kind": "learning",
+       "duration": "118 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/learn-python"
+      }
+     ]
+    },
+    {
+     "id": "2016",
+     "title": "Logic Building (Patterns)",
+     "items": [
+      {
+       "id": "1216",
+       "slug": "easy-and-medium",
+       "title": "Easy and Medium",
+       "kind": "learning",
+       "duration": "47 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/easy-and-medium"
+      },
+      {
+       "id": "1205",
+       "slug": "hard",
+       "title": "Hard",
+       "kind": "learning",
+       "duration": "50 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/hard"
+      }
+     ]
+    },
+    {
+     "id": "2017",
+     "title": "Patterns",
+     "items": [
+      {
+       "id": "401",
+       "slug": "pattern-1",
+       "title": "Pattern 1",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-1"
+      },
+      {
+       "id": "412",
+       "slug": "pattern-2",
+       "title": "Pattern 2",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-2"
+      },
+      {
+       "id": "416",
+       "slug": "pattern-3",
+       "title": "Pattern 3",
+       "kind": "practice",
+       "duration": "2 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-3"
+      },
+      {
+       "id": "417",
+       "slug": "pattern-4",
+       "title": "Pattern 4",
+       "kind": "practice",
+       "duration": "2 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-4"
+      },
+      {
+       "id": "418",
+       "slug": "pattern-5",
+       "title": "Pattern 5",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-5"
+      },
+      {
+       "id": "419",
+       "slug": "pattern-6",
+       "title": "Pattern 6",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-6"
+      },
+      {
+       "id": "420",
+       "slug": "pattern-7",
+       "title": "Pattern 7",
+       "kind": "practice",
+       "duration": "6 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-7"
+      },
+      {
+       "id": "421",
+       "slug": "pattern-8",
+       "title": "Pattern 8",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-8"
+      },
+      {
+       "id": "422",
+       "slug": "pattern-9",
+       "title": "Pattern 9",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-9"
+      },
+      {
+       "id": "402",
+       "slug": "pattern-10",
+       "title": "Pattern 10",
+       "kind": "practice",
+       "duration": "2 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-10"
+      },
+      {
+       "id": "403",
+       "slug": "pattern-11",
+       "title": "Pattern 11",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-11"
+      },
+      {
+       "id": "404",
+       "slug": "pattern-12",
+       "title": "Pattern 12",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-12"
+      },
+      {
+       "id": "405",
+       "slug": "pattern-13",
+       "title": "Pattern 13",
+       "kind": "practice",
+       "duration": "2 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-13"
+      },
+      {
+       "id": "406",
+       "slug": "pattern-14",
+       "title": "Pattern 14",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-14"
+      },
+      {
+       "id": "407",
+       "slug": "pattern-15",
+       "title": "Pattern 15",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-15"
+      },
+      {
+       "id": "408",
+       "slug": "pattern-16",
+       "title": "Pattern 16",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-16"
+      },
+      {
+       "id": "409",
+       "slug": "pattern-17",
+       "title": "Pattern 17",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-17"
+      },
+      {
+       "id": "410",
+       "slug": "pattern-18",
+       "title": "Pattern 18",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-18"
+      },
+      {
+       "id": "411",
+       "slug": "pattern-19",
+       "title": "Pattern 19",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-19"
+      },
+      {
+       "id": "413",
+       "slug": "pattern-20",
+       "title": "Pattern 20",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-20"
+      },
+      {
+       "id": "414",
+       "slug": "pattern-21",
+       "title": "Pattern 21",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-21"
+      },
+      {
+       "id": "415",
+       "slug": "pattern-22",
+       "title": "Pattern 22",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pattern-22"
+      }
+     ]
+    },
+    {
+     "id": "2018",
+     "title": "Time Complexity",
+     "items": [
+      {
+       "id": "1219",
+       "slug": "theory-with-examples",
+       "title": "Theory with examples",
+       "kind": "learning",
+       "duration": "38 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/theory-with-examples"
+      }
+     ]
+    },
+    {
+     "id": "2019",
+     "title": "Standard Libraries & Collections",
+     "items": [
+      {
+       "id": "1218",
+       "slug": "stl",
+       "title": "STL",
+       "kind": "learning",
+       "duration": "93 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/stl"
+      },
+      {
+       "id": "1217",
+       "slug": "java-collections",
+       "title": "Java Collections",
+       "kind": "learning",
+       "duration": "75 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/java-collections"
+      },
+      {
+       "id": "1193",
+       "slug": "python-libraries-part-1",
+       "title": "Python Libraries Part 1",
+       "kind": "learning",
+       "duration": "73 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/python-libraries-part-1"
+      },
+      {
+       "id": "1194",
+       "slug": "python-libraries-part-2",
+       "title": "Python Libraries Part 2",
+       "kind": "learning",
+       "duration": "59 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/python-libraries-part-2"
+      }
+     ]
+    },
+    {
+     "id": "2020",
+     "title": "Concept Basics",
+     "items": [
+      {
+       "id": "1214",
+       "slug": "basic-maths",
+       "title": "Basic Maths",
+       "kind": "learning",
+       "duration": "73 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/basic-maths"
+      },
+      {
+       "id": "1213",
+       "slug": "basic-arrays-hashing-and-strings",
+       "title": "Basic Arrays",
+       "kind": "learning",
+       "duration": "36 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/basic-arrays-hashing-and-strings"
+      },
+      {
+       "id": "1203",
+       "slug": "basic-hashing",
+       "title": "Basic Hashing",
+       "kind": "learning",
+       "duration": "94 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/basic-hashing"
+      },
+      {
+       "id": "1204",
+       "slug": "basic-string",
+       "title": "Basic String",
+       "kind": "learning",
+       "duration": "14 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/basic-string"
+      }
+     ]
+    },
+    {
+     "id": "2021",
+     "title": "Basic Maths",
+     "items": [
+      {
+       "id": "367",
+       "slug": "count-all-digits-of-a-number",
+       "title": "Count all Digits of a Number",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-all-digits-of-a-number"
+      },
+      {
+       "id": "368",
+       "slug": "count-number-of-odd-digits-in-a-number",
+       "title": "Count number of odd digits in a number",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-number-of-odd-digits-in-a-number"
+      },
+      {
+       "id": "376",
+       "slug": "reverse-a-number",
+       "title": "Reverse a number",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": "reverse-integer",
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-a-number"
+      },
+      {
+       "id": "374",
+       "slug": "palindrome-number",
+       "title": "Palindrome Number",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "palindrome-number",
+       "url": "https://takeuforward.org/plus/dsa/problems/palindrome-number"
+      },
+      {
+       "id": "375",
+       "slug": "return-the-largest-digit-in-a-number",
+       "title": "Return the Largest Digit in a Number",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/return-the-largest-digit-in-a-number"
+      },
+      {
+       "id": "371",
+       "slug": "factorial-of-a-given-number-i",
+       "title": "Factorial of a given number",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/factorial-of-a-given-number-i"
+      },
+      {
+       "id": "366",
+       "slug": "check-if-the-number-if-armstrong",
+       "title": "Check if the Number is Armstrong",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "armstrong-number",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-the-number-if-armstrong"
+      },
+      {
+       "id": "364",
+       "slug": "check-for-perfect-number",
+       "title": "Check for Perfect Number",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "perfect-number",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-for-perfect-number"
+      },
+      {
+       "id": "365",
+       "slug": "check-for-prime-number",
+       "title": "Check for Prime Number",
+       "kind": "practice",
+       "duration": "6 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/check-for-prime-number"
+      },
+      {
+       "id": "369",
+       "slug": "count-of-prime-numbers-till-n",
+       "title": "Count of Prime Numbers till N",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "count-primes",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-of-prime-numbers-till-n"
+      },
+      {
+       "id": "372",
+       "slug": "gcd-of-two-numbers",
+       "title": "GCD of Two Numbers",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/gcd-of-two-numbers"
+      },
+      {
+       "id": "373",
+       "slug": "lcm-of-two-numbers",
+       "title": "LCM of two numbers",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/lcm-of-two-numbers"
+      },
+      {
+       "id": "370",
+       "slug": "divisors-of-a-number",
+       "title": "Divisors of a Number",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/divisors-of-a-number"
+      }
+     ]
+    },
+    {
+     "id": "2022",
+     "title": "Basic Arrays",
+     "items": [
+      {
+       "id": "343",
+       "slug": "sum-of-array-elements",
+       "title": "Sum of Array Elements",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/sum-of-array-elements"
+      },
+      {
+       "id": "341",
+       "slug": "count-of-odd-numbers-in-array",
+       "title": "Count of odd numbers in Array",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-of-odd-numbers-in-array"
+      },
+      {
+       "id": "340",
+       "slug": "check-if-the-array-is-sorted-i",
+       "title": "Check if the Array is Sorted I",
+       "kind": "practice",
+       "duration": "6 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-the-array-is-sorted-i"
+      },
+      {
+       "id": "342",
+       "slug": "reverse-an-array",
+       "title": "Reverse an array",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-an-array"
+      }
+     ]
+    },
+    {
+     "id": "2023",
+     "title": "Basic Hashing",
+     "items": [
+      {
+       "id": "344",
+       "slug": "highest-occurring-element-in-an-array",
+       "title": "Highest Occurring Element in an Array",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": "frequency-of-the-most-frequent-element",
+       "url": "https://takeuforward.org/plus/dsa/problems/highest-occurring-element-in-an-array"
+      },
+      {
+       "id": "345",
+       "slug": "second-highest-occurring-element",
+       "title": "Second Highest Occurring Element",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/second-highest-occurring-element"
+      },
+      {
+       "id": "346",
+       "slug": "sum-of-highest-and-lowest-frequency",
+       "title": "Sum of Highest and Lowest Frequency",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/sum-of-highest-and-lowest-frequency"
+      }
+     ]
+    },
+    {
+     "id": "2024",
+     "title": "Basic Strings",
+     "items": [
+      {
+       "id": "397",
+       "slug": "reverse-a-string-ii",
+       "title": "Reverse a String II",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "reverse-string",
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-a-string-ii"
+      },
+      {
+       "id": "396",
+       "slug": "palindrome-check",
+       "title": "Palindrome Check",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": "valid-palindrome",
+       "url": "https://takeuforward.org/plus/dsa/problems/palindrome-check"
+      },
+      {
+       "id": "394",
+       "slug": "largest-odd-number-in-a-string",
+       "title": "Largest Odd Number in a String",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "core",
+       "leetcodeSlug": "largest-odd-number-in-string",
+       "url": "https://takeuforward.org/plus/dsa/problems/largest-odd-number-in-a-string"
+      },
+      {
+       "id": "395",
+       "slug": "longest-common-prefix",
+       "title": "Longest Common Prefix",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "core",
+       "leetcodeSlug": "longest-common-prefix",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-common-prefix"
+      },
+      {
+       "id": "393",
+       "slug": "isomorphic-string",
+       "title": "Isomorphic Strings",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "isomorphic-strings",
+       "url": "https://takeuforward.org/plus/dsa/problems/isomorphic-string"
+      },
+      {
+       "id": "398",
+       "slug": "rotate-string",
+       "title": "Rotate String",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "core",
+       "leetcodeSlug": "rotate-string",
+       "url": "https://takeuforward.org/plus/dsa/problems/rotate-string"
+      },
+      {
+       "id": "400",
+       "slug": "valid-anagram",
+       "title": "Valid Anagram",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "valid-anagram",
+       "url": "https://takeuforward.org/plus/dsa/problems/valid-anagram"
+      },
+      {
+       "id": "399",
+       "slug": "sort-characters-by-frequency",
+       "title": "Sort Characters by Frequency",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": "sort-characters-by-frequency",
+       "url": "https://takeuforward.org/plus/dsa/problems/sort-characters-by-frequency"
+      }
+     ]
+    },
+    {
+     "id": "2025",
+     "title": "Basic Recursion",
+     "items": [
+      {
+       "id": "1199",
+       "slug": "recursion-theory",
+       "title": "Recursion Theory",
+       "kind": "learning",
+       "duration": "40 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/recursion-theory"
+      },
+      {
+       "id": "1198",
+       "slug": "recursion-concepts-with-parameters",
+       "title": "Recursion Concepts with Parameters",
+       "kind": "learning",
+       "duration": "18 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/recursion-concepts-with-parameters"
+      },
+      {
+       "id": "386",
+       "slug": "sum-of-first-n-numbers",
+       "title": "Sum of First N Numbers",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/sum-of-first-n-numbers"
+      },
+      {
+       "id": "380",
+       "slug": "factorial-of-a-given-number-ii",
+       "title": "Factorial of a Given Number",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/factorial-of-a-given-number-ii"
+      },
+      {
+       "id": "384",
+       "slug": "sum-of-array-elements-ii",
+       "title": "Sum of Array Elements II",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/sum-of-array-elements-ii"
+      },
+      {
+       "id": "383",
+       "slug": "reverse-a-string-i",
+       "title": "Reverse a String I",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "reverse-string",
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-a-string-i"
+      },
+      {
+       "id": "378",
+       "slug": "check-if-string-is-palindrome-or-not-",
+       "title": "Check if String is Palindrome or Not ",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "valid-palindrome",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-string-is-palindrome-or-not-"
+      },
+      {
+       "id": "377",
+       "slug": "check-if-a-number-is-prime-or-not",
+       "title": "Check if a Number is Prime or Not",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-a-number-is-prime-or-not"
+      },
+      {
+       "id": "382",
+       "slug": "reverse-an-array-ii",
+       "title": "Reverse an array 2",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-an-array-ii"
+      },
+      {
+       "id": "379",
+       "slug": "check-if-the-array-is-sorted-ii",
+       "title": "Check if the Array is Sorted II",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "check-if-array-is-sorted-and-rotated",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-the-array-is-sorted-ii"
+      },
+      {
+       "id": "385",
+       "slug": "sum-of-digits-in-a-given-number",
+       "title": "Sum of Digits in a Given Number",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/sum-of-digits-in-a-given-number"
+      },
+      {
+       "id": "381",
+       "slug": "fibonacci-number",
+       "title": "Fibonacci Number",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "fibonacci-number",
+       "url": "https://takeuforward.org/plus/dsa/problems/fibonacci-number"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "1996",
+   "title": "Sorting ",
+   "topics": [
+    {
+     "id": "2026",
+     "title": "Algorithms",
+     "items": [
+      {
+       "id": "947",
+       "slug": "selection-sort",
+       "title": "Selection Sort",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/selection-sort"
+      },
+      {
+       "id": "943",
+       "slug": "bubble-sort",
+       "title": "Bubble Sort",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/bubble-sort"
+      },
+      {
+       "id": "944",
+       "slug": "insertion-sorting",
+       "title": "Insertion Sorting",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insertion-sorting"
+      },
+      {
+       "id": "945",
+       "slug": "merge-sorting",
+       "title": "Merge Sorting",
+       "kind": "practice",
+       "duration": "47 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/merge-sorting"
+      },
+      {
+       "id": "946",
+       "slug": "quick-sorting",
+       "title": "Quick Sorting",
+       "kind": "practice",
+       "duration": "33 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/quick-sorting"
+      },
+      {
+       "id": "881",
+       "slug": "recursive-bubble-sort",
+       "title": "Recursive Bubble Sort",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/recursive-bubble-sort"
+      },
+      {
+       "id": "882",
+       "slug": "recursive-insertion-sort",
+       "title": "Recursive Insertion Sort",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/recursive-insertion-sort"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "1997",
+   "title": "Arrays",
+   "topics": [
+    {
+     "id": "2027",
+     "title": "Fundamentals",
+     "items": [
+      {
+       "id": "41",
+       "slug": "linear-search",
+       "title": "Linear Search",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/linear-search"
+      },
+      {
+       "id": "38",
+       "slug": "largest-element",
+       "title": "Largest Element ",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/largest-element"
+      },
+      {
+       "id": "43",
+       "slug": "second-largest-element",
+       "title": "Second Largest Element",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/second-largest-element"
+      },
+      {
+       "id": "42",
+       "slug": "maximum-consecutive-ones",
+       "title": "Maximum Consecutive Ones",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "max-consecutive-ones",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-consecutive-ones"
+      },
+      {
+       "id": "40",
+       "slug": "left-rotate-array-by-one",
+       "title": "Left Rotate Array by One",
+       "kind": "practice",
+       "duration": "6 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "rotate-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/left-rotate-array-by-one"
+      },
+      {
+       "id": "39",
+       "slug": "left-rotate-array",
+       "title": "Left Rotate Array by K Places",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "core",
+       "leetcodeSlug": "rotate-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/left-rotate-array"
+      }
+     ]
+    },
+    {
+     "id": "2028",
+     "title": "Logic Building",
+     "items": [
+      {
+       "id": "46",
+       "slug": "move-zeros-to-end",
+       "title": "Move Zeros to End",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "move-zeroes",
+       "url": "https://takeuforward.org/plus/dsa/problems/move-zeros-to-end"
+      },
+      {
+       "id": "47",
+       "slug": "remove-duplicates-from-sorted-array",
+       "title": "Remove duplicates from sorted array",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "remove-duplicates-from-sorted-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/remove-duplicates-from-sorted-array"
+      },
+      {
+       "id": "44",
+       "slug": "find-missing-number",
+       "title": "Find missing number",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "missing-number",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-missing-number"
+      },
+      {
+       "id": "48",
+       "slug": "union-of-two-sorted-arrays",
+       "title": "Union of two sorted arrays",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/union-of-two-sorted-arrays"
+      },
+      {
+       "id": "45",
+       "slug": "intersection-of-two-sorted-arrays",
+       "title": "Intersection of two sorted arrays",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/intersection-of-two-sorted-arrays"
+      }
+     ]
+    },
+    {
+     "id": "2029",
+     "title": "FAQs(Medium)",
+     "items": [
+      {
+       "id": "22",
+       "slug": "majority-element-i",
+       "title": "Majority Element-I",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "core",
+       "leetcodeSlug": "majority-element",
+       "url": "https://takeuforward.org/plus/dsa/problems/majority-element-i"
+      },
+      {
+       "id": "30",
+       "slug": "leaders-in-an-array",
+       "title": "Leaders in an Array",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "core",
+       "leetcodeSlug": "buildings-with-an-ocean-view",
+       "url": "https://takeuforward.org/plus/dsa/problems/leaders-in-an-array"
+      },
+      {
+       "id": "34",
+       "slug": "rearrange-array-elements-by-sign",
+       "title": "Rearrange array elements by sign",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": "rearrange-array-elements-by-sign",
+       "url": "https://takeuforward.org/plus/dsa/problems/rearrange-array-elements-by-sign"
+      },
+      {
+       "id": "33",
+       "slug": "print-the-matrix-in-spiral-manner",
+       "title": "Print the matrix in spiral manner",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "spiral-matrix",
+       "url": "https://takeuforward.org/plus/dsa/problems/print-the-matrix-in-spiral-manner"
+      },
+      {
+       "id": "813",
+       "slug": "pascals-triangle-i",
+       "title": "Pascal's Triangle I",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": "pascals-triangle",
+       "url": "https://takeuforward.org/plus/dsa/problems/pascals-triangle-i"
+      },
+      {
+       "id": "812",
+       "slug": "pascals-triangle-ii",
+       "title": "Pascal's Triangle II",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": "pascals-triangle-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/pascals-triangle-ii"
+      },
+      {
+       "id": "32",
+       "slug": "pascals-triangle-iii",
+       "title": "Pascal's Triangle III",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pascals-triangle-iii"
+      },
+      {
+       "id": "35",
+       "slug": "rotate-matrix-by-90-degrees",
+       "title": "Rotate matrix by 90 degrees",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "core",
+       "leetcodeSlug": "rotate-image",
+       "url": "https://takeuforward.org/plus/dsa/problems/rotate-matrix-by-90-degrees"
+      },
+      {
+       "id": "911",
+       "slug": "set-matrix-zeroes",
+       "title": "Set Matrix Zeroes",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "set-matrix-zeroes",
+       "url": "https://takeuforward.org/plus/dsa/problems/set-matrix-zeroes"
+      },
+      {
+       "id": "37",
+       "slug": "two-sum",
+       "title": "Two Sum",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "two-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/two-sum"
+      },
+      {
+       "id": "27",
+       "slug": "3-sum",
+       "title": "3 Sum",
+       "kind": "practice",
+       "duration": "37 min",
+       "difficulty": "core",
+       "leetcodeSlug": "3sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/3-sum"
+      },
+      {
+       "id": "28",
+       "slug": "4-sum",
+       "title": "4 Sum",
+       "kind": "practice",
+       "duration": "27 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "4sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/4-sum"
+      },
+      {
+       "id": "36",
+       "slug": "sort-an-array-of-0's-1's-and-2's",
+       "title": "Sort an array of 0's 1's and 2's",
+       "kind": "practice",
+       "duration": "24 min",
+       "difficulty": "core",
+       "leetcodeSlug": "sort-colors",
+       "url": "https://takeuforward.org/plus/dsa/problems/sort-an-array-of-0's-1's-and-2's"
+      },
+      {
+       "id": "29",
+       "slug": "kadane's-algorithm",
+       "title": "Kadane's Algorithm",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "core",
+       "leetcodeSlug": "maximum-subarray",
+       "url": "https://takeuforward.org/plus/dsa/problems/kadane's-algorithm"
+      },
+      {
+       "id": "31",
+       "slug": "next-permutation",
+       "title": "Next Permutation",
+       "kind": "practice",
+       "duration": "26 min",
+       "difficulty": "core",
+       "leetcodeSlug": "next-permutation",
+       "url": "https://takeuforward.org/plus/dsa/problems/next-permutation"
+      }
+     ]
+    },
+    {
+     "id": "2030",
+     "title": "FAQs(Hard)",
+     "items": [
+      {
+       "id": "23",
+       "slug": "majority-element-ii",
+       "title": "Majority Element-II",
+       "kind": "practice",
+       "duration": "25 min",
+       "difficulty": "core",
+       "leetcodeSlug": "majority-element-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/majority-element-ii"
+      },
+      {
+       "id": "21",
+       "slug": "find-the-repeating-and-missing-number",
+       "title": "Find the repeating and missing number",
+       "kind": "practice",
+       "duration": "41 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/find-the-repeating-and-missing-number"
+      },
+      {
+       "id": "20",
+       "slug": "count-inversions",
+       "title": "Count Inversions",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-inversions"
+      },
+      {
+       "id": "26",
+       "slug": "reverse-pairs",
+       "title": "Reverse Pairs",
+       "kind": "practice",
+       "duration": "31 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "reverse-pairs",
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-pairs"
+      },
+      {
+       "id": "24",
+       "slug": "maximum-product-subarray-in-an-array",
+       "title": "Maximum Product Subarray in an Array",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "core",
+       "leetcodeSlug": "maximum-product-subarray",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-product-subarray-in-an-array"
+      },
+      {
+       "id": "25",
+       "slug": "merge-two-sorted-arrays-without-extra-space",
+       "title": "Merge two sorted arrays without extra space",
+       "kind": "practice",
+       "duration": "32 min",
+       "difficulty": "core",
+       "leetcodeSlug": "merge-sorted-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/merge-two-sorted-arrays-without-extra-space"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "1998",
+   "title": "Hashing",
+   "topics": [
+    {
+     "id": "2032",
+     "title": "Theory",
+     "items": [
+      {
+       "id": "1203",
+       "slug": "basic-hashing",
+       "title": "Basic Hashing",
+       "kind": "learning",
+       "duration": "94 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/basic-hashing"
+      }
+     ]
+    },
+    {
+     "id": "2033",
+     "title": "FAQs",
+     "items": [
+      {
+       "id": "563",
+       "slug": "longest-consecutive-sequence-in-an-array",
+       "title": "Longest Consecutive Sequence in an Array",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": "longest-consecutive-sequence",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-consecutive-sequence-in-an-array"
+      },
+      {
+       "id": "564",
+       "slug": "longest-subarray-with-sum-k",
+       "title": "Longest subarray with sum K",
+       "kind": "practice",
+       "duration": "40 min",
+       "difficulty": "core",
+       "leetcodeSlug": "maximum-size-subarray-sum-equals-k",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-subarray-with-sum-k"
+      },
+      {
+       "id": "605",
+       "slug": "largest-subarray-with-sum-0",
+       "title": "Largest Subarray with Sum 0",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "maximum-size-subarray-sum-equals-k",
+       "url": "https://takeuforward.org/plus/dsa/problems/largest-subarray-with-sum-0"
+      },
+      {
+       "id": "561",
+       "slug": "count-subarrays-with-given-sum",
+       "title": "Count subarrays with given sum",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": "subarray-sum-equals-k",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-subarrays-with-given-sum"
+      },
+      {
+       "id": "562",
+       "slug": "count-subarrays-with-given-xor-k",
+       "title": "Count subarrays with given xor K",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-subarrays-with-given-xor-k"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "1999",
+   "title": "Binary Search",
+   "topics": [
+    {
+     "id": "2035",
+     "title": "Fundamentals",
+     "items": [
+      {
+       "id": "81",
+       "slug": "search-x-in-sorted-array",
+       "title": "Search X in sorted array",
+       "kind": "practice",
+       "duration": "33 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "binary-search",
+       "url": "https://takeuforward.org/plus/dsa/problems/search-x-in-sorted-array"
+      },
+      {
+       "id": "80",
+       "slug": "lower-bound-",
+       "title": "Lower Bound ",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/lower-bound-"
+      },
+      {
+       "id": "82",
+       "slug": "upper-bound",
+       "title": "Upper Bound",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/upper-bound"
+      }
+     ]
+    },
+    {
+     "id": "2036",
+     "title": "Logic Building",
+     "items": [
+      {
+       "id": "89",
+       "slug": "search-insert-position",
+       "title": "Search insert position",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "search-insert-position",
+       "url": "https://takeuforward.org/plus/dsa/problems/search-insert-position"
+      },
+      {
+       "id": "86",
+       "slug": "floor-and-ceil-in-sorted-array",
+       "title": "Floor and Ceil in Sorted Array",
+       "kind": "practice",
+       "duration": "6 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/floor-and-ceil-in-sorted-array"
+      },
+      {
+       "id": "85",
+       "slug": "first-and-last-occurrence",
+       "title": "First and last occurrence",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": "find-first-and-last-position-of-element-in-sorted-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/first-and-last-occurrence"
+      },
+      {
+       "id": "87",
+       "slug": "search-in-rotated-sorted-array-i",
+       "title": "Search in rotated sorted array-I",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "search-in-rotated-sorted-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/search-in-rotated-sorted-array-i"
+      },
+      {
+       "id": "88",
+       "slug": "search-in-rotated-sorted-array-2",
+       "title": "Search in rotated sorted array-II",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": "search-in-rotated-sorted-array-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/search-in-rotated-sorted-array-2"
+      },
+      {
+       "id": "83",
+       "slug": "find-minimum-in-rotated-sorted-array",
+       "title": "Find minimum in Rotated Sorted Array",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "find-minimum-in-rotated-sorted-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-minimum-in-rotated-sorted-array"
+      },
+      {
+       "id": "84",
+       "slug": "find-out-how-many-times-the-array-is-rotated",
+       "title": "Find out how many times the array is rotated",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/find-out-how-many-times-the-array-is-rotated"
+      },
+      {
+       "id": "90",
+       "slug": "single-element-in-sorted-array",
+       "title": "Single element in sorted array",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": "single-element-in-a-sorted-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/single-element-in-sorted-array"
+      },
+      {
+       "id": "229",
+       "slug": "count-occurrences-in-a-sorted-array",
+       "title": "Count Occurrences in a Sorted Array",
+       "kind": "practice",
+       "duration": "1 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-occurrences-in-a-sorted-array"
+      }
+     ]
+    },
+    {
+     "id": "2037",
+     "title": "On answers",
+     "items": [
+      {
+       "id": "92",
+       "slug": "find-square-root-of-a-number",
+       "title": "Find square root of a number",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "core",
+       "leetcodeSlug": "sqrtx",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-square-root-of-a-number"
+      },
+      {
+       "id": "91",
+       "slug": "find-nth-root-of-a-number",
+       "title": "Find Nth root of a number",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/find-nth-root-of-a-number"
+      },
+      {
+       "id": "93",
+       "slug": "find-the-smallest-divisor",
+       "title": "Find the smallest divisor",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "find-the-smallest-divisor-given-a-threshold",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-the-smallest-divisor"
+      },
+      {
+       "id": "94",
+       "slug": "koko-eating-bananas",
+       "title": "Koko eating bananas",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "koko-eating-bananas",
+       "url": "https://takeuforward.org/plus/dsa/problems/koko-eating-bananas"
+      },
+      {
+       "id": "95",
+       "slug": "minimum-days-to-make-m-bouquets",
+       "title": "Minimum days to make M bouquets",
+       "kind": "practice",
+       "duration": "25 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "minimum-number-of-days-to-make-m-bouquets",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-days-to-make-m-bouquets"
+      },
+      {
+       "id": "161",
+       "slug": "capacity-to-ship-packages-within-d-days",
+       "title": "Capacity to Ship Packages Within D Days",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "capacity-to-ship-packages-within-d-days",
+       "url": "https://takeuforward.org/plus/dsa/problems/capacity-to-ship-packages-within-d-days"
+      },
+      {
+       "id": "600",
+       "slug": "kth-missing-positive-number",
+       "title": "Kth Missing Positive Number",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "kth-missing-positive-number",
+       "url": "https://takeuforward.org/plus/dsa/problems/kth-missing-positive-number"
+      },
+      {
+       "id": "805",
+       "slug": "painters-partition",
+       "title": "Painter's Partition",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "split-array-largest-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/painters-partition"
+      }
+     ]
+    },
+    {
+     "id": "2038",
+     "title": "FAQs",
+     "items": [
+      {
+       "id": "73",
+       "slug": "aggressive-cows",
+       "title": "Aggressive Cows",
+       "kind": "practice",
+       "duration": "26 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/aggressive-cows"
+      },
+      {
+       "id": "74",
+       "slug": "book-allocation-problem",
+       "title": "Book Allocation Problem",
+       "kind": "practice",
+       "duration": "27 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "split-array-largest-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/book-allocation-problem"
+      },
+      {
+       "id": "75",
+       "slug": "find-peak-element",
+       "title": "Find peak element",
+       "kind": "practice",
+       "duration": "32 min",
+       "difficulty": "core",
+       "leetcodeSlug": "find-peak-element",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-peak-element"
+      },
+      {
+       "id": "77",
+       "slug": "median-of-2-sorted-arrays",
+       "title": "Median of 2 sorted arrays",
+       "kind": "practice",
+       "duration": "50 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "median-of-two-sorted-arrays",
+       "url": "https://takeuforward.org/plus/dsa/problems/median-of-2-sorted-arrays"
+      },
+      {
+       "id": "76",
+       "slug": "kth-element-of-2-sorted-arrays",
+       "title": "Kth element of 2 sorted arrays",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/kth-element-of-2-sorted-arrays"
+      },
+      {
+       "id": "78",
+       "slug": "minimise-max-distance-to-gas-stations",
+       "title": "Minimize Max Distance to Gas Station",
+       "kind": "practice",
+       "duration": "58 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "minimize-max-distance-to-gas-station",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimise-max-distance-to-gas-stations"
+      },
+      {
+       "id": "79",
+       "slug": "split-array---largest-sum",
+       "title": "Split array - largest sum",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "split-array-largest-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/split-array---largest-sum"
+      }
+     ]
+    },
+    {
+     "id": "2039",
+     "title": "2D Arrays",
+     "items": [
+      {
+       "id": "66",
+       "slug": "find-row-with-maximum-1's",
+       "title": "Find row with maximum 1's",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/find-row-with-maximum-1's"
+      },
+      {
+       "id": "69",
+       "slug": "search-in-a-2d-matrix",
+       "title": "Search in a 2D Matrix",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "search-a-2d-matrix",
+       "url": "https://takeuforward.org/plus/dsa/problems/search-in-a-2d-matrix"
+      },
+      {
+       "id": "68",
+       "slug": "search-in-2d-matrix-ii",
+       "title": "Search in 2D matrix - II",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "search-a-2d-matrix-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/search-in-2d-matrix-ii"
+      },
+      {
+       "id": "65",
+       "slug": "find-peak-element-ii",
+       "title": "Find Peak Element - II",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "find-a-peak-element-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-peak-element-ii"
+      },
+      {
+       "id": "67",
+       "slug": "matrix-median",
+       "title": "Matrix Median",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "median-of-a-row-wise-sorted-matrix",
+       "url": "https://takeuforward.org/plus/dsa/problems/matrix-median"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "17176",
+   "title": "Strings (Basic and Medium)",
+   "topics": [
+    {
+     "id": "17177",
+     "title": "Parentheses",
+     "items": [
+      {
+       "id": "892",
+       "slug": "remove-outermost-parentheses",
+       "title": "Remove Outermost Parentheses",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "remove-outermost-parentheses",
+       "url": "https://takeuforward.org/plus/dsa/problems/remove-outermost-parentheses"
+      },
+      {
+       "id": "674",
+       "slug": "maximum-nesting-depth-of-the-parentheses",
+       "title": "Maximum Nesting Depth of the Parentheses",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "maximum-nesting-depth-of-the-parentheses",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-nesting-depth-of-the-parentheses"
+      }
+     ]
+    },
+    {
+     "id": "17178",
+     "title": "String Conversions",
+     "items": [
+      {
+       "id": "903",
+       "slug": "roman-to-integer",
+       "title": "Roman to Integer",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "basic",
+       "leetcodeSlug": "roman-to-integer",
+       "url": "https://takeuforward.org/plus/dsa/problems/roman-to-integer"
+      },
+      {
+       "id": "974",
+       "slug": "string-to-integer-atoi",
+       "title": "String to Integer (atoi)",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "string-to-integer-atoi",
+       "url": "https://takeuforward.org/plus/dsa/problems/string-to-integer-atoi"
+      }
+     ]
+    },
+    {
+     "id": "17179",
+     "title": "Substring Problems",
+     "items": [
+      {
+       "id": "19364",
+       "slug": "count-number-of-substring",
+       "title": "Count Number of Substrings",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-number-of-substring"
+      },
+      {
+       "id": "638",
+       "slug": "longest-palindromic-substring",
+       "title": "Longest Palindromic Substring",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "longest-palindromic-substring",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-palindromic-substring"
+      },
+      {
+       "id": "993",
+       "slug": "sum-of-beauty-of-all-substrings",
+       "title": "Sum of Beauty of All Substrings",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "sum-of-beauty-of-all-substrings",
+       "url": "https://takeuforward.org/plus/dsa/problems/sum-of-beauty-of-all-substrings"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2000",
+   "title": "Recursion",
+   "topics": [
+    {
+     "id": "2041",
+     "title": "Implementation Problems",
+     "items": [
+      {
+       "id": "877",
+       "slug": "pow(x,n)",
+       "title": "Pow(x,n)",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "core",
+       "leetcodeSlug": "powx-n",
+       "url": "https://takeuforward.org/plus/dsa/problems/pow(x,n)"
+      },
+      {
+       "id": "876",
+       "slug": "generate-parentheses",
+       "title": "Generate Parentheses",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": "generate-parentheses",
+       "url": "https://takeuforward.org/plus/dsa/problems/generate-parentheses"
+      },
+      {
+       "id": "878",
+       "slug": "power-set",
+       "title": "Power Set",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "subsets",
+       "url": "https://takeuforward.org/plus/dsa/problems/power-set"
+      },
+      {
+       "id": "222",
+       "slug": "count-good-numbers",
+       "title": "Count Good Numbers",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "count-good-numbers",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-good-numbers"
+      },
+      {
+       "id": "901",
+       "slug": "reverse-a-stack",
+       "title": "Reverse a Stack",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-a-stack"
+      }
+     ]
+    },
+    {
+     "id": "2042",
+     "title": "Subsequence Pattern Problems",
+     "items": [
+      {
+       "id": "2400",
+       "slug": "learn-all-patterns-of-subsequences",
+       "title": "Learn All Patterns of Subsequences (Theory)",
+       "kind": "learning",
+       "duration": null,
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/learn-all-patterns-of-subsequences"
+      },
+      {
+       "id": "879",
+       "slug": "check-if-there-exists-a-subsequence-with-sum-k",
+       "title": "Check if there exists a subsequence with sum K",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-there-exists-a-subsequence-with-sum-k"
+      },
+      {
+       "id": "880",
+       "slug": "count-all-subsequences-with-sum-k",
+       "title": "Count all subsequences with sum K",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-all-subsequences-with-sum-k"
+      },
+      {
+       "id": "493",
+       "slug": "generate-binary-strings-without-consecutive-1s",
+       "title": "Generate Binary Strings Without Consecutive 1s",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/generate-binary-strings-without-consecutive-1s"
+      }
+     ]
+    },
+    {
+     "id": "2043",
+     "title": "FAQs (Medium)",
+     "items": [
+      {
+       "id": "864",
+       "slug": "combination-sum",
+       "title": "Combination Sum",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": "combination-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/combination-sum"
+      },
+      {
+       "id": "865",
+       "slug": "combination-sum-ii",
+       "title": "Combination Sum II",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "combination-sum-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/combination-sum-ii"
+      },
+      {
+       "id": "867",
+       "slug": "subsets-i",
+       "title": "Subsets I",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": "subsets",
+       "url": "https://takeuforward.org/plus/dsa/problems/subsets-i"
+      },
+      {
+       "id": "868",
+       "slug": "subsets-ii",
+       "title": "Subsets II",
+       "kind": "practice",
+       "duration": "21 min",
+       "difficulty": "core",
+       "leetcodeSlug": "subsets-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/subsets-ii"
+      },
+      {
+       "id": "866",
+       "slug": "combination-sum-iii",
+       "title": "Combination Sum III",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "combination-sum-iii",
+       "url": "https://takeuforward.org/plus/dsa/problems/combination-sum-iii"
+      }
+     ]
+    },
+    {
+     "id": "2044",
+     "title": "Hard",
+     "items": [
+      {
+       "id": "875",
+       "slug": "letter-combinations-of-a-phone-number",
+       "title": "Letter Combinations of a Phone Number",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "letter-combinations-of-a-phone-number",
+       "url": "https://takeuforward.org/plus/dsa/problems/letter-combinations-of-a-phone-number"
+      }
+     ]
+    },
+    {
+     "id": "2045",
+     "title": "FAQs (Hard)",
+     "items": [
+      {
+       "id": "871",
+       "slug": "palindrome-partitioning",
+       "title": "Palindrome partitioning",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "palindrome-partitioning",
+       "url": "https://takeuforward.org/plus/dsa/problems/palindrome-partitioning"
+      },
+      {
+       "id": "874",
+       "slug": "word-search",
+       "title": "Word Search",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "word-search",
+       "url": "https://takeuforward.org/plus/dsa/problems/word-search"
+      },
+      {
+       "id": "870",
+       "slug": "n-queen",
+       "title": "N Queen",
+       "kind": "practice",
+       "duration": "24 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "n-queens",
+       "url": "https://takeuforward.org/plus/dsa/problems/n-queen"
+      },
+      {
+       "id": "872",
+       "slug": "rat-in-a-maze",
+       "title": "Rat in a Maze",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/rat-in-a-maze"
+      },
+      {
+       "id": "869",
+       "slug": "m-coloring-problem",
+       "title": "M Coloring Problem",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/m-coloring-problem"
+      },
+      {
+       "id": "873",
+       "slug": "sudoko-solver",
+       "title": "Sudoku Solver",
+       "kind": "practice",
+       "duration": "31 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "sudoku-solver",
+       "url": "https://takeuforward.org/plus/dsa/problems/sudoko-solver"
+      },
+      {
+       "id": "3",
+       "slug": "expression-add-operators",
+       "title": "Expression Add Operators",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "expression-add-operators",
+       "url": "https://takeuforward.org/plus/dsa/problems/expression-add-operators"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2001",
+   "title": "Linked-List",
+   "topics": [
+    {
+     "id": "2047",
+     "title": "Fundamentals (Single LL)",
+     "items": [
+      {
+       "id": "1237",
+       "slug": "introduction-to-singly-linkedlist",
+       "title": "Introduction to Singly LinkedList",
+       "kind": "learning",
+       "duration": "37 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/introduction-to-singly-linkedlist"
+      },
+      {
+       "id": "624",
+       "slug": "traversal-in-linked-list",
+       "title": "Traversal in Linked List",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/traversal-in-linked-list"
+      },
+      {
+       "id": "1235",
+       "slug": "deletion-in-linked-list",
+       "title": "Deletion in Linked List",
+       "kind": "learning",
+       "duration": "32 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/deletion-in-linked-list"
+      },
+      {
+       "id": "1236",
+       "slug": "insertion-in-linked-list",
+       "title": "Insertion in Linked List",
+       "kind": "learning",
+       "duration": "24 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insertion-in-linked-list"
+      },
+      {
+       "id": "352",
+       "slug": "deletion-of-the-head-of-ll",
+       "title": "Deletion of the head of LL",
+       "kind": "practice",
+       "duration": "6 min",
+       "difficulty": "core",
+       "leetcodeSlug": "delete-node-in-a-linked-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/deletion-of-the-head-of-ll"
+      },
+      {
+       "id": "354",
+       "slug": "deletion-of-the-tail-of-ll",
+       "title": "Deletion of the tail of Linked List",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/deletion-of-the-tail-of-ll"
+      },
+      {
+       "id": "353",
+       "slug": "deletion-of-the-kth-element-of-ll",
+       "title": "Deletion of the Kth element of Linked List",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/deletion-of-the-kth-element-of-ll"
+      },
+      {
+       "id": "351",
+       "slug": "delete-the-element-with-value-x",
+       "title": "Delete the element with value X",
+       "kind": "practice",
+       "duration": "2 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/delete-the-element-with-value-x"
+      },
+      {
+       "id": "356",
+       "slug": "insertion-at-the-head-of-ll",
+       "title": "Insertion at the head of Linked List",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insertion-at-the-head-of-ll"
+      },
+      {
+       "id": "358",
+       "slug": "insertion-at-the-tail-of-ll",
+       "title": "Insertion at the tail of Linked List",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insertion-at-the-tail-of-ll"
+      },
+      {
+       "id": "357",
+       "slug": "insertion-at-the-kth-position-of-ll",
+       "title": "Insertion at the Kth position of Linked List",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insertion-at-the-kth-position-of-ll"
+      },
+      {
+       "id": "359",
+       "slug": "insertion-before-the-value-x-in-ll",
+       "title": "Insertion before the value X in Linked List",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insertion-before-the-value-x-in-ll"
+      },
+      {
+       "id": "470",
+       "slug": "find-the-length-of-the-linked-list",
+       "title": "Find the length of the Linked List",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/find-the-length-of-the-linked-list"
+      },
+      {
+       "id": "905",
+       "slug": "search-in-linked-list",
+       "title": "Search in Linked List",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/search-in-linked-list"
+      }
+     ]
+    },
+    {
+     "id": "2048",
+     "title": "Fundamentals (Doubly LL)",
+     "items": [
+      {
+       "id": "1234",
+       "slug": "introduction-to-doubly-ll",
+       "title": "Introduction to Doubly LL",
+       "kind": "learning",
+       "duration": "4 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/introduction-to-doubly-ll"
+      },
+      {
+       "id": "1232",
+       "slug": "deletion-in-doubly-ll",
+       "title": "Deletion in Doubly LL",
+       "kind": "learning",
+       "duration": "30 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/deletion-in-doubly-ll"
+      },
+      {
+       "id": "1233",
+       "slug": "insertion-in-dll",
+       "title": "Insertion in DLL",
+       "kind": "learning",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insertion-in-dll"
+      },
+      {
+       "id": "347",
+       "slug": "convert-array-to-dll",
+       "title": "Convert Array to Doubly Linked List",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/convert-array-to-dll"
+      },
+      {
+       "id": "350",
+       "slug": "delete-tail-of-dll",
+       "title": "Delete Tail of Doubly Linked List",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/delete-tail-of-dll"
+      },
+      {
+       "id": "349",
+       "slug": "delete-kth-element-of-dll",
+       "title": "Delete Kth Element of Doubly Linked List",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/delete-kth-element-of-dll"
+      },
+      {
+       "id": "363",
+       "slug": "removing-given-node-in-dll",
+       "title": "Removing given node in Doubly Linked List",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/removing-given-node-in-dll"
+      },
+      {
+       "id": "361",
+       "slug": "insert-node-before-head-in-dll",
+       "title": "Insert node before head in Doubly Linked List",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insert-node-before-head-in-dll"
+      },
+      {
+       "id": "362",
+       "slug": "insert-node-before-tail-in-dll",
+       "title": "Insert node before tail in Doubly Linked List",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insert-node-before-tail-in-dll"
+      },
+      {
+       "id": "360",
+       "slug": "insert-node-before-kth-node-in-dll",
+       "title": "Insert node before (kth node) in Doubly Linked List",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insert-node-before-kth-node-in-dll"
+      },
+      {
+       "id": "355",
+       "slug": "insert-before-given-node-in-dll",
+       "title": "Insert before given node in Doubly Linked List",
+       "kind": "practice",
+       "duration": "2 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/insert-before-given-node-in-dll"
+      },
+      {
+       "id": "348",
+       "slug": "delete-head-of-dll",
+       "title": "Delete head of Doubly Linked List",
+       "kind": "practice",
+       "duration": "6 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/delete-head-of-dll"
+      },
+      {
+       "id": "900",
+       "slug": "reverse-a-doubly-linked-list",
+       "title": "Reverse a Doubly Linked List",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "reverse-linked-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-a-doubly-linked-list"
+      }
+     ]
+    },
+    {
+     "id": "2049",
+     "title": "Logic Building",
+     "items": [
+      {
+       "id": "625",
+       "slug": "add-two-numbers-in-ll",
+       "title": "Add two numbers in Linked List",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": "add-two-numbers",
+       "url": "https://takeuforward.org/plus/dsa/problems/add-two-numbers-in-ll"
+      },
+      {
+       "id": "628",
+       "slug": "segregate-odd-and-even-nodes-in-ll",
+       "title": "Segregate odd and even nodes in Linked List",
+       "kind": "practice",
+       "duration": "24 min",
+       "difficulty": "core",
+       "leetcodeSlug": "odd-even-linked-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/segregate-odd-and-even-nodes-in-ll"
+      },
+      {
+       "id": "629",
+       "slug": "sort-a-ll-of-0's-1's-and-2's",
+       "title": "Sort a Linked List of 0's 1's and 2's",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/sort-a-ll-of-0's-1's-and-2's"
+      },
+      {
+       "id": "626",
+       "slug": "remove-nth-node-from-the-back-of-the-ll",
+       "title": "Remove Nth node from the back of the LL",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": "remove-nth-node-from-end-of-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/remove-nth-node-from-the-back-of-the-ll"
+      },
+      {
+       "id": "627",
+       "slug": "reverse-a-ll",
+       "title": "Reverse a LL",
+       "kind": "practice",
+       "duration": "32 min",
+       "difficulty": "core",
+       "leetcodeSlug": "reverse-linked-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-a-ll"
+      }
+     ]
+    },
+    {
+     "id": "2050",
+     "title": "FAQs (Medium)",
+     "items": [
+      {
+       "id": "617",
+       "slug": "add-one-to-a-number-represented-by-ll",
+       "title": "Add one to a number represented by LL",
+       "kind": "practice",
+       "duration": "24 min",
+       "difficulty": "core",
+       "leetcodeSlug": "plus-one-linked-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/add-one-to-a-number-represented-by-ll"
+      },
+      {
+       "id": "448",
+       "slug": "find-middle-of-linked-list",
+       "title": "Find Middle of Linked List",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "middle-of-the-linked-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-middle-of-linked-list"
+      },
+      {
+       "id": "619",
+       "slug": "delete-the-middle-node-in-ll",
+       "title": "Delete the middle node in LL",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": "delete-the-middle-node-of-a-linked-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/delete-the-middle-node-in-ll"
+      },
+      {
+       "id": "618",
+       "slug": "check-if-ll-is-palindrome-or-not",
+       "title": "Check if LL is palindrome or not",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "palindrome-linked-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-ll-is-palindrome-or-not"
+      },
+      {
+       "id": "621",
+       "slug": "find-the-intersection-point-of-y-ll",
+       "title": "Find the intersection point of Y LL",
+       "kind": "practice",
+       "duration": "32 min",
+       "difficulty": "core",
+       "leetcodeSlug": "intersection-of-two-linked-lists",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-the-intersection-point-of-y-ll"
+      },
+      {
+       "id": "620",
+       "slug": "detect-a-loop-in-ll",
+       "title": "Detect a loop in LL",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "linked-list-cycle",
+       "url": "https://takeuforward.org/plus/dsa/problems/detect-a-loop-in-ll"
+      },
+      {
+       "id": "622",
+       "slug": "find-the-starting-point-in-ll",
+       "title": "Find the starting point in LL",
+       "kind": "practice",
+       "duration": "21 min",
+       "difficulty": "core",
+       "leetcodeSlug": "linked-list-cycle-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-the-starting-point-in-ll"
+      },
+      {
+       "id": "623",
+       "slug": "length-of-loop-in-ll",
+       "title": "Length of loop in LL",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/length-of-loop-in-ll"
+      }
+     ]
+    },
+    {
+     "id": "2051",
+     "title": "FAQs (Hard)",
+     "items": [
+      {
+       "id": "614",
+       "slug": "reverse-ll-in-group-of-given-size-k",
+       "title": "Reverse LL in group of given size K",
+       "kind": "practice",
+       "duration": "24 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "reverse-nodes-in-k-group",
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-ll-in-group-of-given-size-k"
+      },
+      {
+       "id": "615",
+       "slug": "rotate-a-ll",
+       "title": "Rotate a LL",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": "rotate-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/rotate-a-ll"
+      },
+      {
+       "id": "613",
+       "slug": "merge-sorted-lists-",
+       "title": "Merge two Sorted Lists ",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "merge-two-sorted-lists",
+       "url": "https://takeuforward.org/plus/dsa/problems/merge-sorted-lists-"
+      },
+      {
+       "id": "612",
+       "slug": "flattening-of-ll",
+       "title": "Flattening of LL",
+       "kind": "practice",
+       "duration": "33 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "merge-k-sorted-lists",
+       "url": "https://takeuforward.org/plus/dsa/problems/flattening-of-ll"
+      },
+      {
+       "id": "616",
+       "slug": "sort-ll",
+       "title": "Sort LL",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": "sort-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/sort-ll"
+      },
+      {
+       "id": "611",
+       "slug": "clone-a-ll-with-random-and-next-pointer",
+       "title": "Clone a LL with random and next pointer",
+       "kind": "practice",
+       "duration": "33 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "copy-list-with-random-pointer",
+       "url": "https://takeuforward.org/plus/dsa/problems/clone-a-ll-with-random-and-next-pointer"
+      }
+     ]
+    },
+    {
+     "id": "2052",
+     "title": "FAQS (DLL)",
+     "items": [
+      {
+       "id": "609",
+       "slug": "delete-all-occurrences-of-a-key-in-dll",
+       "title": "Delete all occurrences of a key in DLL",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/delete-all-occurrences-of-a-key-in-dll"
+      },
+      {
+       "id": "610",
+       "slug": "remove-duplicated-from-sorted-dll",
+       "title": "Remove duplicates from sorted DLL",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/remove-duplicated-from-sorted-dll"
+      },
+      {
+       "id": "452",
+       "slug": "find-pairs-with-given-sum-in-doubly-linked-list",
+       "title": "Find Pairs with Given Sum in Doubly Linked List",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/find-pairs-with-given-sum-in-doubly-linked-list"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2002",
+   "title": "Bit Manipulation",
+   "topics": [
+    {
+     "id": "2054",
+     "title": "Theory",
+     "items": [
+      {
+       "id": "1155",
+       "slug": "introduction-to-bits-and-tricks",
+       "title": "Introduction to Bits and Tricks",
+       "kind": "learning",
+       "duration": "80 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/introduction-to-bits-and-tricks"
+      }
+     ]
+    },
+    {
+     "id": "17180",
+     "title": "Bit Fundamentals",
+     "items": [
+      {
+       "id": "177",
+       "slug": "check-if-the-i-th-bit-is-set-or-not",
+       "title": "Check if the i-th bit is Set or Not",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-the-i-th-bit-is-set-or-not"
+      },
+      {
+       "id": "171",
+       "slug": "check-if-a-number-is-odd-or-not",
+       "title": "Check if a Number is Odd or Not",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-a-number-is-odd-or-not"
+      },
+      {
+       "id": "172",
+       "slug": "check-if-a-number-is-power-of-2-or-not",
+       "title": "Check if a Number is Power of 2 or Not",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "basic",
+       "leetcodeSlug": "power-of-two",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-a-number-is-power-of-2-or-not"
+      },
+      {
+       "id": "243",
+       "slug": "count-the-number-of-set-bits",
+       "title": "Count the Number of Set Bits",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "basic",
+       "leetcodeSlug": "number-of-1-bits",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-the-number-of-set-bits"
+      },
+      {
+       "id": "19363",
+       "slug": "set-the-rightmost-unset-bit",
+       "title": "Set the Rightmost Unset Bit",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/set-the-rightmost-unset-bit"
+      },
+      {
+       "id": "1005",
+       "slug": "swap-two-numbers",
+       "title": "Swap Two Numbers",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/swap-two-numbers"
+      }
+     ]
+    },
+    {
+     "id": "2055",
+     "title": "Problems",
+     "items": [
+      {
+       "id": "141",
+       "slug": "minimum-bit-flips-to-convert-number",
+       "title": "Minimum Bit Flips to Convert Number",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "minimum-bit-flips-to-convert-number",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-bit-flips-to-convert-number"
+      },
+      {
+       "id": "143",
+       "slug": "single-number---i",
+       "title": "Single Number - I",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "single-number",
+       "url": "https://takeuforward.org/plus/dsa/problems/single-number---i"
+      },
+      {
+       "id": "144",
+       "slug": "single-number---ii",
+       "title": "Single Number - II",
+       "kind": "practice",
+       "duration": "30 min",
+       "difficulty": "core",
+       "leetcodeSlug": "single-number-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/single-number---ii"
+      },
+      {
+       "id": "145",
+       "slug": "single-number---iii",
+       "title": "Single Number - III",
+       "kind": "practice",
+       "duration": "24 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "single-number-iii",
+       "url": "https://takeuforward.org/plus/dsa/problems/single-number---iii"
+      },
+      {
+       "id": "140",
+       "slug": "divide-two-numbers-without-multiplication-and-division",
+       "title": "Divide two numbers without multiplication and division",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "core",
+       "leetcodeSlug": "divide-two-integers",
+       "url": "https://takeuforward.org/plus/dsa/problems/divide-two-numbers-without-multiplication-and-division"
+      },
+      {
+       "id": "142",
+       "slug": "power-set-bit-manipulation",
+       "title": "Power Set Bit Manipulation",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": "subsets",
+       "url": "https://takeuforward.org/plus/dsa/problems/power-set-bit-manipulation"
+      },
+      {
+       "id": "146",
+       "slug": "xor-of-numbers-in-a-given-range",
+       "title": "XOR of numbers in a given range",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/xor-of-numbers-in-a-given-range"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2003",
+   "title": "Greedy Algorithms",
+   "topics": [
+    {
+     "id": "2057",
+     "title": "Easy",
+     "items": [
+      {
+       "id": "541",
+       "slug": "assign-cookies",
+       "title": "Assign Cookies",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": "assign-cookies",
+       "url": "https://takeuforward.org/plus/dsa/problems/assign-cookies"
+      },
+      {
+       "id": "543",
+       "slug": "lemonade-change",
+       "title": "Lemonade Change",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": "lemonade-change",
+       "url": "https://takeuforward.org/plus/dsa/problems/lemonade-change"
+      },
+      {
+       "id": "489",
+       "slug": "fractional-knapsack",
+       "title": "Fractional Knapsack",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/fractional-knapsack"
+      },
+      {
+       "id": "542",
+       "slug": "jump-game---i",
+       "title": "Jump Game - I",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": "jump-game",
+       "url": "https://takeuforward.org/plus/dsa/problems/jump-game---i"
+      }
+     ]
+    },
+    {
+     "id": "2058",
+     "title": "Scheduling and Interval Problems",
+     "items": [
+      {
+       "id": "551",
+       "slug": "shortest-job-first",
+       "title": "Shortest Job First",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/shortest-job-first"
+      },
+      {
+       "id": "547",
+       "slug": "job-sequencing-problem",
+       "title": "Job sequencing Problem",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/job-sequencing-problem"
+      },
+      {
+       "id": "549",
+       "slug": "n-meetings-in-one-room",
+       "title": "N meetings in one room",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/n-meetings-in-one-room"
+      },
+      {
+       "id": "550",
+       "slug": "non-overlapping-intervals",
+       "title": "Non-overlapping Intervals",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "core",
+       "leetcodeSlug": "non-overlapping-intervals",
+       "url": "https://takeuforward.org/plus/dsa/problems/non-overlapping-intervals"
+      },
+      {
+       "id": "546",
+       "slug": "insert-interval",
+       "title": "Insert Interval",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "core",
+       "leetcodeSlug": "insert-interval",
+       "url": "https://takeuforward.org/plus/dsa/problems/insert-interval"
+      },
+      {
+       "id": "712",
+       "slug": "merge-intervals",
+       "title": "Merge Intervals",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "merge-intervals",
+       "url": "https://takeuforward.org/plus/dsa/problems/merge-intervals"
+      },
+      {
+       "id": "548",
+       "slug": "minimum-number-of-platforms-required-for-a-railway",
+       "title": "Minimum number of platforms required for a railway",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "core",
+       "leetcodeSlug": "divide-intervals-into-minimum-number-of-groups",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-number-of-platforms-required-for-a-railway"
+      }
+     ]
+    },
+    {
+     "id": "2059",
+     "title": "Hard",
+     "items": [
+      {
+       "id": "545",
+       "slug": "valid-paranthesis-checker",
+       "title": "Valid Parenthesis Checker",
+       "kind": "practice",
+       "duration": "25 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "valid-parenthesis-string",
+       "url": "https://takeuforward.org/plus/dsa/problems/valid-paranthesis-checker"
+      },
+      {
+       "id": "544",
+       "slug": "candy",
+       "title": "Candy",
+       "kind": "practice",
+       "duration": "30 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "candy",
+       "url": "https://takeuforward.org/plus/dsa/problems/candy"
+      },
+      {
+       "id": "595",
+       "slug": "jump-game-ii",
+       "title": "Jump Game II",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "jump-game-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/jump-game-ii"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2004",
+   "title": "Sliding Window / 2 Pointer",
+   "topics": [
+    {
+     "id": "2061",
+     "title": "Pattern and Template",
+     "items": [
+      {
+       "id": "1254",
+       "slug": "theory",
+       "title": "Theory",
+       "kind": "learning",
+       "duration": "36 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/theory"
+      }
+     ]
+    },
+    {
+     "id": "2062",
+     "title": "Constant Window",
+     "items": [
+      {
+       "id": "922",
+       "slug": "maximum-points-you-can-obtain-from-cards-",
+       "title": "Maximum Points You Can Obtain from Cards ",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "core",
+       "leetcodeSlug": "maximum-points-you-can-obtain-from-cards",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-points-you-can-obtain-from-cards-"
+      }
+     ]
+    },
+    {
+     "id": "2063",
+     "title": "Longest and Smallest Window Problems",
+     "items": [
+      {
+       "id": "929",
+       "slug": "longest-substring-without-repeating-characters",
+       "title": "Longest Substring Without Repeating Characters",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": "longest-substring-without-repeating-characters",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-substring-without-repeating-characters"
+      },
+      {
+       "id": "930",
+       "slug": "max-consecutive-ones-iii",
+       "title": " Max Consecutive Ones III",
+       "kind": "practice",
+       "duration": "29 min",
+       "difficulty": "core",
+       "leetcodeSlug": "max-consecutive-ones-iii",
+       "url": "https://takeuforward.org/plus/dsa/problems/max-consecutive-ones-iii"
+      },
+      {
+       "id": "926",
+       "slug": "fruit-into-baskets",
+       "title": " Fruit Into Baskets",
+       "kind": "practice",
+       "duration": "29 min",
+       "difficulty": "core",
+       "leetcodeSlug": "fruit-into-baskets",
+       "url": "https://takeuforward.org/plus/dsa/problems/fruit-into-baskets"
+      },
+      {
+       "id": "928",
+       "slug": "longest-substring-with-at-most-k-distinct-characters",
+       "title": "Longest Substring With At Most K Distinct Characters",
+       "kind": "practice",
+       "duration": "21 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "longest-substring-with-at-most-k-distinct-characters",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-substring-with-at-most-k-distinct-characters"
+      },
+      {
+       "id": "927",
+       "slug": "longest-repeating-character-replacement",
+       "title": "Longest Repeating Character Replacement",
+       "kind": "practice",
+       "duration": "25 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "longest-repeating-character-replacement",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-repeating-character-replacement"
+      },
+      {
+       "id": "931",
+       "slug": "minimum-window-substring-",
+       "title": "Minimum Window Substring ",
+       "kind": "practice",
+       "duration": "26 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "minimum-window-substring",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-window-substring-"
+      },
+      {
+       "id": "754",
+       "slug": "minimum-window-subsequence",
+       "title": "Minimum Window Subsequence",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "minimum-window-subsequence",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-window-subsequence"
+      }
+     ]
+    },
+    {
+     "id": "2064",
+     "title": "Counting Subarrays / Substrings Problems",
+     "items": [
+      {
+       "id": "925",
+       "slug": "number-of-substrings-containing-all-three-characters",
+       "title": "Number of Substrings Containing All Three Characters",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "core",
+       "leetcodeSlug": "number-of-substrings-containing-all-three-characters",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-substrings-containing-all-three-characters"
+      },
+      {
+       "id": "923",
+       "slug": "binary-subarrays-with-sum",
+       "title": "Binary Subarrays With Sum",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "binary-subarrays-with-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/binary-subarrays-with-sum"
+      },
+      {
+       "id": "924",
+       "slug": "count-number-of-nice-subarrays",
+       "title": "Count number of Nice subarrays",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "count-number-of-nice-subarrays",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-number-of-nice-subarrays"
+      },
+      {
+       "id": "988",
+       "slug": "subarrays-with-k-different-integers",
+       "title": "Subarrays with K Different Integers",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "subarrays-with-k-different-integers",
+       "url": "https://takeuforward.org/plus/dsa/problems/subarrays-with-k-different-integers"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2005",
+   "title": "Stack / Queues",
+   "topics": [
+    {
+     "id": "2066",
+     "title": "Implementation ",
+     "items": [
+      {
+       "id": "1256",
+       "slug": "implementation-using-different-ds",
+       "title": "Implementation using different DS",
+       "kind": "learning",
+       "duration": "64 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/implementation-using-different-ds"
+      },
+      {
+       "id": "390",
+       "slug": "implement-stack-using-arrays",
+       "title": "Implement Stack using Arrays",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/implement-stack-using-arrays"
+      },
+      {
+       "id": "387",
+       "slug": "implement-queue-using-arrays",
+       "title": "Implement Queue using Arrays",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/implement-queue-using-arrays"
+      },
+      {
+       "id": "392",
+       "slug": "implement-stack-using-queue",
+       "title": "Implement Stack using Queue",
+       "kind": "practice",
+       "duration": "6 min",
+       "difficulty": "core",
+       "leetcodeSlug": "implement-stack-using-queues",
+       "url": "https://takeuforward.org/plus/dsa/problems/implement-stack-using-queue"
+      },
+      {
+       "id": "389",
+       "slug": "implement-queue-using-stack",
+       "title": "Implement Queue using Stack",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": "implement-queue-using-stacks",
+       "url": "https://takeuforward.org/plus/dsa/problems/implement-queue-using-stack"
+      },
+      {
+       "id": "391",
+       "slug": "implement-stack-using-linkedlist",
+       "title": "Implement stack using Linkedlist",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/implement-stack-using-linkedlist"
+      },
+      {
+       "id": "388",
+       "slug": "implement-queue-using-linkedlist",
+       "title": "Implement queue using Linkedlist",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/implement-queue-using-linkedlist"
+      },
+      {
+       "id": "966",
+       "slug": "balanced-paranthesis",
+       "title": "Balanced Paranthesis",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": "valid-parentheses",
+       "url": "https://takeuforward.org/plus/dsa/problems/balanced-paranthesis"
+      }
+     ]
+    },
+    {
+     "id": "17181",
+     "title": "Prefix, Infix and Postfix Conversions",
+     "items": [
+      {
+       "id": "586",
+       "slug": "infix-to-postfix-conversion",
+       "title": "Infix to Postfix Conversion",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/infix-to-postfix-conversion"
+      },
+      {
+       "id": "587",
+       "slug": "infix-to-prefix-conversion",
+       "title": "Infix to Prefix Conversion",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/infix-to-prefix-conversion"
+      },
+      {
+       "id": "848",
+       "slug": "prefix-to-infix-conversion",
+       "title": "Prefix to Infix Conversion",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/prefix-to-infix-conversion"
+      },
+      {
+       "id": "849",
+       "slug": "prefix-to-postfix-conversion",
+       "title": "Prefix to Postfix Conversion",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/prefix-to-postfix-conversion"
+      },
+      {
+       "id": "824",
+       "slug": "postfix-to-infix-conversion",
+       "title": "Postfix to Infix Conversion",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/postfix-to-infix-conversion"
+      },
+      {
+       "id": "825",
+       "slug": "postfix-to-prefix-conversion",
+       "title": "Postfix to Prefix Conversion",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/postfix-to-prefix-conversion"
+      }
+     ]
+    },
+    {
+     "id": "2067",
+     "title": "Monotonic Stack",
+     "items": [
+      {
+       "id": "968",
+       "slug": "next-greater-element",
+       "title": "Next Greater Element",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "core",
+       "leetcodeSlug": "next-greater-element-i",
+       "url": "https://takeuforward.org/plus/dsa/problems/next-greater-element"
+      },
+      {
+       "id": "969",
+       "slug": "next-greater-element---2",
+       "title": "Next Greater Element - 2",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "next-greater-element-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/next-greater-element---2"
+      },
+      {
+       "id": "967",
+       "slug": "asteroid-collision",
+       "title": "Asteroid Collision",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "core",
+       "leetcodeSlug": "asteroid-collision",
+       "url": "https://takeuforward.org/plus/dsa/problems/asteroid-collision"
+      },
+      {
+       "id": "971",
+       "slug": "sum-of-subarray-minimums",
+       "title": "Sum of Subarray Minimums",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "core",
+       "leetcodeSlug": "sum-of-subarray-minimums",
+       "url": "https://takeuforward.org/plus/dsa/problems/sum-of-subarray-minimums"
+      },
+      {
+       "id": "972",
+       "slug": "sum-of-subarray-ranges",
+       "title": "Sum of Subarray Ranges",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": "sum-of-subarray-ranges",
+       "url": "https://takeuforward.org/plus/dsa/problems/sum-of-subarray-ranges"
+      },
+      {
+       "id": "970",
+       "slug": "remove-k-digits",
+       "title": "Remove K Digits",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "remove-k-digits",
+       "url": "https://takeuforward.org/plus/dsa/problems/remove-k-digits"
+      },
+      {
+       "id": "768",
+       "slug": "next-smaller-element",
+       "title": "Next Smaller Element",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/next-smaller-element"
+      }
+     ]
+    },
+    {
+     "id": "2068",
+     "title": "FAQs",
+     "items": [
+      {
+       "id": "958",
+       "slug": "implement-min-stack",
+       "title": "Implement Min Stack",
+       "kind": "practice",
+       "duration": "21 min",
+       "difficulty": "core",
+       "leetcodeSlug": "min-stack",
+       "url": "https://takeuforward.org/plus/dsa/problems/implement-min-stack"
+      },
+      {
+       "id": "963",
+       "slug": "sliding-window-maximum",
+       "title": "Sliding Window Maximum",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "sliding-window-maximum",
+       "url": "https://takeuforward.org/plus/dsa/problems/sliding-window-maximum"
+      },
+      {
+       "id": "965",
+       "slug": "trapping-rainwater",
+       "title": "Trapping Rainwater",
+       "kind": "practice",
+       "duration": "29 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "trapping-rain-water",
+       "url": "https://takeuforward.org/plus/dsa/problems/trapping-rainwater"
+      },
+      {
+       "id": "959",
+       "slug": "largest-rectangle-in-a-histogram",
+       "title": "Largest rectangle in a histogram",
+       "kind": "practice",
+       "duration": "31 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "largest-rectangle-in-histogram",
+       "url": "https://takeuforward.org/plus/dsa/problems/largest-rectangle-in-a-histogram"
+      },
+      {
+       "id": "962",
+       "slug": "maximum-rectangles",
+       "title": "Maximum Rectangles",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "maximal-rectangle",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-rectangles"
+      },
+      {
+       "id": "964",
+       "slug": "stock-span-problem",
+       "title": "Stock span problem",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "core",
+       "leetcodeSlug": "online-stock-span",
+       "url": "https://takeuforward.org/plus/dsa/problems/stock-span-problem"
+      },
+      {
+       "id": "957",
+       "slug": "celebrity-problem",
+       "title": "Celebrity Problem",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": "find-the-celebrity",
+       "url": "https://takeuforward.org/plus/dsa/problems/celebrity-problem"
+      },
+      {
+       "id": "961",
+       "slug": "lru-cache",
+       "title": "LRU Cache",
+       "kind": "practice",
+       "duration": "25 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "lru-cache",
+       "url": "https://takeuforward.org/plus/dsa/problems/lru-cache"
+      },
+      {
+       "id": "960",
+       "slug": "lfu-cache",
+       "title": "LFU Cache",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "lfu-cache",
+       "url": "https://takeuforward.org/plus/dsa/problems/lfu-cache"
+      },
+      {
+       "id": "285",
+       "slug": "number-of-greater-elements-to-the-right",
+       "title": "Number of Greater Elements to the Right",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-greater-elements-to-the-right"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2006",
+   "title": "Binary Trees",
+   "topics": [
+    {
+     "id": "2070",
+     "title": "Theory/Traversals",
+     "items": [
+      {
+       "id": "1154",
+       "slug": "introduction-",
+       "title": "Introduction ",
+       "kind": "learning",
+       "duration": "32 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/introduction-"
+      },
+      {
+       "id": "133",
+       "slug": "inorder-traversal",
+       "title": "Inorder Traversal",
+       "kind": "practice",
+       "duration": "37 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "binary-tree-inorder-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/inorder-traversal"
+      },
+      {
+       "id": "137",
+       "slug": "preorder-traversal",
+       "title": "Preorder Traversal",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "binary-tree-preorder-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/preorder-traversal"
+      },
+      {
+       "id": "135",
+       "slug": "postorder-traversal",
+       "title": "Postorder Traversal",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "binary-tree-postorder-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/postorder-traversal"
+      },
+      {
+       "id": "134",
+       "slug": "level-order-traversal",
+       "title": "Level Order Traversal",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "core",
+       "leetcodeSlug": "binary-tree-level-order-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/level-order-traversal"
+      },
+      {
+       "id": "136",
+       "slug": "pre,-post,-inorder-in-one-traversal",
+       "title": "Pre, Post, Inorder in one traversal",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/pre,-post,-inorder-in-one-traversal"
+      }
+     ]
+    },
+    {
+     "id": "2071",
+     "title": "Medium Problems",
+     "items": [
+      {
+       "id": "131",
+       "slug": "maximum-depth-in-bt",
+       "title": "Maximum Depth in BT",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": "maximum-depth-of-binary-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-depth-in-bt"
+      },
+      {
+       "id": "129",
+       "slug": "check-if-two-trees-are-identical-or-not",
+       "title": "Check if two trees are identical or not",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "core",
+       "leetcodeSlug": "same-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-two-trees-are-identical-or-not"
+      },
+      {
+       "id": "127",
+       "slug": "check-for-balanced-binary-tree",
+       "title": "Check for balanced binary tree",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": "balanced-binary-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-for-balanced-binary-tree"
+      },
+      {
+       "id": "130",
+       "slug": "diameter-of-binary-tree",
+       "title": "Diameter of Binary Tree",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "core",
+       "leetcodeSlug": "diameter-of-binary-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/diameter-of-binary-tree"
+      },
+      {
+       "id": "132",
+       "slug": "maximum-path-sum-",
+       "title": "Maximum path sum ",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "binary-tree-maximum-path-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-path-sum-"
+      },
+      {
+       "id": "128",
+       "slug": "check-for-symmetrical-bts",
+       "title": "Check for symmetrical BTs",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "core",
+       "leetcodeSlug": "symmetric-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-for-symmetrical-bts"
+      },
+      {
+       "id": "185",
+       "slug": "children-sum-property-in-binary-tree",
+       "title": "Children Sum Property in Binary Tree",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/children-sum-property-in-binary-tree"
+      }
+     ]
+    },
+    {
+     "id": "2072",
+     "title": "FAQs",
+     "items": [
+      {
+       "id": "126",
+       "slug": "zig-zag-or-spiral-traversal",
+       "title": "Zig Zag or Spiral Traversal",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "core",
+       "leetcodeSlug": "binary-tree-zigzag-level-order-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/zig-zag-or-spiral-traversal"
+      },
+      {
+       "id": "116",
+       "slug": "boundary-traversal",
+       "title": "Boundary Traversal",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": "boundary-of-binary-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/boundary-traversal"
+      },
+      {
+       "id": "125",
+       "slug": "vertical-order-traversal",
+       "title": "Vertical Order Traversal",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "vertical-order-traversal-of-a-binary-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/vertical-order-traversal"
+      },
+      {
+       "id": "124",
+       "slug": "top-view-of-bt",
+       "title": "Top View of BT",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/top-view-of-bt"
+      },
+      {
+       "id": "115",
+       "slug": "bottom-view-of-bt",
+       "title": "Bottom view of BT",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/bottom-view-of-bt"
+      },
+      {
+       "id": "123",
+       "slug": "right-left-view-of-bt",
+       "title": "Right/Left View of BT",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": "binary-tree-right-side-view",
+       "url": "https://takeuforward.org/plus/dsa/problems/right-left-view-of-bt"
+      },
+      {
+       "id": "122",
+       "slug": "print-root-to-leaf-path-in-bt",
+       "title": "Print root to leaf path in BT",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/print-root-to-leaf-path-in-bt"
+      },
+      {
+       "id": "118",
+       "slug": "lca-in-bt",
+       "title": "Lowest Common Ancestor in BT",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "lowest-common-ancestor-of-a-binary-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/lca-in-bt"
+      },
+      {
+       "id": "119",
+       "slug": "maximum-width-of-bt",
+       "title": "Maximum Width of BT",
+       "kind": "practice",
+       "duration": "21 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "maximum-width-of-binary-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-width-of-bt"
+      },
+      {
+       "id": "121",
+       "slug": "print-all-nodes-at-a-distance-of-k-in-bt",
+       "title": "Print all nodes at a distance of K in BT",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "all-nodes-distance-k-in-binary-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/print-all-nodes-at-a-distance-of-k-in-bt"
+      },
+      {
+       "id": "120",
+       "slug": "minimum-time-taken-to-burn-the-bt-from-a-given-node",
+       "title": "Minimum time taken to burn the BT from a given Node",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-time-taken-to-burn-the-bt-from-a-given-node"
+      },
+      {
+       "id": "117",
+       "slug": "count-total-nodes-in-a-complete-bt",
+       "title": "Count total nodes in a complete BT",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "count-complete-tree-nodes",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-total-nodes-in-a-complete-bt"
+      },
+      {
+       "id": "486",
+       "slug": "flatten-binary-tree-to-linked-list",
+       "title": "Flatten Binary Tree to Linked List",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "flatten-binary-tree-to-linked-list",
+       "url": "https://takeuforward.org/plus/dsa/problems/flatten-binary-tree-to-linked-list"
+      }
+     ]
+    },
+    {
+     "id": "2073",
+     "title": "Construction Problems",
+     "items": [
+      {
+       "id": "111",
+       "slug": "requirements-needed-to-construct-a-unique-bt",
+       "title": "Requirements needed to construct a unique BT",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/requirements-needed-to-construct-a-unique-bt"
+      },
+      {
+       "id": "110",
+       "slug": "construct-a-bt-from-preorder-and-inorder",
+       "title": "Construct a BT from Preorder and Inorder",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "core",
+       "leetcodeSlug": "construct-binary-tree-from-preorder-and-inorder-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/construct-a-bt-from-preorder-and-inorder"
+      },
+      {
+       "id": "109",
+       "slug": "construct-a-bt-from-postorder-and-inorder",
+       "title": "Construct a BT from Postorder and Inorder",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "core",
+       "leetcodeSlug": "construct-binary-tree-from-inorder-and-postorder-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/construct-a-bt-from-postorder-and-inorder"
+      },
+      {
+       "id": "112",
+       "slug": "serialize-and-de-serialize-bt",
+       "title": "Serialize and De-serialize BT",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "serialize-and-deserialize-binary-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/serialize-and-de-serialize-bt"
+      }
+     ]
+    },
+    {
+     "id": "2074",
+     "title": "Traversal in Constant Space",
+     "items": [
+      {
+       "id": "139",
+       "slug": "morris-inorder-traversal-",
+       "title": "Morris Inorder Traversal ",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "binary-tree-inorder-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/morris-inorder-traversal-"
+      },
+      {
+       "id": "138",
+       "slug": "morris-preorder-traversal-",
+       "title": "Morris Preorder Traversal ",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "binary-tree-preorder-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/morris-preorder-traversal-"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2007",
+   "title": "Binary Search Trees",
+   "topics": [
+    {
+     "id": "2076",
+     "title": "Theory and Basics",
+     "items": [
+      {
+       "id": "1153",
+       "slug": "introduction-to-bst",
+       "title": "Introduction to BST",
+       "kind": "learning",
+       "duration": "7 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/introduction-to-bst"
+      },
+      {
+       "id": "108",
+       "slug": "search-in-bst",
+       "title": "Search in BST",
+       "kind": "practice",
+       "duration": "5 min",
+       "difficulty": "basic",
+       "leetcodeSlug": "search-in-a-binary-search-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/search-in-bst"
+      },
+      {
+       "id": "107",
+       "slug": "floor-and-ceil-in-a-bst",
+       "title": "Floor and Ceil in a BST",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/floor-and-ceil-in-a-bst"
+      },
+      {
+       "id": "19365",
+       "slug": "minimum-and-maximum-in-bst",
+       "title": "Minimum and Maximum in BST",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-and-maximum-in-bst"
+      }
+     ]
+    },
+    {
+     "id": "2077",
+     "title": "Medium",
+     "items": [
+      {
+       "id": "104",
+       "slug": "insert-a-given-node-in-bst",
+       "title": "Insert a given node in BST",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": "insert-into-a-binary-search-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/insert-a-given-node-in-bst"
+      },
+      {
+       "id": "102",
+       "slug": "delete-a-node-in-bst",
+       "title": "Delete a node in BST",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "delete-node-in-a-bst",
+       "url": "https://takeuforward.org/plus/dsa/problems/delete-a-node-in-bst"
+      },
+      {
+       "id": "105",
+       "slug": "kth-smallest-and-largest-element-in-bst",
+       "title": "Kth Smallest and Largest element in BST",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "core",
+       "leetcodeSlug": "kth-smallest-element-in-a-bst",
+       "url": "https://takeuforward.org/plus/dsa/problems/kth-smallest-and-largest-element-in-bst"
+      },
+      {
+       "id": "100",
+       "slug": "check-if-a-tree-is-a-bst-or-not",
+       "title": "Check if a tree is a BST or not",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": "validate-binary-search-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-a-tree-is-a-bst-or-not"
+      },
+      {
+       "id": "106",
+       "slug": "lca-in-bst",
+       "title": "LCA in BST",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "core",
+       "leetcodeSlug": "lowest-common-ancestor-of-a-binary-search-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/lca-in-bst"
+      },
+      {
+       "id": "101",
+       "slug": "construct-a-bst-from-a-preorder-traversal",
+       "title": "Construct a BST from a preorder traversal",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": "construct-binary-search-tree-from-preorder-traversal",
+       "url": "https://takeuforward.org/plus/dsa/problems/construct-a-bst-from-a-preorder-traversal"
+      },
+      {
+       "id": "103",
+       "slug": "inorder-successor-and-predecessor-in-bst",
+       "title": "Inorder successor and predecessor in BST",
+       "kind": "practice",
+       "duration": "10 min",
+       "difficulty": "core",
+       "leetcodeSlug": "inorder-successor-in-bst",
+       "url": "https://takeuforward.org/plus/dsa/problems/inorder-successor-and-predecessor-in-bst"
+      }
+     ]
+    },
+    {
+     "id": "2078",
+     "title": "FAQs",
+     "items": [
+      {
+       "id": "96",
+       "slug": "bst-iterator",
+       "title": "BST iterator",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": "binary-search-tree-iterator",
+       "url": "https://takeuforward.org/plus/dsa/problems/bst-iterator"
+      },
+      {
+       "id": "99",
+       "slug": "two-sum-in-bst",
+       "title": "Two sum in BST",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": "two-sum-iv-input-is-a-bst",
+       "url": "https://takeuforward.org/plus/dsa/problems/two-sum-in-bst"
+      },
+      {
+       "id": "97",
+       "slug": "correct-bst-with-two-nodes-swapped",
+       "title": "Correct BST with two nodes swapped",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "recover-binary-search-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/correct-bst-with-two-nodes-swapped"
+      },
+      {
+       "id": "98",
+       "slug": "largest-bst-in-binary-tree",
+       "title": "Largest BST in Binary Tree",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "largest-bst-subtree",
+       "url": "https://takeuforward.org/plus/dsa/problems/largest-bst-in-binary-tree"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2008",
+   "title": "Heaps",
+   "topics": [
+    {
+     "id": "2080",
+     "title": "Theory and Implementation",
+     "items": [
+      {
+       "id": "1223",
+       "slug": "heaps-theory",
+       "title": "Heaps (Theory Video)",
+       "kind": "learning",
+       "duration": "27 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/heaps-theory"
+      },
+      {
+       "id": "573",
+       "slug": "heapify-algorithm",
+       "title": "Heapify Algorithm",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/heapify-algorithm"
+      },
+      {
+       "id": "570",
+       "slug": "build-heap-from-a-given-array",
+       "title": "Build heap from a given Array",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/build-heap-from-a-given-array"
+      },
+      {
+       "id": "576",
+       "slug": "implement-min-heap",
+       "title": "Implement Min Heap",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/implement-min-heap"
+      },
+      {
+       "id": "575",
+       "slug": "implement-max-heap",
+       "title": "Implement Max Heap",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/implement-max-heap"
+      },
+      {
+       "id": "571",
+       "slug": "check-if-an-array-represents-a-min-heap-",
+       "title": "Check if an array represents a min heap ",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/check-if-an-array-represents-a-min-heap-"
+      },
+      {
+       "id": "572",
+       "slug": "convert-min-heap-to-max-heap",
+       "title": "Convert Min Heap to Max Heap",
+       "kind": "practice",
+       "duration": "4 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/convert-min-heap-to-max-heap"
+      },
+      {
+       "id": "574",
+       "slug": "heap-sort",
+       "title": "Heap Sort",
+       "kind": "practice",
+       "duration": "30 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/heap-sort"
+      },
+      {
+       "id": "578",
+       "slug": "k-th-largest-element-in-an-array",
+       "title": "K-th Largest element in an array",
+       "kind": "practice",
+       "duration": "44 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "kth-largest-element-in-an-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/k-th-largest-element-in-an-array"
+      }
+     ]
+    },
+    {
+     "id": "2081",
+     "title": "FAQs",
+     "items": [
+      {
+       "id": "567",
+       "slug": "kth-largest-element-in-a-stream-of-running-integers",
+       "title": "Kth largest element in a stream of running integers",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "kth-largest-element-in-a-stream",
+       "url": "https://takeuforward.org/plus/dsa/problems/kth-largest-element-in-a-stream-of-running-integers"
+      },
+      {
+       "id": "19361",
+       "slug": "sort-a-k-sorted-array",
+       "title": "Sort a K-Sorted Array",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/sort-a-k-sorted-array"
+      },
+      {
+       "id": "569",
+       "slug": "merge-k-sorted-lists",
+       "title": "Merge K sorted Lists",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "merge-k-sorted-lists",
+       "url": "https://takeuforward.org/plus/dsa/problems/merge-k-sorted-lists"
+      },
+      {
+       "id": "898",
+       "slug": "replace-elements-by-their-rank",
+       "title": "Replace Elements by Their Rank",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "rank-transform-of-an-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/replace-elements-by-their-rank"
+      },
+      {
+       "id": "1008",
+       "slug": "task-scheduler",
+       "title": "Task Scheduler",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "task-scheduler",
+       "url": "https://takeuforward.org/plus/dsa/problems/task-scheduler"
+      },
+      {
+       "id": "556",
+       "slug": "hand-of-straights",
+       "title": "Hand of Straights",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "hand-of-straights",
+       "url": "https://takeuforward.org/plus/dsa/problems/hand-of-straights"
+      },
+      {
+       "id": "565",
+       "slug": "design-twitter",
+       "title": "Design Twitter",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "design-twitter",
+       "url": "https://takeuforward.org/plus/dsa/problems/design-twitter"
+      },
+      {
+       "id": "755",
+       "slug": "minimum-cost-to-connect-sticks",
+       "title": "Minimum Cost to Connect Sticks",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "minimum-cost-to-connect-sticks",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-cost-to-connect-sticks"
+      },
+      {
+       "id": "568",
+       "slug": "maximum-sum-combination",
+       "title": "Maximum Sum Combination",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-sum-combination"
+      },
+      {
+       "id": "566",
+       "slug": "find-median-from-data-stream",
+       "title": "Find Median from Data Stream",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "find-median-from-data-stream",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-median-from-data-stream"
+      },
+      {
+       "id": "1018",
+       "slug": "top-k-frequent-elements",
+       "title": "Top K Frequent Elements",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "top-k-frequent-elements",
+       "url": "https://takeuforward.org/plus/dsa/problems/top-k-frequent-elements"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2009",
+   "title": "Graphs",
+   "topics": [
+    {
+     "id": "2083",
+     "title": "Theory and traversals",
+     "items": [
+      {
+       "id": "1222",
+       "slug": "introduction-to-graph",
+       "title": "Introduction to Graph",
+       "kind": "learning",
+       "duration": "41 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/introduction-to-graph"
+      },
+      {
+       "id": "529",
+       "slug": "traversal-techniques",
+       "title": "Traversal Techniques",
+       "kind": "practice",
+       "duration": "39 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/traversal-techniques"
+      },
+      {
+       "id": "528",
+       "slug": "connected-components",
+       "title": "Connected Components",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": "number-of-connected-components-in-an-undirected-graph",
+       "url": "https://takeuforward.org/plus/dsa/problems/connected-components"
+      }
+     ]
+    },
+    {
+     "id": "2084",
+     "title": "Traversal Problems",
+     "items": [
+      {
+       "id": "535",
+       "slug": "number-of-provinces",
+       "title": "Number of provinces",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "number-of-provinces",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-provinces"
+      },
+      {
+       "id": "534",
+       "slug": "number-of-islands",
+       "title": "Number of islands",
+       "kind": "practice",
+       "duration": "24 min",
+       "difficulty": "core",
+       "leetcodeSlug": "number-of-islands",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-islands"
+      },
+      {
+       "id": "531",
+       "slug": "flood-fill-algorithm",
+       "title": "Flood fill algorithm",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "flood-fill",
+       "url": "https://takeuforward.org/plus/dsa/problems/flood-fill-algorithm"
+      },
+      {
+       "id": "533",
+       "slug": "number-of-enclaves",
+       "title": "Number of enclaves",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": "number-of-enclaves",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-enclaves"
+      },
+      {
+       "id": "536",
+       "slug": "rotten-oranges",
+       "title": "Rotten Oranges",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": "rotting-oranges",
+       "url": "https://takeuforward.org/plus/dsa/problems/rotten-oranges"
+      },
+      {
+       "id": "530",
+       "slug": "distance-of-nearest-cell-having-one",
+       "title": "Distance of nearest cell having one",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "01-matrix",
+       "url": "https://takeuforward.org/plus/dsa/problems/distance-of-nearest-cell-having-one"
+      },
+      {
+       "id": "537",
+       "slug": "surrounded-regions",
+       "title": "Surrounded Regions",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "core",
+       "leetcodeSlug": "surrounded-regions",
+       "url": "https://takeuforward.org/plus/dsa/problems/surrounded-regions"
+      },
+      {
+       "id": "532",
+       "slug": "number-of-distinct-islands",
+       "title": "Number of distinct islands",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "core",
+       "leetcodeSlug": "number-of-distinct-islands",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-distinct-islands"
+      }
+     ]
+    },
+    {
+     "id": "2085",
+     "title": "Cycles ",
+     "items": [
+      {
+       "id": "501",
+       "slug": "detect-a-cycle-in-an-undirected-graph",
+       "title": "Detect a cycle in an undirected graph",
+       "kind": "practice",
+       "duration": "38 min",
+       "difficulty": "core",
+       "leetcodeSlug": "course-schedule",
+       "url": "https://takeuforward.org/plus/dsa/problems/detect-a-cycle-in-an-undirected-graph"
+      },
+      {
+       "id": "499",
+       "slug": "bipartite-graph",
+       "title": "Bipartite graph",
+       "kind": "practice",
+       "duration": "32 min",
+       "difficulty": "core",
+       "leetcodeSlug": "is-graph-bipartite",
+       "url": "https://takeuforward.org/plus/dsa/problems/bipartite-graph"
+      },
+      {
+       "id": "502",
+       "slug": "topological-sort-or-kahns-algorithm",
+       "title": "Topological sort or Kahn's algorithm",
+       "kind": "practice",
+       "duration": "26 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/topological-sort-or-kahns-algorithm"
+      },
+      {
+       "id": "500",
+       "slug": "detect-a-cycle-in-a-directed-graph",
+       "title": "Detect a cycle in a directed graph",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "core",
+       "leetcodeSlug": "course-schedule",
+       "url": "https://takeuforward.org/plus/dsa/problems/detect-a-cycle-in-a-directed-graph"
+      }
+     ]
+    },
+    {
+     "id": "2086",
+     "title": "Hard Problems",
+     "items": [
+      {
+       "id": "506",
+       "slug": "find-eventual-safe-states",
+       "title": "Find eventual safe states",
+       "kind": "practice",
+       "duration": "39 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "find-eventual-safe-states",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-eventual-safe-states"
+      },
+      {
+       "id": "504",
+       "slug": "course-schedule-i",
+       "title": "Course Schedule I",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "course-schedule",
+       "url": "https://takeuforward.org/plus/dsa/problems/course-schedule-i"
+      },
+      {
+       "id": "505",
+       "slug": "course-schedule-ii",
+       "title": "Course Schedule II",
+       "kind": "practice",
+       "duration": "11 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "course-schedule-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/course-schedule-ii"
+      },
+      {
+       "id": "503",
+       "slug": "alient-dictionary",
+       "title": "Alien Dictionary",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "alien-dictionary",
+       "url": "https://takeuforward.org/plus/dsa/problems/alient-dictionary"
+      },
+      {
+       "id": "507",
+       "slug": "shortest-path-in-dag",
+       "title": "Shortest path in DAG",
+       "kind": "practice",
+       "duration": "26 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/shortest-path-in-dag"
+      },
+      {
+       "id": "508",
+       "slug": "shortest-path-in-undirected-graph-with-unit-weights",
+       "title": "Shortest path in undirected graph with unit weights",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/shortest-path-in-undirected-graph-with-unit-weights"
+      },
+      {
+       "id": "509",
+       "slug": "word-ladder-i",
+       "title": "Word ladder I",
+       "kind": "practice",
+       "duration": "28 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "word-ladder",
+       "url": "https://takeuforward.org/plus/dsa/problems/word-ladder-i"
+      },
+      {
+       "id": "510",
+       "slug": "word-ladder-ii",
+       "title": "Word ladder II",
+       "kind": "practice",
+       "duration": "48 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "word-ladder-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/word-ladder-ii"
+      }
+     ]
+    },
+    {
+     "id": "2087",
+     "title": "Shortest Path Algorithms",
+     "items": [
+      {
+       "id": "520",
+       "slug": "dijkstra's-algorithm",
+       "title": "Dijkstra's algorithm",
+       "kind": "practice",
+       "duration": "47 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/dijkstra's-algorithm"
+      },
+      {
+       "id": "526",
+       "slug": "print-shortest-path-",
+       "title": "Print Shortest Path ",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/print-shortest-path-"
+      },
+      {
+       "id": "527",
+       "slug": "shortest-path-with-minimum-effort",
+       "title": "Shortest Distance in a Binary Maze",
+       "kind": "practice",
+       "duration": "21 min",
+       "difficulty": "core",
+       "leetcodeSlug": "shortest-path-in-binary-matrix",
+       "url": "https://takeuforward.org/plus/dsa/problems/shortest-path-with-minimum-effort"
+      },
+      {
+       "id": "525",
+       "slug": "path-with-minimum-effort",
+       "title": "Path with minimum effort",
+       "kind": "practice",
+       "duration": "24 min",
+       "difficulty": "core",
+       "leetcodeSlug": "path-with-minimum-effort",
+       "url": "https://takeuforward.org/plus/dsa/problems/path-with-minimum-effort"
+      },
+      {
+       "id": "519",
+       "slug": "cheapest-flight-within-k-stops",
+       "title": "Cheapest flight within K stops",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "cheapest-flights-within-k-stops",
+       "url": "https://takeuforward.org/plus/dsa/problems/cheapest-flight-within-k-stops"
+      },
+      {
+       "id": "523",
+       "slug": "minimum-multiplications-to-reach-end",
+       "title": "Minimum multiplications to reach end",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-multiplications-to-reach-end"
+      },
+      {
+       "id": "524",
+       "slug": "number-of-ways-to-arrive-at-destination",
+       "title": "Number of ways to arrive at destination",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "number-of-ways-to-arrive-at-destination",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-ways-to-arrive-at-destination"
+      },
+      {
+       "id": "518",
+       "slug": "bellman-ford-algorithm",
+       "title": "Bellman ford algorithm",
+       "kind": "practice",
+       "duration": "27 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/bellman-ford-algorithm"
+      },
+      {
+       "id": "522",
+       "slug": "floyd-warshall-algorithm",
+       "title": "Floyd warshall algorithm",
+       "kind": "practice",
+       "duration": "30 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/floyd-warshall-algorithm"
+      },
+      {
+       "id": "521",
+       "slug": "find-the-city-with-the-smallest-number-of-neighbors",
+       "title": "Find the city with the smallest number of neighbors",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-the-city-with-the-smallest-number-of-neighbors"
+      },
+      {
+       "id": "764",
+       "slug": "network-delay-time",
+       "title": "Network Delay Time",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "network-delay-time",
+       "url": "https://takeuforward.org/plus/dsa/problems/network-delay-time"
+      },
+      {
+       "id": "1006",
+       "slug": "swim-in-rising-water",
+       "title": "Swim in Rising Water",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "swim-in-rising-water",
+       "url": "https://takeuforward.org/plus/dsa/problems/swim-in-rising-water"
+      }
+     ]
+    },
+    {
+     "id": "2088",
+     "title": "Minimum Spanning Tree",
+     "items": [
+      {
+       "id": "1221",
+       "slug": "mst-theory",
+       "title": "MST theory",
+       "kind": "learning",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/mst-theory"
+      },
+      {
+       "id": "516",
+       "slug": "disjoint-set-",
+       "title": "Disjoint Set ",
+       "kind": "practice",
+       "duration": "41 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/disjoint-set-"
+      },
+      {
+       "id": "517",
+       "slug": "find-the-mst-weight",
+       "title": "Find the MST weight",
+       "kind": "practice",
+       "duration": "31 min",
+       "difficulty": "core",
+       "leetcodeSlug": "connecting-cities-with-minimum-cost",
+       "url": "https://takeuforward.org/plus/dsa/problems/find-the-mst-weight"
+      }
+     ]
+    },
+    {
+     "id": "2089",
+     "title": "Hard Problems II",
+     "items": [
+      {
+       "id": "515",
+       "slug": "number-of-operations-to-make-network-connected",
+       "title": "Number of operations to make network connected",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": "number-of-operations-to-make-network-connected",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-operations-to-make-network-connected"
+      },
+      {
+       "id": "511",
+       "slug": "accounts-merge",
+       "title": "Accounts merge",
+       "kind": "practice",
+       "duration": "21 min",
+       "difficulty": "core",
+       "leetcodeSlug": "accounts-merge",
+       "url": "https://takeuforward.org/plus/dsa/problems/accounts-merge"
+      },
+      {
+       "id": "514",
+       "slug": "number-of-islands-ii",
+       "title": "Number of islands II",
+       "kind": "practice",
+       "duration": "25 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "number-of-islands-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-islands-ii"
+      },
+      {
+       "id": "512",
+       "slug": "making-a-large-island",
+       "title": "Making a large island",
+       "kind": "practice",
+       "duration": "26 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "making-a-large-island",
+       "url": "https://takeuforward.org/plus/dsa/problems/making-a-large-island"
+      },
+      {
+       "id": "513",
+       "slug": "most-stones-removed-with-same-row-or-column",
+       "title": "Most stones removed with same row or column",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "most-stones-removed-with-same-row-or-column",
+       "url": "https://takeuforward.org/plus/dsa/problems/most-stones-removed-with-same-row-or-column"
+      }
+     ]
+    },
+    {
+     "id": "2090",
+     "title": "Additional Algorithms",
+     "items": [
+      {
+       "id": "498",
+       "slug": "kosaraju's-algorithm",
+       "title": "Kosaraju's algorithm",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "maximum-number-of-non-overlapping-substrings",
+       "url": "https://takeuforward.org/plus/dsa/problems/kosaraju's-algorithm"
+      },
+      {
+       "id": "497",
+       "slug": "bridges-in-graph",
+       "title": "Bridges in graph",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "critical-connections-in-a-network",
+       "url": "https://takeuforward.org/plus/dsa/problems/bridges-in-graph"
+      },
+      {
+       "id": "496",
+       "slug": "articulation-point-in-graph",
+       "title": "Articulation point in graph",
+       "kind": "practice",
+       "duration": "21 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/articulation-point-in-graph"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2010",
+   "title": "Dynamic Programming",
+   "topics": [
+    {
+     "id": "2092",
+     "title": "Introduction",
+     "items": [
+      {
+       "id": "1195",
+       "slug": "introduction-to-dp",
+       "title": "Introduction to DP",
+       "kind": "learning",
+       "duration": "30 min",
+       "difficulty": "basic",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/introduction-to-dp"
+      }
+     ]
+    },
+    {
+     "id": "2093",
+     "title": "1D DP",
+     "items": [
+      {
+       "id": "287",
+       "slug": "climbing-stairs",
+       "title": "Climbing stairs",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "core",
+       "leetcodeSlug": "climbing-stairs",
+       "url": "https://takeuforward.org/plus/dsa/problems/climbing-stairs"
+      },
+      {
+       "id": "288",
+       "slug": "frog-jump",
+       "title": "Frog Jump",
+       "kind": "practice",
+       "duration": "37 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/frog-jump"
+      },
+      {
+       "id": "289",
+       "slug": "frog-jump-with-k-distances",
+       "title": "Frog jump with K distances",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/frog-jump-with-k-distances"
+      },
+      {
+       "id": "291",
+       "slug": "maximum-sum-of-non-adjacent-elements",
+       "title": "Maximum sum of non adjacent elements",
+       "kind": "practice",
+       "duration": "31 min",
+       "difficulty": "core",
+       "leetcodeSlug": "house-robber",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-sum-of-non-adjacent-elements"
+      },
+      {
+       "id": "290",
+       "slug": "house-robber",
+       "title": "House robber",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": "house-robber",
+       "url": "https://takeuforward.org/plus/dsa/problems/house-robber"
+      }
+     ]
+    },
+    {
+     "id": "2094",
+     "title": "2D DP",
+     "items": [
+      {
+       "id": "292",
+       "slug": "ninja's-training",
+       "title": "Ninja's training",
+       "kind": "practice",
+       "duration": "51 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/ninja's-training"
+      }
+     ]
+    },
+    {
+     "id": "2095",
+     "title": "DP on grids",
+     "items": [
+      {
+       "id": "297",
+       "slug": "grid-unique-paths",
+       "title": "Grid unique paths",
+       "kind": "practice",
+       "duration": "44 min",
+       "difficulty": "core",
+       "leetcodeSlug": "unique-paths",
+       "url": "https://takeuforward.org/plus/dsa/problems/grid-unique-paths"
+      },
+      {
+       "id": "300",
+       "slug": "unique-paths-ii",
+       "title": "Unique paths II",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "unique-paths-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/unique-paths-ii"
+      },
+      {
+       "id": "298",
+       "slug": "minimum-falling-path-sum",
+       "title": "Minimum Falling Path Sum",
+       "kind": "practice",
+       "duration": "41 min",
+       "difficulty": "core",
+       "leetcodeSlug": "minimum-falling-path-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-falling-path-sum"
+      },
+      {
+       "id": "299",
+       "slug": "triangle",
+       "title": "Triangle",
+       "kind": "practice",
+       "duration": "33 min",
+       "difficulty": "core",
+       "leetcodeSlug": "triangle",
+       "url": "https://takeuforward.org/plus/dsa/problems/triangle"
+      },
+      {
+       "id": "296",
+       "slug": "cherry-pickup-ii",
+       "title": "Cherry pickup II",
+       "kind": "practice",
+       "duration": "42 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "cherry-pickup-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/cherry-pickup-ii"
+      },
+      {
+       "id": "19360",
+       "slug": "count-square-submatrices-with-all-one",
+       "title": "Count Square Submatrices with All Ones",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": null,
+       "leetcodeSlug": "count-square-submatrices-with-all-ones",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-square-submatrices-with-all-one"
+      }
+     ]
+    },
+    {
+     "id": "2096",
+     "title": "DP on stocks",
+     "items": [
+      {
+       "id": "301",
+       "slug": "best-time-to-buy-and-sell-stock",
+       "title": "Best time to buy and sell stock",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": "best-time-to-buy-and-sell-stock",
+       "url": "https://takeuforward.org/plus/dsa/problems/best-time-to-buy-and-sell-stock"
+      },
+      {
+       "id": "302",
+       "slug": "best-time-to-buy-and-sell-stock-ii",
+       "title": "Best time to buy and sell stock II",
+       "kind": "practice",
+       "duration": "35 min",
+       "difficulty": "core",
+       "leetcodeSlug": "best-time-to-buy-and-sell-stock-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/best-time-to-buy-and-sell-stock-ii"
+      },
+      {
+       "id": "303",
+       "slug": "best-time-to-buy-and-sell-stock-iii",
+       "title": "Best time to buy and sell stock III",
+       "kind": "practice",
+       "duration": "25 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "best-time-to-buy-and-sell-stock-iii",
+       "url": "https://takeuforward.org/plus/dsa/problems/best-time-to-buy-and-sell-stock-iii"
+      },
+      {
+       "id": "304",
+       "slug": "best-time-to-buy-and-sell-stock-iv",
+       "title": "Best time to buy and sell stock IV",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "best-time-to-buy-and-sell-stock-iv",
+       "url": "https://takeuforward.org/plus/dsa/problems/best-time-to-buy-and-sell-stock-iv"
+      },
+      {
+       "id": "305",
+       "slug": "best-time-to-buy-and-sell-stock-with-cooldown-and-transaction-fees",
+       "title": "Best time to buy and sell stock with transaction fees",
+       "kind": "practice",
+       "duration": "6 min",
+       "difficulty": "core",
+       "leetcodeSlug": "best-time-to-buy-and-sell-stock-with-transaction-fee",
+       "url": "https://takeuforward.org/plus/dsa/problems/best-time-to-buy-and-sell-stock-with-cooldown-and-transaction-fees"
+      },
+      {
+       "id": "56",
+       "slug": "best-time-to-buy-and-sell-stock-with-cooldown",
+       "title": "Best Time to Buy and Sell Stock with Cooldown",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "best-time-to-buy-and-sell-stock-with-cooldown",
+       "url": "https://takeuforward.org/plus/dsa/problems/best-time-to-buy-and-sell-stock-with-cooldown"
+      }
+     ]
+    },
+    {
+     "id": "2097",
+     "title": "DP on subsequences",
+     "items": [
+      {
+       "id": "323",
+       "slug": "subset-sum-equals-to-target",
+       "title": "Subset sum equals to target",
+       "kind": "practice",
+       "duration": "35 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/subset-sum-equals-to-target"
+      },
+      {
+       "id": "321",
+       "slug": "partition-equal-subset-sum",
+       "title": "Partition equal subset sum",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": "partition-equal-subset-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/partition-equal-subset-sum"
+      },
+      {
+       "id": "320",
+       "slug": "partition-a-set-into-two-subsets-with-minimum-absolute-sum-difference",
+       "title": "Partition a set into two subsets with minimum absolute sum difference",
+       "kind": "practice",
+       "duration": "29 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "last-stone-weight-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/partition-a-set-into-two-subsets-with-minimum-absolute-sum-difference"
+      },
+      {
+       "id": "318",
+       "slug": "count-subsets-with-sum-k",
+       "title": "Count subsets with sum K",
+       "kind": "practice",
+       "duration": "35 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-subsets-with-sum-k"
+      },
+      {
+       "id": "317",
+       "slug": "count-partitions-with-given-difference",
+       "title": "Count partitions with given difference",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/count-partitions-with-given-difference"
+      },
+      {
+       "id": "315",
+       "slug": "0-and-1-knapsack",
+       "title": "0 and 1 Knapsack",
+       "kind": "practice",
+       "duration": "40 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/0-and-1-knapsack"
+      },
+      {
+       "id": "319",
+       "slug": "minimum-coins",
+       "title": "Minimum coins",
+       "kind": "practice",
+       "duration": "34 min",
+       "difficulty": "core",
+       "leetcodeSlug": "coin-change",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-coins"
+      },
+      {
+       "id": "324",
+       "slug": "target-sum",
+       "title": "Target sum",
+       "kind": "practice",
+       "duration": "8 min",
+       "difficulty": "core",
+       "leetcodeSlug": "target-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/target-sum"
+      },
+      {
+       "id": "316",
+       "slug": "coin-change-ii",
+       "title": "Coin change II",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "coin-change-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/coin-change-ii"
+      },
+      {
+       "id": "325",
+       "slug": "unbounded-knapsack",
+       "title": "Unbounded knapsack",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/unbounded-knapsack"
+      },
+      {
+       "id": "322",
+       "slug": "rod-cutting-problem",
+       "title": "Rod cutting problem",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/rod-cutting-problem"
+      }
+     ]
+    },
+    {
+     "id": "2098",
+     "title": "LIS",
+     "items": [
+      {
+       "id": "636",
+       "slug": "longest-increasing-subsequence",
+       "title": "Longest Increasing Subsequence",
+       "kind": "practice",
+       "duration": "40 min",
+       "difficulty": "core",
+       "leetcodeSlug": "longest-increasing-subsequence",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-increasing-subsequence"
+      },
+      {
+       "id": "851",
+       "slug": "print-longest-increasing-subsequence",
+       "title": "Print Longest Increasing Subsequence",
+       "kind": "practice",
+       "duration": "26 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/print-longest-increasing-subsequence"
+      },
+      {
+       "id": "603",
+       "slug": "largest-divisible-subset",
+       "title": "Largest Divisible Subset",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": "largest-divisible-subset",
+       "url": "https://takeuforward.org/plus/dsa/problems/largest-divisible-subset"
+      },
+      {
+       "id": "640",
+       "slug": "longest-string-chain",
+       "title": "Longest String Chain",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "core",
+       "leetcodeSlug": "longest-string-chain",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-string-chain"
+      },
+      {
+       "id": "633",
+       "slug": "longest-bitonic-subsequence",
+       "title": "Longest Bitonic Subsequence",
+       "kind": "practice",
+       "duration": "13 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-bitonic-subsequence"
+      },
+      {
+       "id": "780",
+       "slug": "number-of-longest-increasing-subsequences",
+       "title": "Number of Longest Increasing Subsequences",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "number-of-longest-increasing-subsequence",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-longest-increasing-subsequences"
+      }
+     ]
+    },
+    {
+     "id": "2099",
+     "title": "DP on strings",
+     "items": [
+      {
+       "id": "308",
+       "slug": "longest-common-subsequence",
+       "title": "Longest common subsequence",
+       "kind": "practice",
+       "duration": "46 min",
+       "difficulty": "core",
+       "leetcodeSlug": "longest-common-subsequence",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-common-subsequence"
+      },
+      {
+       "id": "309",
+       "slug": "longest-common-substring",
+       "title": "Longest common substring",
+       "kind": "practice",
+       "duration": "14 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-common-substring"
+      },
+      {
+       "id": "310",
+       "slug": "longest-palindromic-subsequence",
+       "title": "Longest palindromic subsequence",
+       "kind": "practice",
+       "duration": "9 min",
+       "difficulty": "core",
+       "leetcodeSlug": "longest-palindromic-subsequence",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-palindromic-subsequence"
+      },
+      {
+       "id": "312",
+       "slug": "minimum-insertions-to-make-string-palindrome",
+       "title": "Minimum insertions to make string palindrome",
+       "kind": "practice",
+       "duration": "12 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "minimum-insertion-steps-to-make-a-string-palindrome",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-insertions-to-make-string-palindrome"
+      },
+      {
+       "id": "311",
+       "slug": "minimum-insertions-or-deletions-to-convert-string-a-to-b",
+       "title": "Minimum insertions or deletions to convert string A to B",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "core",
+       "leetcodeSlug": "delete-operation-for-two-strings",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-insertions-or-deletions-to-convert-string-a-to-b"
+      },
+      {
+       "id": "313",
+       "slug": "shortest-common-supersequence",
+       "title": "Shortest common supersequence",
+       "kind": "practice",
+       "duration": "26 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "shortest-common-supersequence",
+       "url": "https://takeuforward.org/plus/dsa/problems/shortest-common-supersequence"
+      },
+      {
+       "id": "306",
+       "slug": "distinct-subsequences",
+       "title": "Distinct subsequences",
+       "kind": "practice",
+       "duration": "40 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "distinct-subsequences",
+       "url": "https://takeuforward.org/plus/dsa/problems/distinct-subsequences"
+      },
+      {
+       "id": "307",
+       "slug": "edit-distance",
+       "title": "Edit distance",
+       "kind": "practice",
+       "duration": "37 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "edit-distance",
+       "url": "https://takeuforward.org/plus/dsa/problems/edit-distance"
+      },
+      {
+       "id": "314",
+       "slug": "wildcard-matching",
+       "title": "Wildcard matching",
+       "kind": "practice",
+       "duration": "43 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "wildcard-matching",
+       "url": "https://takeuforward.org/plus/dsa/problems/wildcard-matching"
+      },
+      {
+       "id": "4",
+       "slug": "word-break",
+       "title": "Word Break",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "core",
+       "leetcodeSlug": "word-break",
+       "url": "https://takeuforward.org/plus/dsa/problems/word-break"
+      },
+      {
+       "id": "231",
+       "slug": "count-palindromic-subsequences",
+       "title": "Count Palindromic Subsequences",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "count-palindromic-subsequences",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-palindromic-subsequences"
+      }
+     ]
+    },
+    {
+     "id": "2100",
+     "title": "MCM DP",
+     "items": [
+      {
+       "id": "327",
+       "slug": "matrix-chain-multiplication",
+       "title": "Matrix chain multiplication",
+       "kind": "practice",
+       "duration": "61 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/matrix-chain-multiplication"
+      },
+      {
+       "id": "326",
+       "slug": "burst-balloons",
+       "title": "Burst balloons",
+       "kind": "practice",
+       "duration": "33 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "burst-balloons",
+       "url": "https://takeuforward.org/plus/dsa/problems/burst-balloons"
+      },
+      {
+       "id": "329",
+       "slug": "palindrome-partitioning-ii-",
+       "title": "Palindrome partitioning II ",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "palindrome-partitioning-ii",
+       "url": "https://takeuforward.org/plus/dsa/problems/palindrome-partitioning-ii-"
+      },
+      {
+       "id": "810",
+       "slug": "partition-array-for-maximum-sum",
+       "title": "Partition Array for Maximum Sum",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "partition-array-for-maximum-sum",
+       "url": "https://takeuforward.org/plus/dsa/problems/partition-array-for-maximum-sum"
+      },
+      {
+       "id": "328",
+       "slug": "minimum-cost-to-cut-the-stick",
+       "title": "Minimum cost to cut the stick",
+       "kind": "practice",
+       "duration": "28 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "minimum-cost-to-cut-a-stick",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-cost-to-cut-the-stick"
+      },
+      {
+       "id": "276",
+       "slug": "different-ways-to-evaluate-a-boolean-expression",
+       "title": "Different Ways to Evaluate a Boolean Expression",
+       "kind": "practice",
+       "duration": null,
+       "difficulty": "pro",
+       "leetcodeSlug": "parsing-a-boolean-expression",
+       "url": "https://takeuforward.org/plus/dsa/problems/different-ways-to-evaluate-a-boolean-expression"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2011",
+   "title": "Tries",
+   "topics": [
+    {
+     "id": "2102",
+     "title": "Theory",
+     "items": [
+      {
+       "id": "2390",
+       "slug": "bit-prerequisites-for-trie-problems",
+       "title": "Bit PreRequisites for TRIE Problems",
+       "kind": "learning",
+       "duration": null,
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/bit-prerequisites-for-trie-problems"
+      },
+      {
+       "id": "1028",
+       "slug": "trie-implementation-and-operations",
+       "title": "Trie Implementation and Operations",
+       "kind": "practice",
+       "duration": "30 min",
+       "difficulty": "core",
+       "leetcodeSlug": "implement-trie-prefix-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/trie-implementation-and-operations"
+      },
+      {
+       "id": "1027",
+       "slug": "trie-implementation-and-advanced-operations",
+       "title": "Trie Implementation and Advanced Operations",
+       "kind": "practice",
+       "duration": "22 min",
+       "difficulty": "core",
+       "leetcodeSlug": "implement-trie-ii-prefix-tree",
+       "url": "https://takeuforward.org/plus/dsa/problems/trie-implementation-and-advanced-operations"
+      }
+     ]
+    },
+    {
+     "id": "2103",
+     "title": "Problems",
+     "items": [
+      {
+       "id": "1023",
+       "slug": "longest-word-with-all-prefixes",
+       "title": "Longest Word with All Prefixes",
+       "kind": "practice",
+       "duration": "25 min",
+       "difficulty": "core",
+       "leetcodeSlug": "longest-word-with-all-prefixes",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-word-with-all-prefixes"
+      },
+      {
+       "id": "1026",
+       "slug": "number-of-distinct-substrings-in-a-string",
+       "title": "Number of distinct substrings in a string",
+       "kind": "practice",
+       "duration": "17 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "number-of-distinct-substrings-in-a-string",
+       "url": "https://takeuforward.org/plus/dsa/problems/number-of-distinct-substrings-in-a-string"
+      },
+      {
+       "id": "1024",
+       "slug": "maximum-xor-of-two-numbers-in-an-array",
+       "title": "Maximum XOR of two numbers in an array",
+       "kind": "practice",
+       "duration": "34 min",
+       "difficulty": "core",
+       "leetcodeSlug": "maximum-xor-of-two-numbers-in-an-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-xor-of-two-numbers-in-an-array"
+      },
+      {
+       "id": "1025",
+       "slug": "maximum-xor-with-an-element-from-an-array",
+       "title": "Maximum Xor with an element from an array",
+       "kind": "practice",
+       "duration": "23 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "maximum-xor-with-an-element-from-array",
+       "url": "https://takeuforward.org/plus/dsa/problems/maximum-xor-with-an-element-from-an-array"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2012",
+   "title": "Strings (Advanced Algo)",
+   "topics": [
+    {
+     "id": "2104",
+     "title": "Medium Problems",
+     "items": [
+      {
+       "id": "984",
+       "slug": "reverse-every-word-in-a-string",
+       "title": "Reverse every word in a string",
+       "kind": "practice",
+       "duration": "31 min",
+       "difficulty": "core",
+       "leetcodeSlug": "reverse-words-in-a-string",
+       "url": "https://takeuforward.org/plus/dsa/problems/reverse-every-word-in-a-string"
+      },
+      {
+       "id": "983",
+       "slug": "minimum-number-of-bracket-reversals-to-make-an-expression-balanced",
+       "title": "Minimum number of bracket reversals to make an expression balanced",
+       "kind": "practice",
+       "duration": "20 min",
+       "difficulty": "core",
+       "leetcodeSlug": "minimum-add-to-make-parentheses-valid",
+       "url": "https://takeuforward.org/plus/dsa/problems/minimum-number-of-bracket-reversals-to-make-an-expression-balanced"
+      },
+      {
+       "id": "982",
+       "slug": "count-and-say",
+       "title": "Count and say",
+       "kind": "practice",
+       "duration": "19 min",
+       "difficulty": "core",
+       "leetcodeSlug": "count-and-say",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-and-say"
+      }
+     ]
+    },
+    {
+     "id": "2105",
+     "title": "Advanced Problems (Less asked)",
+     "items": [
+      {
+       "id": "2399",
+       "slug": "hashing-in-strings-theory",
+       "title": "Hashing In Strings | Theory",
+       "kind": "learning",
+       "duration": null,
+       "difficulty": null,
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/hashing-in-strings-theory"
+      },
+      {
+       "id": "979",
+       "slug": "rabin-karp-algorithm",
+       "title": "Rabin Karp Algorithm",
+       "kind": "practice",
+       "duration": "34 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "repeated-string-match",
+       "url": "https://takeuforward.org/plus/dsa/problems/rabin-karp-algorithm"
+      },
+      {
+       "id": "981",
+       "slug": "z-function",
+       "title": "Z function",
+       "kind": "practice",
+       "duration": "35 min",
+       "difficulty": "pro",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/z-function"
+      },
+      {
+       "id": "977",
+       "slug": "kmp-algorithm-or-lps-array",
+       "title": "KMP Algorithm or LPS array",
+       "kind": "practice",
+       "duration": "29 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "implement-strstr",
+       "url": "https://takeuforward.org/plus/dsa/problems/kmp-algorithm-or-lps-array"
+      },
+      {
+       "id": "980",
+       "slug": "shortest-palindrome",
+       "title": "Shortest Palindrome",
+       "kind": "practice",
+       "duration": "7 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "shortest-palindrome",
+       "url": "https://takeuforward.org/plus/dsa/problems/shortest-palindrome"
+      },
+      {
+       "id": "978",
+       "slug": "longest-happy-prefix",
+       "title": "Longest happy prefix",
+       "kind": "practice",
+       "duration": "3 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "longest-happy-prefix",
+       "url": "https://takeuforward.org/plus/dsa/problems/longest-happy-prefix"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "2013",
+   "title": "Maths",
+   "topics": [
+    {
+     "id": "2107",
+     "title": "Sieve of Eratosthenes",
+     "items": [
+      {
+       "id": "653",
+       "slug": "print-all-primes-till-n",
+       "title": "Print all primes till N",
+       "kind": "practice",
+       "duration": "18 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/print-all-primes-till-n"
+      },
+      {
+       "id": "652",
+       "slug": "prime-factorisation-of-a-number",
+       "title": "Prime factorisation of a Number",
+       "kind": "practice",
+       "duration": "15 min",
+       "difficulty": "core",
+       "leetcodeSlug": null,
+       "url": "https://takeuforward.org/plus/dsa/problems/prime-factorisation-of-a-number"
+      },
+      {
+       "id": "651",
+       "slug": "count-primes-in-range-l-to-r",
+       "title": "Count primes in range L to R",
+       "kind": "practice",
+       "duration": "16 min",
+       "difficulty": "pro",
+       "leetcodeSlug": "count-primes",
+       "url": "https://takeuforward.org/plus/dsa/problems/count-primes-in-range-l-to-r"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
