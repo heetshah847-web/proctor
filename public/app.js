@@ -620,9 +620,13 @@ function startQuiz(r) {
     // looking away for gazeAwaySeconds without a break is a warning, and so is gazeBudgetSeconds in total within
     // any 60 s (catches repeated short looks at a side screen). After a warning, 10 s before the next one.
     const G = S.settings.quiz;
-    let awaySince = null, gazeWarned = 0, awayTicks = [];
+    let awaySince = null, gazeWarned = 0, awayTicks = [], blind = 0;
     const checkGaze = (now) => {
       const g = readGaze(Q.gazeTracker, Q.video);
+      // A model that loads but silently returns nothing (as the object detector did on the GPU) would never warn.
+      // If the face detector sees a face but eye tracking hasn't for 10 s, tell the supervisor once.
+      blind = g ? 0 : blind + 1;
+      if (blind === 40) qapi('event', { type: 'gaze_unavailable', detail: 'face visible but eye tracking returned nothing for 10 s' }).catch(() => {});
       const off = g ? g.angle - Q.gazeCenter : 0;
       const away = g != null && Math.abs(off) > G.gazeMaxDeg;
       const side = off > 0 ? 'left' : 'right'; // the student's own left/right
