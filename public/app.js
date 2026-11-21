@@ -207,7 +207,7 @@ function quizCard(p) {
   const pass = S.settings.quiz.passPct;
   const award = p.award;
   return `<div class="card">
-    <div class="row spread"><h2>AI check (proctored)</h2><span class="muted small">attempts ${q.attemptsUsed}/${q.maxAttempts}</span></div>
+    <div class="row spread"><h2>AI check (proctored)</h2><span class="muted small">attempts ${q.attemptsUsed}${q.maxAttempts ? `/${q.maxAttempts}` : ' (unlimited)'}</span></div>
     <p class="small muted">Once every item is verified, answer ${S.settings.quiz.questions} questions about today’s problems in a locked, full-screen session
       (${S.settings.quiz.minutes} min). Score ≥ ${pass}% approves the day. You can retry to raise your best score — points use your <b>best</b> attempt.</p>
     ${p.attempts.length ? `<table><tr><th>#</th><th>Result</th><th class="num">Score</th></tr>${p.attempts.map((a) => `<tr><td>${a.attemptNo}</td>
@@ -312,7 +312,7 @@ function openQuizIntro(plan) {
   $quiz.hidden = false;
   $quiz.innerHTML = `<div class="inner"><div class="card">
     <h1>Proctored AI check</h1>
-    <p>Attempt ${plan.quiz.attemptsUsed + 1} of ${plan.quiz.maxAttempts}. ${S.settings.quiz.questions} questions, ${S.settings.quiz.minutes} minutes.</p>
+    <p>Attempt ${plan.quiz.attemptsUsed + 1}${plan.quiz.maxAttempts ? ` of ${plan.quiz.maxAttempts}` : ''}. ${S.settings.quiz.questions} questions, ${S.settings.quiz.minutes} minutes.</p>
     <div class="grid cols-2">
       <div>
         <h3>Strict rules</h3>
@@ -683,7 +683,7 @@ function showResult({ grading, award, plan }) {
     <div class="row spread"><div><div class="muted small">This attempt</div><div class="score-big" style="color:var(${grading.pct >= pass ? '--ok' : '--bad'})">${grading.pct}%</div></div>
       <div style="text-align:right"><div class="muted small">Best today</div><div class="score-big">${Math.round(award.bestPct)}%</div></div></div>
     <p>${award.passed ? `Day approved. <b>${award.total} points</b> (base ${award.base} × streak ${award.multiplier} × ${Math.round(award.bestPct)}%).` : `Below ${pass}% — the day is not approved yet.`}
-      ${plan.quiz.unlocked ? `You have ${plan.quiz.maxAttempts - plan.quiz.attemptsUsed} attempt(s) left to improve your best score.` : ''}</p>
+      ${plan.quiz.unlocked ? (plan.quiz.maxAttempts ? `You have ${plan.quiz.maxAttempts - plan.quiz.attemptsUsed} attempt(s) left to improve your best score.` : 'You can retry as many times as you like (testing phase).') : ''}</p>
     ${qs.map((q, i) => `<div class="qa">${q.code ? `<details class="small"><summary>Your code</summary>${codeBlock(q.code, q.codeLang)}</details>` : ''}<div class="q">${esc(q.question)}</div><div class="a">${esc(Q.answers[i] || '(empty)')}</div>
       <div class="small"><b>${fmtScore(grading.results[i]?.score ?? 0)}</b> — ${esc(grading.results[i]?.feedback || '')}</div>
       ${keyPointsHtml(grading.results[i]?.key_points)}</div>`).join('')}
